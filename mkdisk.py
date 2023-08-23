@@ -3,7 +3,9 @@ import struct
 import time
 import random
 from MBR import MBR
+from PARTICION import Partition
 def mkdisk(params):
+    print("\n💽 creating disk...")
     # Extract parameters with defaults if not provided
     size = params.get('size')
     filename = params.get('path')
@@ -30,11 +32,11 @@ def mkdisk(params):
         return
 
     current_directory = os.getcwd()
-    print(f"Current directory: {current_directory}")
+    #print(f"Current directory: {current_directory}")
     full_path= f'{current_directory}/discos_test{filename}'
     #path = os.path.join(current_directory, 'discos_test', filename)
     path = full_path
-    print(f"Full path: {path}")
+    #print(f"Full path: {path}")
     # If the directory does not exist, create it
     directory = os.path.dirname(path)
     if not os.path.exists(directory):
@@ -44,14 +46,14 @@ def mkdisk(params):
     with open(path, "wb") as file:
         file.write(b'\0' * total_size_bytes)
 
-    print(f"Disk created successfully at {path} with size {size}{unit}.")
+    print(f"**Disk created successfully at {path} with size {size}{unit}.")
     example = MBR(params)
     with open(path, "rb+") as file:
         file.seek(0)
         file.write(example.pack())
-    print(example)
+    #print(example)
     #get the full path of the file and print it
-    print(os.path.abspath(path))
+    #print(os.path.abspath(path))
 
 
 def rmdisk(params):

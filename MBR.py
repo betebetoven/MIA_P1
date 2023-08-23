@@ -27,8 +27,12 @@ class MBR:
         #create list of 4 partitions
         self.particiones = [Partition(ex), Partition(ex), Partition(ex), Partition(ex)]
         
-        print("\nMBR CREADO_______________________________________________________________________")
-        print(self)
+        print("\n_____________________MBR CREADO__________________________________________________")
+        from prettytable import PrettyTable
+        table = PrettyTable()
+        table.field_names = ["Size", "Date", "Sig.", "Fit"]
+        table.add_row([self.mbr_tamano, self.mbr_fecha_creacion, self.mbr_dsk_signature, self.fit])
+        print(table)
         print("___________________________________________________________________________________\n")
 
         if self.fit not in ['BF', 'FF', 'WF']:
@@ -46,15 +50,16 @@ class MBR:
         packed_mbr = struct.pack(self.FORMAT, self.mbr_tamano, self.mbr_fecha_creacion, self.mbr_dsk_signature, fit_char)
         #do this for packni the partitions packed_objetos = b''.join([obj.pack() for obj in self.objetos])
         packed_objetos = b''.join([obj.pack() for obj in self.particiones])
-        print("este es el pack de particiones")
-        print(self.particiones[0])
+        #print("este es el pack de particiones")
+        #print(self.particiones[0])
         
         return packed_mbr+packed_objetos
 
     @classmethod
     def unpack(cls, data):
+        print("\n✉️  unpacking MBR...")
         unpacked_data = struct.unpack(cls.FORMAT, data[:struct.calcsize(cls.FORMAT)])
-        print("**************Unpacked MBR Data:", unpacked_data)
+        #print("**************Unpacked MBR Data:", unpacked_data)
         ex = {'size': 5, 'path': 'path', 'name': 'name'}
         mbr = cls(ex) # first two are from 'example' class  
         mbr.mbr_fecha_creacion = 0

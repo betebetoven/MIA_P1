@@ -231,15 +231,29 @@ parser = yacc()
 
 # Parse an expression
 ast = parser.parse(comandos)
-for n in ast:
-    print(n[1])
+#for n in ast:
+    #print(n[1])
 #read C:\Users\alber\OneDrive\Escritorio\cys\MIA\proyecto1\discos_test\home\mis discos\Disco4.dsk from the byte 0 an unpack it with MBR and print it
 from MBR import MBR
 with open(r'C:\Users\alber\OneDrive\Escritorio\cys\MIA\proyecto1\discos_test\home\mis discos\Disco4.dsk', "rb") as file:
     file.seek(0)
     data = file.read(MBR.SIZE)
     mbr = MBR.unpack(data[:MBR.SIZE])
-    print("este es el mbr____")
-    print(mbr)
+    #print("este es el mbr____")
+    #print(mbr)
 
+    from prettytable import PrettyTable
+    table = PrettyTable()
+    table.field_names = ["Size", "Date", "Sig.", "Fit"]
+    table.add_row([mbr.mbr_tamano, mbr.mbr_fecha_creacion, mbr.mbr_dsk_signature, mbr.fit])
+    
+    table2 = PrettyTable()
+    table2.field_names = ["size", "name", "unit"]
+    for n in mbr.particiones:
+        table2.add_row([n.actual_size, n.name, n.unit])
+        
+    
+    print("👮🏼‍♂️_____________________MBR LEIDO__________________________________________________")
+    print(table)
+    print(table2)
 
