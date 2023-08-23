@@ -1,7 +1,7 @@
 from ply.lex import lex
 from ply.yacc import yacc
 
-from mkdisk import mkdisk, rmdisk
+from mkdisk import mkdisk, rmdisk, fdisk
 from comandos import comandos
 
 
@@ -219,6 +219,7 @@ def p_fdisk(p):
     '''
     fdisk : FDISK params
     '''
+    fdisk(p[2])
     p[0] = ('fdisk', p[2])   
 
 
@@ -231,8 +232,7 @@ parser = yacc()
 
 # Parse an expression
 ast = parser.parse(comandos)
-#for n in ast:
-    #print(n[1])
+
 #read C:\Users\alber\OneDrive\Escritorio\cys\MIA\proyecto1\discos_test\home\mis discos\Disco4.dsk from the byte 0 an unpack it with MBR and print it
 from MBR import MBR
 with open(r'C:\Users\alber\OneDrive\Escritorio\cys\MIA\proyecto1\discos_test\home\mis discos\Disco4.dsk', "rb") as file:
@@ -256,4 +256,7 @@ with open(r'C:\Users\alber\OneDrive\Escritorio\cys\MIA\proyecto1\discos_test\hom
     print("👮🏼‍♂️_____________________MBR LEIDO__________________________________________________")
     print(table)
     print(table2)
+    print("res")
 
+for n in ast:
+    print(n[1])

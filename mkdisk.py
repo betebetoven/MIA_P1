@@ -83,3 +83,33 @@ def rmdisk(params):
         print("Disk deletion aborted.")
     else:
         print("Invalid response. Disk not deleted.")
+
+import struct
+def fdisk(params):
+    print("\n📁 creating partition...")
+    filename = params.get('path')
+    current_directory = os.getcwd()
+    full_path= f'{current_directory}/discos_test{filename}'
+    #check if path exist and if so open the file, if not, return error
+    if not os.path.exists(full_path):
+        print(f"Error: The file {full_path} does not exist.")
+        return
+    #open the file and read the MBR
+    nueva_particion = Partition(params)
+    nueva_particion.status = 1
+    particion_temporal = nueva_particion
+    with open(full_path, "rb+") as file:
+        for i in range(4):
+            file.seek(struct.calcsize(MBR.FORMAT)+(i*Partition.SIZE))
+            #unpack the partition
+            data = file.read(Partition.SIZE)
+            particion_temporal = Partition.unpack(data)
+            if particion_temporal.status == 0:
+                file.seek(struct.calcsize(MBR.FORMAT)+(i*Partition.SIZE))
+                file.write(nueva_particion.pack())
+                print(f"Partition {nueva_particion.name} created successfully.")
+                return
+        
+        
+    
+    
