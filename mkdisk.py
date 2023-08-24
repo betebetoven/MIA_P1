@@ -105,8 +105,10 @@ def fdisk(params):
     with open(full_path, "rb+") as file:
         file.seek(0)
         data = file.read(MBR.SIZE)
-        mbr_size = MBR.unpack(data[:MBR.SIZE]).mbr_tamano
-        print("mbr size ",mbr_size)
+        disk_size = MBR.unpack(data[:MBR.SIZE]).mbr_tamano
+        print("disk size ",disk_size)
+        space = disk_size - MBR.SIZE
+        
         
         
         for i in range(4):
@@ -115,23 +117,38 @@ def fdisk(params):
             data = file.read(Partition.SIZE)
             particion_temporal = Partition.unpack(data)
             partitions.append(particion_temporal)
-            
-            
-        
+   
+        partitions2 = partitions
         byteinicio = MBR.SIZE
         if nueva_particion.fit == 'FF' or nueva_particion.fit == 'BF':
-            for i, item in enumerate(partitions):  
-                if (item.status == 0 and item.name == "empty") or (item.status ==0 and item.actual_size >= nueva_particion.actual_size):   
-                    file.seek(struct.calcsize(MBR.FORMAT)+(i*Partition.SIZE))
-                    if i == 0:
-                        nueva_particion.byte_inicio = MBR.SIZE
-                    else :
-                        nueva_particion.byte_inicio = byteinicio
-                    partitions[i] = nueva_particion
-                    item = nueva_particion
-                    print(f"Partition {partitions[i]} created successfully.")
-                    break
-                byteinicio = item.byte_inicio + item.actual_size
+            for i, item in enumerate(partitions):     
+                if (item.status == 0 and item.name == "empty") or (item.status ==0 and space >= nueva_particion.actual_size):   
+                    #file.seek(struct.calcsize(MBR.FORMAT)+(i*Partition.SIZE))
+                    probable = byteinicio+item.actual_size
+                    permiso = True
+                    for j, item2 in enumerate(partitions2[(i+1):]):
+                        if probable > item2.byte_inicio and item2.byte_inicio != 0:
+                            print("no se puede agregar la particion, esta chocando con otra")
+                            permiso = False
+                            
+                    if permiso == True:
+                        if i == 0:
+                            nueva_particion.byte_inicio = MBR.SIZE
+                        else :
+                            nueva_particion.byte_inicio = byteinicio
+                        partitions[i] = nueva_particion
+                        item = nueva_particion
+                        print(f"Partition {partitions[i]} created successfully.")
+                        break    
+                if item.status == 1:
+                    byteinicio = item.byte_inicio + item.actual_size
+                else:
+                    for j, item2 in enumerate(partitions2[(i+1):]):
+                        #finde nex byte inicio frmo item2
+                        if item2.status == 1:
+                            byteinicio = item2.byte_inicio + item2.actual_size
+                            break
+                    
                 
         #show [0] of partitions
         print("primera agregada de partitions ",partitions[0])
