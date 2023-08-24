@@ -23,7 +23,7 @@ class MBR:
         self.mbr_dsk_signature = random.randint(1, 1000000)
         self.fit = params.get('fit', 'FF').upper()
         #create dict with random values for size,path, name
-        ex = {'size': 10, 'path': 'path', 'name': 'name'}
+        ex = {'size': 10, 'path': 'path', 'name': 'empty'}
         #create list of 4 partitions
         self.particiones = [Partition(ex), Partition(ex), Partition(ex), Partition(ex)]
         
