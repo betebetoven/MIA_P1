@@ -98,18 +98,46 @@ def fdisk(params):
     nueva_particion = Partition(params)
     nueva_particion.status = 1
     particion_temporal = nueva_particion
+    
+    
+    #read all 4 partitions
+    partitions = []
     with open(full_path, "rb+") as file:
+        file.seek(0)
+        data = file.read(MBR.SIZE)
+        mbr_size = MBR.unpack(data[:MBR.SIZE]).mbr_tamano
+        print("mbr size ",mbr_size)
+        
+        
         for i in range(4):
             file.seek(struct.calcsize(MBR.FORMAT)+(i*Partition.SIZE))
             #unpack the partition
             data = file.read(Partition.SIZE)
             particion_temporal = Partition.unpack(data)
-            if particion_temporal.status == 0:
-                file.seek(struct.calcsize(MBR.FORMAT)+(i*Partition.SIZE))
-                file.write(nueva_particion.pack())
-                print(f"Partition {nueva_particion.name} created successfully.")
-                return
+            partitions.append(particion_temporal)
+            
+            
         
-        
+        byteinicio = MBR.SIZE
+        if nueva_particion.fit == 'FF' or nueva_particion.fit == 'BF':
+            for i, item in enumerate(partitions):  
+                if (item.status == 0 and item.name == "empty") or (item.status ==0 and item.actual_size >= nueva_particion.actual_size):   
+                    file.seek(struct.calcsize(MBR.FORMAT)+(i*Partition.SIZE))
+                    if i == 0:
+                        nueva_particion.byte_inicio = MBR.SIZE
+                    else :
+                        nueva_particion.byte_inicio = byteinicio
+                    partitions[i] = nueva_particion
+                    item = nueva_particion
+                    print(f"Partition {partitions[i]} created successfully.")
+                    break
+                byteinicio = item.byte_inicio + item.actual_size
+                
+        #show [0] of partitions
+        print("primera agregada de partitions ",partitions[0])
+        packed_objetos = b''.join([obj.pack() for obj in partitions])
+        file.seek(struct.calcsize(MBR.FORMAT))
+        file.write(packed_objetos)
+    
     
     

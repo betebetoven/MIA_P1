@@ -4,7 +4,7 @@ import time
 import random
 class Partition:
     # Using a format to capture size(int), path(string of 100 chars), name(string of 16 chars), unit(char)
-    FORMAT = 'i 16s c c i c'
+    FORMAT = 'i 16s c c i c i'
     SIZE = struct.calcsize(FORMAT)
 
     def __init__(self, params):
@@ -37,6 +37,7 @@ class Partition:
         self.status = 0
         #add the fit parameter too
         self.fit = params.get('fit', 'FF').upper()
+        self.byte_inicio = 0
         
 
     def __str__(self):
@@ -44,7 +45,7 @@ class Partition:
 
     def pack(self):
         fit_char = self.fit[0].encode() 
-        packed_partition = struct.pack(self.FORMAT, self.actual_size, self.name.encode('utf-8'), self.unit.encode('utf-8'), self.type.encode('utf-8'), self.status, fit_char)
+        packed_partition = struct.pack(self.FORMAT, self.actual_size, self.name.encode('utf-8'), self.unit.encode('utf-8'), self.type.encode('utf-8'), self.status, fit_char, self.byte_inicio)
         return packed_partition
 
     @classmethod
@@ -60,6 +61,7 @@ class Partition:
         fit_char = unpacked_data[5].decode()
         fit_map = {'B': 'BF', 'F': 'FF', 'W': 'WF', 'N': 'NF'}
         partition.fit = fit_map[fit_char]
+        partition.byte_inicio = unpacked_data[6]
         
             
         return partition

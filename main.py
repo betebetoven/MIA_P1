@@ -248,9 +248,9 @@ with open(r'C:\Users\alber\OneDrive\Escritorio\cys\MIA\proyecto1\discos_test\hom
     table.add_row([mbr.mbr_tamano, mbr.mbr_fecha_creacion, mbr.mbr_dsk_signature, mbr.fit])
     
     table2 = PrettyTable()
-    table2.field_names = ["size", "name", "unit", "type", "status","fit"]
+    table2.field_names = ["size", "name", "unit", "type", "status","fit","inicio"]
     for n in mbr.particiones:
-        table2.add_row([n.actual_size, n.name, n.unit, n.type, n.status, n.fit])
+        table2.add_row([n.actual_size, n.name, n.unit, n.type, n.status, n.fit, n.byte_inicio])
         
     
     print("👮🏼‍♂️_____________________MBR LEIDO__________________________________________________")
