@@ -121,40 +121,29 @@ def fdisk(params):
         partitions2 = partitions
         byteinicio = MBR.SIZE
         if nueva_particion.fit == 'FF' or nueva_particion.fit == 'BF':
-            for i, item in enumerate(partitions):     
+            for i, item in enumerate(partitions):   
                 if (item.status == 0 and item.name == "empty") or (item.status ==0 and space >= nueva_particion.actual_size):   
-                    #file.seek(struct.calcsize(MBR.FORMAT)+(i*Partition.SIZE))
-                    probable = byteinicio+item.actual_size
+                    if i == 0:
+                        byteinicio = MBR.SIZE
+                    else :
+                        byteinicio = partitions[i-1].byte_inicio+partitions[i-1].actual_size
+                    probable = byteinicio+nueva_particion.actual_size
                     permiso = True
                     for j, item2 in enumerate(partitions2[(i+1):]):
                         if probable > item2.byte_inicio and item2.byte_inicio != 0:
-                            print("no se puede agregar la particion, esta chocando con otra")
                             permiso = False
-                            
-                    if permiso == True:
-                        if i == 0:
-                            nueva_particion.byte_inicio = MBR.SIZE
-                        else :
-                            nueva_particion.byte_inicio = byteinicio
+                        
+                    if permiso == True:        
+                        nueva_particion.byte_inicio = byteinicio
                         partitions[i] = nueva_particion
                         item = nueva_particion
                         print(f"Partition {partitions[i]} created successfully.")
                         break    
-                if item.status == 1:
-                    byteinicio = item.byte_inicio + item.actual_size
-                else:
-                    for j, item2 in enumerate(partitions2[(i+1):]):
-                        #finde nex byte inicio frmo item2
-                        if item2.status == 1:
-                            byteinicio = item2.byte_inicio + item2.actual_size
-                            break
-                    
-                
-        #show [0] of partitions
-        print("primera agregada de partitions ",partitions[0])
-        packed_objetos = b''.join([obj.pack() for obj in partitions])
-        file.seek(struct.calcsize(MBR.FORMAT))
-        file.write(packed_objetos)
+    #le mandamos el pack      
+            packed_objetos = b''.join([obj.pack() for obj in partitions])
+            file.seek(struct.calcsize(MBR.FORMAT))
+            file.write(packed_objetos)
+            return
     
     
     
