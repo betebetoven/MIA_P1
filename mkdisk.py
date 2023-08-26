@@ -117,10 +117,18 @@ def fdisk(params):
             data = file.read(Partition.SIZE)
             particion_temporal = Partition.unpack(data)
             partitions.append(particion_temporal)
-   
+        realizar = True
+        if all(item.status == 1 for item in partitions):
+            realizar = False
+            print("No se puede crear la particion, ya que todas las particiones estan ocupadas")
+        count_E = sum(1 for item in partitions if item.type == 'E')
+        if count_E == 1 and nueva_particion.type == 'E':
+            realizar = False
+            print("No se puede crear la particion, ya que ya existe una particion extendida")
+        
         partitions2 = partitions
         byteinicio = MBR.SIZE
-        if nueva_particion.fit == 'FF' or nueva_particion.fit == 'BF':
+        if nueva_particion.fit == 'FF' and realizar:
             for i, item in enumerate(partitions):   
                 if (item.status == 0 and item.name == "empty") or (item.status ==0 and space >= nueva_particion.actual_size):   
                     if i == 0:
@@ -138,12 +146,70 @@ def fdisk(params):
                         partitions[i] = nueva_particion
                         item = nueva_particion
                         print(f"Partition {partitions[i]} created successfully.")
-                        break    
-    #le mandamos el pack      
+                        break 
+            packed_objetos = b''.join([obj.pack() for obj in partitions])
+            file.seek(struct.calcsize(MBR.FORMAT))
+            file.write(packed_objetos)
+            return 
+        elif nueva_particion.fit == 'BF' and realizar:
+            sale = space+1
+            indice = -1
+            for i,n in enumerate(partitions):
+                print("i ",i)
+                if (n.status == 0 and n.name == "empty") and (i==0 or partitions[i-1].status == 1):
+                    if i == 0:
+                        anterior = MBR.SIZE
+                    else :
+                        anterior = partitions[i-1].byte_inicio+partitions[i-1].actual_size
+                        
+                    siguiente = -1    
+                    
+                    
+                    if i == 3 and n.status == 0:
+                        siguiente = disk_size
+                    for j, n2 in enumerate(partitions2[(i+1):]):
+                        print("j ",j)
+                        if n2.status == 1:
+                            siguiente = n2.byte_inicio
+                            break
+                        elif j ==len(partitions2[(i+1):])-1 and n2.status == 0:
+                            siguiente = disk_size
+                            
+                    print("siguiente ",siguiente)
+                    print("anterior ",anterior)
+                    print("actual size ",nueva_particion.actual_size)
+                    print("sale ",sale)
+                    espacio = siguiente-anterior
+                    print("espacio ",espacio)
+                    print(nueva_particion.actual_size <= espacio and espacio < sale)
+                    
+                    
+                    if nueva_particion.actual_size <= espacio and espacio < sale:
+                        sale = espacio
+                        print("--------sale ",sale)
+                        indice = i
+                        print("---------indice ",indice)
+                        byteinicio = anterior
+                        print("---------byteinicio ",byteinicio)
+                
+            nueva_particion.byte_inicio = byteinicio
+            partitions[indice] = nueva_particion
+            #print len size of partitions
+            print("partitions size ",len(partitions))
+            
+            print(f"se escribio la particion en el indice {indice}")
             packed_objetos = b''.join([obj.pack() for obj in partitions])
             file.seek(struct.calcsize(MBR.FORMAT))
             file.write(packed_objetos)
             return
+            
+            
+              
+    #le mandamos el pack     
+    
+    
+     
+            
     
     
     
