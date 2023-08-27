@@ -99,7 +99,7 @@ def fdisk(params):
     
     nueva_particion = None
     #nueva_particion = Partition(params)
-    if 'delete' in params and 'size' not in params:
+    if 'delete' in params or 'add' in params:
         nueva_particion = Partition(ex)
     else:
         nueva_particion = Partition(params)
@@ -125,7 +125,7 @@ def fdisk(params):
             particion_temporal = Partition.unpack(data)
             partitions.append(particion_temporal)
         realizar = True
-        if 'delete' in params and 'size' not in params:
+        if 'delete' in params or 'add' in params:
             realizar = False
         elif all(item.status == 1 for item in partitions) and 'type' in params:
             realizar = False
@@ -296,7 +296,68 @@ def fdisk(params):
             if not partition_found:
                 print(f"Error: Partition {partition_name_to_delete} not found.")
                 return
-            
+        elif 'add' in params:
+            # Get the name of the partition to resize
+            partition_name_to_resize = params.get('name')
+            if not partition_name_to_resize:
+                print("Error: No partition name provided for resizing.")
+                return
+
+            # Get the size to add to the partition
+            try:
+                additional_size = int(params['add'])
+                unit = params.get('unit', 'K').upper()  # default to Kilobytes if not provided
+                if unit == 'B':
+                    multiplier = 1
+                elif unit == 'K':
+                    multiplier = 1024
+                elif unit == 'M':
+                    multiplier = 1024 * 1024
+                
+                additional_size = additional_size * multiplier
+            except ValueError:
+                print("Error: Invalid value for additional size.")
+                return
+
+            partition_found = False
+            for i, partition in enumerate(partitions):
+                if partition.name == partition_name_to_resize:
+                    partition_found = True
+                    
+                    # Calculate the space after the current partition
+                    if i == len(partitions) - 1:  # if it's the last partition
+                        free_space = disk_size - (partition.byte_inicio + partition.actual_size)
+                    else:
+                        for j,m in enumerate(partitions2[(i + 1):]):
+                            if m.status == 1:
+                                free_space = m.byte_inicio - (partition.byte_inicio + partition.actual_size)
+                                break
+                            elif j == len(partitions2[(i + 1):]) - 1 and m.status == 0:
+                                free_space = disk_size - (partition.byte_inicio + partition.actual_size)
+                                break
+                        
+                        
+                        #free_space = partitions[i+1].byte_inicio - (partition.byte_inicio + partition.actual_size)
+
+                    # Check if we have enough space to add the additional_size
+                    if additional_size <= free_space:
+                        # Update the partition's size
+                        partition.actual_size += additional_size
+                        print(f"Partition {partition_name_to_resize} has been resized successfully.")
+                        
+                        # Update the partition table in the file
+                        packed_objetos = b''.join([obj.pack() for obj in partitions])
+                        file.seek(struct.calcsize(MBR.FORMAT))
+                        file.write(packed_objetos)
+                    else:
+                        print(f"Error: Not enough space to extend the partition {partition_name_to_resize}.")
+                    return
+
+            if not partition_found:
+                print(f"Error: Partition {partition_name_to_resize} not found.")
+                return
+
+                    
               
     #le mandamos el pack     
     

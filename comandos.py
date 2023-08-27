@@ -8,4 +8,5 @@ mkdisk -size=10 -path="/home/mis discos/Disco4.dsk" -unit=M -fit=BF \n\
                         fdisk -name=lasegunda -delete=full -path="/home/mis discos/Disco4.dsk" \
                             fdisk -name=lacuarta -delete=full -path="/home/mis discos/Disco4.dsk" \
                             fdisk -size=90 -path="/home/mis discos/Disco4.dsk" -name=laacomodada -fit=WF \
+                                fdisk -add=101 -unit=K -path="/home/mis discos/Disco4.dsk" -name=laprimera\
 '

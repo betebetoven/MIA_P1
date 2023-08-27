@@ -57,9 +57,7 @@ def t_DIRECCIONFEA(t):
     r'"/[a-zA-Z0-9_\\/:. -]+.dsk"'
     t.value = t.value[1:-1]  # Strip the double quotes
     return t
-def t_UNIDAD(t):
-    r'(K|M)'
-    return t
+
 def t_TIPO(t):
     r'(P|E|L)'
     return t
@@ -69,6 +67,9 @@ def t_DELETO(t):
     
 def t_ENCAJE(t):
     r'(BF|FF|WF)'
+    return t
+def t_UNIDAD(t):
+    r'(K|M|B)'
     return t
 def t_NOMBRE(t):
     r'=[a-zA-Z_][a-zA-Z0-9_]*'
