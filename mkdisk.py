@@ -95,7 +95,14 @@ def fdisk(params):
         print(f"Error: The file {full_path} does not exist.")
         return
     #open the file and read the MBR
-    nueva_particion = Partition(params)
+    ex = {'size': 10, 'path': 'path', 'name': 'empty'}
+    
+    nueva_particion = None
+    #nueva_particion = Partition(params)
+    if 'delete' in params and 'size' not in params:
+        nueva_particion = Partition(ex)
+    else:
+        nueva_particion = Partition(params)
     nueva_particion.status = 1
     particion_temporal = nueva_particion
     
@@ -118,13 +125,17 @@ def fdisk(params):
             particion_temporal = Partition.unpack(data)
             partitions.append(particion_temporal)
         realizar = True
-        if all(item.status == 1 for item in partitions):
+        if 'delete' in params and 'size' not in params:
+            realizar = False
+        elif all(item.status == 1 for item in partitions) and 'type' in params:
             realizar = False
             print("No se puede crear la particion, ya que todas las particiones estan ocupadas")
+            return
         count_E = sum(1 for item in partitions if item.type == 'E')
         if count_E == 1 and nueva_particion.type == 'E':
             realizar = False
             print("No se puede crear la particion, ya que ya existe una particion extendida")
+            return
         
         partitions2 = partitions
         byteinicio = MBR.SIZE
@@ -250,8 +261,41 @@ def fdisk(params):
                 return
             else:
                 print("No available space for the partition using WF algorithm.")
+        elif 'delete' in params:
+            partition_name_to_delete = params.get('name')
+            if not partition_name_to_delete:
+                print("Error: No partition name provided for deletion.")
+                return
+            partition_found = False
+            for i, partition in enumerate(partitions):
+                if partition.name == partition_name_to_delete:
+                    # Confirm deletion
+                    user_input = input(f"Are you sure you want to delete the partition named {partition_name_to_delete}? (yes/no): ")
+                    if user_input.lower() != "yes":
+                        print("Deletion aborted by the user.")
+                        return
 
-            
+                    partition_found = True
+                    # Update the partition details
+                    partition.status = 0
+                    partition.name = "empty"
+
+                    # If it's a 'full' delete, fill the partition space with \0 character
+                    #start_byte = partition.byte_inicio
+                    #end_byte = start_byte + partition.actual_size
+                    #file.seek(start_byte)
+                    #file.write(b'\0' * (end_byte - start_byte))
+
+                    # Update the partition table in the file
+                    packed_objetos = b''.join([obj.pack() for obj in partitions])
+                    file.seek(struct.calcsize(MBR.FORMAT))
+                    file.write(packed_objetos)
+                    print(f"Partition {partition_name_to_delete} has been deleted successfully.")
+                    return
+
+            if not partition_found:
+                print(f"Error: Partition {partition_name_to_delete} not found.")
+                return
             
               
     #le mandamos el pack     

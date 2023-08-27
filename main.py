@@ -64,7 +64,7 @@ def t_TIPO(t):
     r'(P|E|L)'
     return t
 def t_DELETO(t):
-    r'(FULL)'
+    r'(FULL|full)'
     return t
     
 def t_ENCAJE(t):
