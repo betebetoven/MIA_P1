@@ -3,6 +3,7 @@ from ply.yacc import yacc
 
 from mkdisk import mkdisk, rmdisk, fdisk
 from comandos import comandos
+from mount import mount
 
 
 # --- Tokenizer
@@ -22,7 +23,8 @@ tokens = ( 'MKDISK', 'SIZE', 'PATH', 'UNIT', 'FIT','ENCAJE',
           'TIPO',
           'DELETE',
           'DELETO',
-          'ADD',)
+          'ADD',
+          'MOUNT')
 
 # Ignored characters
 t_ignore = ' \t'
@@ -32,6 +34,7 @@ t_ignore = ' \t'
 t_MKDISK = r'mkdisk'
 t_RMDISK = r'rmdisk'
 t_FDISK = r'fdisk'
+t_MOUNT = r'mount'
 
 t_NAME = r'-name'
 t_SIZE = r'-size='
@@ -100,6 +103,7 @@ lexer = lex()
 
 # Write functions for each grammar rule which is
 # specified in the docstring.
+mounted_partitions = []
 
 def p_command_list(p):
     '''command_list : expression
@@ -121,6 +125,7 @@ def p_expression(p):
     expression : mkdisk
                 | rmdisk
                 | fdisk
+                | mount
     '''
 
     p[0] = ('binop', p[1])
@@ -222,6 +227,13 @@ def p_fdisk(p):
     '''
     fdisk(p[2])
     p[0] = ('fdisk', p[2])   
+def p_mount(p):
+    '''
+    mount : MOUNT params
+    '''
+    mount(p[2], mounted_partitions)
+    print(mounted_partitions)
+    p[0] = ('mount', p[2])
 
 
 
