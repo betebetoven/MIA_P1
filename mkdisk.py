@@ -112,7 +112,9 @@ def fdisk(params):
     with open(full_path, "rb+") as file:
         file.seek(0)
         data = file.read(MBR.SIZE)
-        disk_size = MBR.unpack(data[:MBR.SIZE]).mbr_tamano
+        x = MBR.unpack(data[:MBR.SIZE])
+        disk_size = x.mbr_tamano
+        disk_fit = x.fit
         print("disk size ",disk_size)
         space = disk_size - MBR.SIZE
         
@@ -138,8 +140,10 @@ def fdisk(params):
             return
         
         partitions2 = partitions
+        nueva_particion.fit = disk_fit
         byteinicio = MBR.SIZE
         if nueva_particion.fit == 'FF' and realizar:
+            nueva_particion.fit = params.get('fit', 'FF').upper()
             for i, item in enumerate(partitions):   
                 if (item.status == 0 and item.name == "empty") or (item.status ==0 and space >= nueva_particion.actual_size):   
                     if i == 0:
@@ -163,6 +167,7 @@ def fdisk(params):
             file.write(packed_objetos)
             return 
         elif nueva_particion.fit == 'BF' and realizar:
+            nueva_particion.fit = params.get('fit', 'FF').upper()
             sale = space+1
             indice = -1
             for i,n in enumerate(partitions):
@@ -214,6 +219,7 @@ def fdisk(params):
             file.write(packed_objetos)
             return
         elif nueva_particion.fit == 'WF' and realizar:
+            nueva_particion.fit = params.get('fit', 'FF').upper()
             max_space = -1  # Start with a negative value as a sentinel.
             indice = -1
             for i, n in enumerate(partitions):

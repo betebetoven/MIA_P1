@@ -40,7 +40,8 @@ def mount(params, mounted_partitions):
                                     'name': name,
                                     'index': index,
                                     'id': id,
-                                    'inicio': partitions[index].byte_inicio,}})
+                                    'inicio': partitions[index].byte_inicio,
+                                    'size': partitions[index].actual_size,}})
     
 #make unmount, it will receive params and you have to get id, and then delete the dictionary with that id from the list
 def unmount(params, mounted_partitions):
@@ -50,7 +51,7 @@ def unmount(params, mounted_partitions):
         if id_to_unmount in partition_dict:
             mounted_partitions.pop(index)
             print(f"Partition {id_to_unmount} was unmounted successfully.")
-            break
-    else:  # This gets executed if the loop wasn't broken by the break statement.
-        print(f"Error: The partition {id_to_unmount} does not exist.")
+            return
+        else:  # This gets executed if the loop wasn't broken by the break statement.
+            print(f"Error: The partition {id_to_unmount} does not exist.")
 

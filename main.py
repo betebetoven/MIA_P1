@@ -3,7 +3,8 @@ from ply.yacc import yacc
 
 from mkdisk import mkdisk, rmdisk, fdisk
 from comandos import comandos
-from mount import mount
+from mount import mount, unmount
+
 
 
 # --- Tokenizer
@@ -24,7 +25,10 @@ tokens = ( 'MKDISK', 'SIZE', 'PATH', 'UNIT', 'FIT','ENCAJE',
           'DELETE',
           'DELETO',
           'ADD',
-          'MOUNT')
+          'MOUNT',
+          'ID',
+          'IDENTIFICADOR',
+          'UNMOUNT')
 
 # Ignored characters
 t_ignore = ' \t'
@@ -35,8 +39,10 @@ t_MKDISK = r'mkdisk'
 t_RMDISK = r'rmdisk'
 t_FDISK = r'fdisk'
 t_MOUNT = r'mount'
+t_UNMOUNT = r'unmount'
 
 t_NAME = r'-name'
+t_ID = r'-id'
 t_SIZE = r'-size='
 t_PATH = r'-path='
 t_UNIT = r'-unit='
@@ -44,6 +50,7 @@ t_FIT = r'-fit='
 t_TYPE = r'-type='
 t_DELETE = r'-delete='
 t_ADD = r'-add='
+
 
 
 # A function can be used if there is an associated action.
@@ -60,6 +67,7 @@ def t_DIRECCIONFEA(t):
     r'"/[a-zA-Z0-9_\\/:. -]+.dsk"'
     t.value = t.value[1:-1]  # Strip the double quotes
     return t
+
 
 def t_TIPO(t):
     r'(P|E|L)'
@@ -81,6 +89,10 @@ def t_NOMBRE(t):
 def t_NOMBREFEA(t):
     r'="[a-zA-Z_][a-zA-Z0-9_ ]*"'
     t.value = t.value[2:-1]  # remove the '=' at the beginning
+    return t
+def t_IDENTIFICADOR(t):
+    r'=[0-9][0-9][0-9][a-zA-Z0-9_]+'
+    t.value = t.value[1:]
     return t
 
 
@@ -126,6 +138,7 @@ def p_expression(p):
                 | rmdisk
                 | fdisk
                 | mount
+                | unmount
     '''
 
     p[0] = ('binop', p[1])
@@ -181,6 +194,11 @@ def p_fit(p):
     fitnt : FIT ENCAJE
     '''
     p[0] = ('fit', p[2])
+def p_id(p):
+    '''
+    idnt : ID IDENTIFICADOR
+    '''
+    p[0] = ('id', p[2])
 def p_param(p):
     '''
     param : sizent
@@ -191,6 +209,7 @@ def p_param(p):
           | typent
           | deletent
           | addnt
+          | idnt
             
     '''
     p[0] = p[1]    
@@ -235,7 +254,12 @@ def p_mount(p):
     print(mounted_partitions)
     p[0] = ('mount', p[2])
 
-
+def p_unmount(p):
+    '''
+    unmount : UNMOUNT params
+    '''
+    unmount(p[2], mounted_partitions)
+    p[0] = ('unmount', p[2])
 
 def p_error(p):
     print(f'Syntax error at {p.value!r}')
