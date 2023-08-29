@@ -279,7 +279,7 @@ def fdisk(params):
                 if nueva_particion.type == 'E':
                     #create the ebr
                     ebr = EBR(ex, nueva_particion.byte_inicio)
-                    ebr.name = "aquideberiaestarescritoelnombredelebr"
+                    #ebr.name = "aquideberiaestarescritoelnombredelebr"
                     file.seek(nueva_particion.byte_inicio)
                     file.write(ebr.pack())
                 return
