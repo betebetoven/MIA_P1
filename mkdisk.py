@@ -3,6 +3,7 @@ import struct
 import time
 import random
 from MBR import MBR
+from EBR import EBR
 from PARTICION import Partition
 def mkdisk(params):
     print("\n💽 creating disk...")
@@ -165,6 +166,12 @@ def fdisk(params):
             packed_objetos = b''.join([obj.pack() for obj in partitions])
             file.seek(struct.calcsize(MBR.FORMAT))
             file.write(packed_objetos)
+            if nueva_particion.type == 'E':
+                #create the ebr
+                ebr = EBR(ex, nueva_particion.byte_inicio)
+                file.seek(nueva_particion.byte_inicio)
+                file.write(ebr.pack())
+            
             return 
         elif nueva_particion.fit == 'BF' and realizar:
             nueva_particion.fit = params.get('fit', 'FF').upper()
@@ -217,6 +224,11 @@ def fdisk(params):
             packed_objetos = b''.join([obj.pack() for obj in partitions])
             file.seek(struct.calcsize(MBR.FORMAT))
             file.write(packed_objetos)
+            if nueva_particion.type == 'E':
+                #create the ebr
+                ebr = EBR(ex, nueva_particion.byte_inicio)
+                file.seek(nueva_particion.byte_inicio)
+                file.write(ebr.pack())
             return
         elif nueva_particion.fit == 'WF' and realizar:
             nueva_particion.fit = params.get('fit', 'FF').upper()
@@ -264,6 +276,12 @@ def fdisk(params):
                 packed_objetos = b''.join([obj.pack() for obj in partitions])
                 file.seek(struct.calcsize(MBR.FORMAT))
                 file.write(packed_objetos)
+                if nueva_particion.type == 'E':
+                    #create the ebr
+                    ebr = EBR(ex, nueva_particion.byte_inicio)
+                    ebr.name = "aquideberiaestarescritoelnombredelebr"
+                    file.seek(nueva_particion.byte_inicio)
+                    file.write(ebr.pack())
                 return
             else:
                 print("No available space for the partition using WF algorithm.")
@@ -285,6 +303,7 @@ def fdisk(params):
                     # Update the partition details
                     partition.status = 0
                     partition.name = "empty"
+                    partition.type = "P"
 
                     # If it's a 'full' delete, fill the partition space with \0 character
                     #start_byte = partition.byte_inicio
