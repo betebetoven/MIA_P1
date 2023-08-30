@@ -32,6 +32,9 @@ class EBR:
         self.next = -1
         
         
+    def __str__(self):
+        return f"EBR: name={self.name}, size={self.actual_size} bytes, next={self.next}"
+    
     def pack(self):
         fit_char = self.fit[0].encode()  # Take the first character of fit type and encode it
         #FORMAT = 'i c c i i 16s i'
@@ -42,7 +45,7 @@ class EBR:
         print("\n✉️  unpacking EBR...")
         unpacked_data = struct.unpack(cls.FORMAT, data)
         ex = {'size': 1, 'path': 'path', 'name': 'empty'}
-        ebr = cls(ex)
+        ebr = cls(ex,-1)
         ebr.status = unpacked_data[0]
         fit_char = unpacked_data[1].decode()  # Decode the fit character
         fit_map = {'B': 'BF', 'F': 'FF', 'W': 'WF', 'N': 'NF'}
@@ -52,4 +55,5 @@ class EBR:
         ebr.actual_size = unpacked_data[4]
         ebr.name = unpacked_data[5].decode('utf-8').strip('\x00')
         ebr.next = unpacked_data[6]
+        return ebr
         

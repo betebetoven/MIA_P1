@@ -130,7 +130,7 @@ def fdisk(params):
         realizar = True
         if 'delete' in params or 'add' in params:
             realizar = False
-        elif all(item.status == 1 for item in partitions) and 'type' in params:
+        elif all(item.status == 1 for item in partitions) and 'type' in params and nueva_particion.type != 'L':
             realizar = False
             print("No se puede crear la particion, ya que todas las particiones estan ocupadas")
             return
@@ -143,6 +143,56 @@ def fdisk(params):
         partitions2 = partitions
         nueva_particion.fit = disk_fit
         byteinicio = MBR.SIZE
+        if nueva_particion.type == 'L' and realizar:
+            #look for the partition type E in partitions and get the byte_inicio
+            for i, item in enumerate(partitions):
+                if item.type == 'E':
+                    tamano_de_e = item.actual_size
+                    inicio_de_e = item.byte_inicio
+                    byteinicio = item.byte_inicio
+                    limite_final_de_e = item.byte_inicio+item.actual_size
+                    file.seek(byteinicio)
+                    ebr = EBR.unpack(file.read(EBR.SIZE))
+                    if ebr.next == -1:
+                        #create the ebr
+                        ebr = EBR(params, byteinicio)
+                        ebr.next= byteinicio+EBR.SIZE+ebr.actual_size
+                        #check if it fits
+                        if ebr.next > limite_final_de_e:
+                            print("No hay espacio para crear la particion")
+                            return
+                        file.seek(byteinicio)
+                        file.write(ebr.pack())
+                        nuevo_ebr = EBR(ex, ebr.next)
+                        file.seek(ebr.next)
+                        file.write(nuevo_ebr.pack())
+                        return
+                    else :
+                        while ebr.next != -1:
+                            file.seek(ebr.next)
+                            ebr = EBR.unpack(file.read(EBR.SIZE))
+                        #create the ebr
+                        nuevo_ebr = EBR(params, ebr.start)
+                        nuevo_ebr.next = nuevo_ebr.start+EBR.SIZE+nuevo_ebr.actual_size
+                        if nuevo_ebr.next > limite_final_de_e:
+                            print("No hay espacio para crear la particion")
+                            return
+                        file.seek(ebr.start)
+                        file.write(nuevo_ebr.pack())
+                        nuevo_nuevo_ebr = EBR(ex, nuevo_ebr.next)
+                        file.seek(nuevo_ebr.next)
+                        file.write(nuevo_nuevo_ebr.pack())
+                        return
+            print(f'no existe particion extendida, error alagregar la particion logica{params.get("name") }')            
+            return
+                
+            
+            
+            
+            
+        
+        
+        
         if nueva_particion.fit == 'FF' and realizar:
             nueva_particion.fit = params.get('fit', 'FF').upper()
             for i, item in enumerate(partitions):   

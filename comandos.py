@@ -10,6 +10,9 @@ mkdisk -size=10 -path="/home/mis discos/Disco4.dsk" -unit=M -fit=WF \n\
                             fdisk -size=90 -path="/home/mis discos/Disco4.dsk" -name=laacomodada -fit=WF \
                                 fdisk -add=100 -unit=K -path="/home/mis discos/Disco4.dsk" -name=laprimera\
                                     fdisk -size=1 -type=P -unit=K -path="/home/mis discos/Disco4.dsk" -name=laquenoentra -fit=FF \
+                                        fdisk -size=1 -type=L -unit=K -path="/home/mis discos/Disco4.dsk" -name=acaandamos -fit=FF \
+                                            fdisk -size=1 -type=L -unit=K -path="/home/mis discos/Disco4.dsk" -name=acanosfuimos -fit=FF \
+                                                fdisk -size=1 -type=L -unit=K -path="/home/mis discos/Disco4.dsk" -name=acanosreimos -fit=FF \
                                         mount -path="/home/mis discos/Disco4.dsk" -name=latercera \
                                             unmount -id=533Disco4 \
 '
