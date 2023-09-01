@@ -39,6 +39,9 @@ def mkfs(params, mounted_partitions):
                 file.write('I'.encode('utf-8'))
             for i in range(superblock.s_blocks_count):
                 file.write('B'.encode('utf-8'))
+            #now write the inodes nex to the superblock we just wrote
+            for i in range(superblock.s_inodes_count):
+                file.write(Inode().pack())
 
         
 
