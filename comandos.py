@@ -1,6 +1,6 @@
 comandos = '\
 mkdisk -size=10 -path="/home/mis discos/Disco4.dsk" -unit=M -fit=WF \n\
-    fdisk -size=10 -path="/home/mis discos/Disco4.dsk" -name=laprimera -type=P\
+    fdisk -size=100 -path="/home/mis discos/Disco4.dsk" -name=laprimera -type=P\
         fdisk -size=100 -type=E -unit=K -path="/home/mis discos/Disco4.dsk" -name=lasegunda -fit=BF \
             fdisk -size=10 -type=P -unit=K -path="/home/mis discos/Disco4.dsk" -name=latercera -fit=WF \
                 fdisk -size=300 -type=P -unit=K -path="/home/mis discos/Disco4.dsk" -name=lacuarta -fit=FF \
@@ -13,6 +13,7 @@ mkdisk -size=10 -path="/home/mis discos/Disco4.dsk" -unit=M -fit=WF \n\
                                         fdisk -size=1 -type=L -unit=K -path="/home/mis discos/Disco4.dsk" -name=acaandamos -fit=FF \
                                             fdisk -size=1 -type=L -unit=K -path="/home/mis discos/Disco4.dsk" -name=acanosfuimos -fit=FF \
                                                 fdisk -size=1 -type=L -unit=K -path="/home/mis discos/Disco4.dsk" -name=acanosreimos -fit=FF \
-                                        mount -path="/home/mis discos/Disco4.dsk" -name=latercera \
-                                            unmount -id=533Disco4 \
+                                        mount -path="/home/mis discos/Disco4.dsk" -name=laprimera \
+                                              mkfs -type=full -id=531Disco4\
 '
+#unmount -id=533Disco4 \

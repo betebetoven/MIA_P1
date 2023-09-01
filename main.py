@@ -4,6 +4,7 @@ from ply.yacc import yacc
 from mkdisk import mkdisk, rmdisk, fdisk
 from comandos import comandos
 from mount import mount, unmount
+from mkfs import mkfs
 
 
 
@@ -28,7 +29,8 @@ tokens = ( 'MKDISK', 'SIZE', 'PATH', 'UNIT', 'FIT','ENCAJE',
           'MOUNT',
           'ID',
           'IDENTIFICADOR',
-          'UNMOUNT')
+          'UNMOUNT',
+          'MKFS',)
 
 # Ignored characters
 t_ignore = ' \t'
@@ -36,10 +38,12 @@ t_ignore = ' \t'
 # Token matching rules are written as regexs
 
 t_MKDISK = r'mkdisk'
+t_MKFS = r'mkfs'
 t_RMDISK = r'rmdisk'
 t_FDISK = r'fdisk'
 t_MOUNT = r'mount'
 t_UNMOUNT = r'unmount'
+
 
 t_NAME = r'-name'
 t_ID = r'-id'
@@ -139,6 +143,7 @@ def p_expression(p):
                 | fdisk
                 | mount
                 | unmount
+                | mkfs
     '''
 
     p[0] = ('binop', p[1])
@@ -169,6 +174,11 @@ def p_tipo(p):
     typent : TYPE TIPO
     '''
     p[0] = ('type', p[2])
+def p_tipo2(p):
+    '''
+    typent : TYPE DELETO
+    '''
+    p[0] = ('type', p[2])    
 def p_delete(p):
     '''
     deletent : DELETE DELETO
@@ -260,6 +270,12 @@ def p_unmount(p):
     '''
     unmount(p[2], mounted_partitions)
     p[0] = ('unmount', p[2])
+def p_mkfs(p):
+    '''
+    mkfs : MKFS params
+    '''
+    mkfs(p[2], mounted_partitions)
+    p[0] = ('mkfs', p[2])
 
 def p_error(p):
     print(f'Syntax error at {p.value!r}')
