@@ -35,42 +35,46 @@ def mkfs(params, mounted_partitions):
             print(f"Error: The file {full_path} does not exist.")
             return
         with open(full_path, "rb+") as file:
-            file.seek(inicio)
-            file.write(superblock.pack())
+            
             bitmapinodos = ['0']*superblock.s_inodes_count
             bitmapbloques = ['0']*superblock.s_blocks_count
+            
+            #crea inodo 0
+            i1 = Inode()
+            i1.i_type = '0'
+            i1.i_block[0] = superblock.s_block_start
+            #crea bloque 0
+            b1 = FolderBlock()
+            b1.b_content[0].b_inodo = superblock.s_inode_start+Inode.SIZE
+            b1.b_content[0].b_name = 'users.txt'
             bitmapbloques[0] = '1'
             bitmapinodos[0] = '1'
+            
+            
+            #crea inodo 1
+            i2 = Inode()
+            i2.i_type = '1'
+            i2.i_block[0] = superblock.s_block_start+block.SIZE
+            #crea bloque 1
+            b2 = FileBlock()
+            b2.b_content = '1, G, root \n1, U, root, root, 123 \n0, G, usuarios \n'
+            bitmapbloques[1] = '1'
+            bitmapinodos[1] = '1'
+            
+            
+            
+            file.seek(inicio)
+            file.write(superblock.pack())
             for i in range(superblock.s_inodes_count):
                 file.write(bitmapinodos[i].encode('utf-8'))
             for i in range(superblock.s_blocks_count):
                 file.write(bitmapbloques[i].encode('utf-8'))
-            #now write the inodes nex to the superblock we just wrote
-            first_inode = Inode()
-            first_inode.i_type = '0'
-            first_inode.i_block[0] = 0
-            first_bloque = FolderBlock()
-            bitmapbloques[1] = '1'
-            bitmapinodos[1] = '1'
-            first_bloque.b_content[0].b_inodo = 1
-            first_bloque.b_content[0].b_name = 'users.txt'
-            inode_first_file = Inode()
-            inode_first_file.i_type = '1'
-            inode_first_file.i_block[0] = 1
-            first_file_block = FileBlock()
-            first_file_block.b_content = '1, G, root \n1, U, root, root, 123 \n0, G, usuarios \n'
-            
-            
-            
-            
-            
-            
             file.seek(superblock.s_inode_start)
-            file.write(first_inode.pack())
-            file.write(inode_first_file.pack())
+            file.write(i1.pack())
+            file.write(i2.pack())
             file.seek(superblock.s_block_start)
-            file.write(first_bloque.pack())
-            file.write(first_file_block.pack())
+            file.write(b1.pack())
+            file.write(b2.pack())
             
 
         

@@ -53,7 +53,7 @@ class Content:
         self.b_name = name
         self.b_inodo = inode
     def __str__(self) -> str:
-        return f"Content: name={self.b_name}, inode={self.b_inodo}"
+        return f"Name: {self.b_name}\n Inode: {self.b_inodo}"
     def pack(self):
         packed_content = struct.pack(self.FORMAT, self.b_name.encode('utf-8'), self.b_inodo)
         return packed_content

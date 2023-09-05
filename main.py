@@ -288,25 +288,36 @@ ast = parser.parse(comandos)
 
 #read C:\Users\alber\OneDrive\Escritorio\cys\MIA\proyecto1\discos_test\home\mis discos\Disco4.dsk from the byte 0 an unpack it with MBR and print it
 from MBR import MBR
-def imprimir(obj):
+COLORS = {'Inode': 'lightblue', 'Superblock': '#E0E0E0', 'FolderBlock': '#FFCC00', 'FileBlock': 'green', 'PointerBlock': 'orange',  'Content': '#FFCC00'}
+def imprimir(obj,index):
     # Create a table with two columns: "Attribute" and "Value"
     object_type = type(obj).__name__
 
-    print(f"Object Type: {object_type}")
+    #print(f"Object Type: {object_type}")
     table = PrettyTable(['Attribute', 'Value'])
 
     # Use the built-in vars() function to get object's attributes
     attributes = vars(obj)
+    lista = None
 
     # Add each attribute and its value as a row in the table
     for attr, value in attributes.items():
-        table.add_row([attr, value])
+        #if item is not [] type
+        if not isinstance(value, list):
+            table.add_row([attr, value])
+        else:
+            lista = value
+            #for i,n in enumerate(value):
+                #table.add_row([f"{attr}[{i}]", n])
 
     # Print the table
-    print(table)
-    return table
-def prettytable_to_html_string(pt):
+    #print(table)
+    return object_type, table, lista,index
+def prettytable_to_html_string(object_type, pt, lista,index):
+    header_node = f'subgraph cluster_{object_type}{index} {"{"} label = "{object_type}{index}" style = filled fillcolor = "{COLORS[object_type]}"'
+    nodo_tabla = f'\n{id(pt)} [label='
     html_string = '''<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4">\n'''
+    #html_string += f'  <TR><TD COLSPAN="2">{object_type}</TD></TR>\n'
     # Header
     html_string += "  <TR>\n"
     for field in pt._field_names:
@@ -320,9 +331,60 @@ def prettytable_to_html_string(pt):
             html_string += f"    <TD>{cell}</TD>\n"
         html_string += "  </TR>\n"
 
-    html_string += "</TABLE>>"
+    html_string += "</TABLE>> shape=box];\n"
+    #if list is not none achieve this format bloques [label="{<content0> Content: users.txt | <content1> Content: empty | <content2> Content: empty | <content3> Content: empty}"];
+    bloques = f'\nnode [shape=record];\nbloques{id(pt)} [label='
+    if lista is not None:
+        #print("list is not none")
+        #print(list)
+        bloques += '"{'
+        for i,n in enumerate(lista):
+            bloques += f"<content{i}> {n.__str__()} | "
+        bloques += '\n}"];'
+    if lista is None:
+        total = header_node + nodo_tabla + html_string + "}"
+    else:
+        total = header_node + nodo_tabla + html_string +  bloques + "}" 
+    if object_type=='FolderBlock':
+        total = header_node +  bloques + "}"
 
-    return html_string
+    return total,id(pt)
+#0 inode, 1 folderblock, 2 fileblock, 3 pointerblock
+def graph(file,inicio, index):
+    if inicio == -1:
+        return
+    file.seek(inicio)
+    if index == 0:
+        object = Inode.unpack(file.read(Inode.SIZE))
+    elif index == 1:
+        object = FolderBlock.unpack(file.read(FolderBlock.SIZE))
+    elif index == 2:
+        object = FileBlock.unpack(file.read(FileBlock.SIZE))
+    elif index == 3:
+        object = PointerBlock.unpack(file.read(PointerBlock.SIZE))
+    object_type, pt, lista,index = imprimir(object,inicio)
+    total, id = prettytable_to_html_string(object_type, pt, lista,inicio)
+    print(total)
+    if object_type== 'Inode':
+        for i,n in enumerate(lista):
+            if object.i_type == '0':
+                apuntado = graph(file,n,1)
+                if apuntado is not None:
+                    print(f"bloques{id}:<content{i}> -> bloques{apuntado}")
+                
+            else:
+                apuntado =graph(file,n,2)
+                if apuntado is not None:
+                    print(f"bloques{id}:<content{i}> -> {apuntado}")
+    elif object_type== 'FolderBlock':
+        for i,n in enumerate(lista):
+            if n.b_inodo != -1:
+                apuntado =graph(file,n.b_inodo,0)
+                if apuntado is not None:
+                    print(f"bloques{id}:<content{i}> -> {apuntado}")
+            
+    
+    return id
 with open(r'C:\Users\alber\OneDrive\Escritorio\cys\MIA\proyecto1\discos_test\home\mis discos\Disco4.dsk', "rb") as file:
     file.seek(0)
     data = file.read(MBR.SIZE)
@@ -347,23 +409,24 @@ with open(r'C:\Users\alber\OneDrive\Escritorio\cys\MIA\proyecto1\discos_test\hom
     print("res")
     file.seek(mbr.particiones[0].byte_inicio)
     superblock = Superblock.unpack(file.read(Superblock.SIZE))
-    imprimir(superblock)
-    file.seek(superblock.s_inode_start)
-    inodo = Inode.unpack(file.read(Inode.SIZE))
-    imprimir(inodo)
-    file.seek(superblock.s_block_start)
-    folderblock = FolderBlock.unpack(file.read(FolderBlock.SIZE))
-    print("__folderblock__")
-    for i,n in enumerate(folderblock.b_content):
-        print(i)
-        imprimir(n)
-    print("_______________")
-    file.seek(superblock.s_inode_start+Inode.SIZE)
-    inodo = Inode.unpack(file.read(Inode.SIZE))
-    imprimir(inodo)
-    file.seek(superblock.s_block_start+FolderBlock.SIZE)
-    fileblock = FileBlock.unpack(file.read(FileBlock.SIZE))
-    print(prettytable_to_html_string(imprimir(fileblock)))
+    primero = graph(file,superblock.s_inode_start,0)
+    print(f"home -> {primero}")
+    #file.seek(superblock.s_inode_start)
+    #inodo = Inode.unpack(file.read(Inode.SIZE))
+    #inodo2 = Inode.unpack(file.read(Inode.SIZE))
+    #a,b,c,d = imprimir(inodo,0)
+    #print( prettytable_to_html_string(a,b,c,d))
+    #a,b,c,d = imprimir(inodo2,1)
+    #print( prettytable_to_html_string(a,b,c,d))
+    
+    #print(inodo2)
+    
+    
+def graph_sistema():
+    code = "digraph G {"
+    
+
+    code += "}"
 
 for n in ast:
     print(n[1])
