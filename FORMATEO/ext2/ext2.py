@@ -52,19 +52,61 @@ class Content:
     def __init__(self, name, inode):
         self.b_name = name
         self.b_inodo = inode
+    def __str__(self) -> str:
+        return f"Content: name={self.b_name}, inode={self.b_inodo}"
+    def pack(self):
+        packed_content = struct.pack(self.FORMAT, self.b_name.encode('utf-8'), self.b_inodo)
+        return packed_content
+    @classmethod
+    def unpack(cls, data):
+        unpacked_data = struct.unpack(cls.FORMAT, data)
+        content = cls("empty", -1)
+        content.b_name = unpacked_data[0].decode('utf-8')
+        content.b_inodo = unpacked_data[1]
+        return content
 
 class FolderBlock:
     FORMAT = Content.FORMAT * 4
     SIZE = struct.calcsize(FORMAT)
 
     def __init__(self):
-        self.b_content = [Content(b'', -1) for _ in range(4)]
+        self.b_content = [Content("empty", -1) for _ in range(4)]
+    def __str__(self) -> str:
+        text = "FolderBlock: content=["
+        for i in range(4):
+            text += f"{self.b_content[i]}, "
+        text += "]"
+        return text
+    
+    def pack(self):
+        packed_objetos = b''.join([obj.pack() for obj in self.b_content])
+        return packed_objetos
+    @classmethod
+    def unpack(cls, data):
+        folderblock = cls()
+        for i in range(4):
+            # Extract the binary data for each Content object
+            chunk = data[i * Content.SIZE: (i + 1) * Content.SIZE]
+            folderblock.b_content[i] = Content.unpack(chunk)
+        return folderblock
+
 class FileBlock:
     FORMAT = '64s'
     SIZE = struct.calcsize(FORMAT)
 
     def __init__(self):
-        self.b_content = b''
+        self.b_content = "empty"
+    def __str__(self) -> str:
+        return f"FileBlock: content={self.b_content}"
+    def pack(self):
+        packed_fileblock = struct.pack(self.FORMAT, self.b_content.encode('utf-8'))
+        return packed_fileblock
+    @classmethod
+    def unpack(cls, data):
+        unpacked_data = struct.unpack(cls.FORMAT, data)
+        fileblock = cls()
+        fileblock.b_content = unpacked_data[0].decode('utf-8')
+        return fileblock
 
 class PointerBlock:
     FORMAT = '16i'

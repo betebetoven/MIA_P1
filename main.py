@@ -5,7 +5,7 @@ from mkdisk import mkdisk, rmdisk, fdisk
 from comandos import comandos
 from mount import mount, unmount
 from mkfs import mkfs
-
+from FORMATEO.ext2.ext2 import Superblock, Inode, FolderBlock, FileBlock, PointerBlock, block, Content
 
 
 # --- Tokenizer
@@ -288,6 +288,41 @@ ast = parser.parse(comandos)
 
 #read C:\Users\alber\OneDrive\Escritorio\cys\MIA\proyecto1\discos_test\home\mis discos\Disco4.dsk from the byte 0 an unpack it with MBR and print it
 from MBR import MBR
+def imprimir(obj):
+    # Create a table with two columns: "Attribute" and "Value"
+    object_type = type(obj).__name__
+
+    print(f"Object Type: {object_type}")
+    table = PrettyTable(['Attribute', 'Value'])
+
+    # Use the built-in vars() function to get object's attributes
+    attributes = vars(obj)
+
+    # Add each attribute and its value as a row in the table
+    for attr, value in attributes.items():
+        table.add_row([attr, value])
+
+    # Print the table
+    print(table)
+    return table
+def prettytable_to_html_string(pt):
+    html_string = '''<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4">\n'''
+    # Header
+    html_string += "  <TR>\n"
+    for field in pt._field_names:
+        html_string += f"    <TD>{field}</TD>\n"
+    html_string += "  </TR>\n"
+
+    # Rows
+    for row in pt._rows:
+        html_string += "  <TR>\n"
+        for cell in row:
+            html_string += f"    <TD>{cell}</TD>\n"
+        html_string += "  </TR>\n"
+
+    html_string += "</TABLE>>"
+
+    return html_string
 with open(r'C:\Users\alber\OneDrive\Escritorio\cys\MIA\proyecto1\discos_test\home\mis discos\Disco4.dsk', "rb") as file:
     file.seek(0)
     data = file.read(MBR.SIZE)
@@ -310,6 +345,27 @@ with open(r'C:\Users\alber\OneDrive\Escritorio\cys\MIA\proyecto1\discos_test\hom
     print(table)
     print(table2)
     print("res")
+    file.seek(mbr.particiones[0].byte_inicio)
+    superblock = Superblock.unpack(file.read(Superblock.SIZE))
+    imprimir(superblock)
+    file.seek(superblock.s_inode_start)
+    inodo = Inode.unpack(file.read(Inode.SIZE))
+    imprimir(inodo)
+    file.seek(superblock.s_block_start)
+    folderblock = FolderBlock.unpack(file.read(FolderBlock.SIZE))
+    print("__folderblock__")
+    for i,n in enumerate(folderblock.b_content):
+        print(i)
+        imprimir(n)
+    print("_______________")
+    file.seek(superblock.s_inode_start+Inode.SIZE)
+    inodo = Inode.unpack(file.read(Inode.SIZE))
+    imprimir(inodo)
+    file.seek(superblock.s_block_start+FolderBlock.SIZE)
+    fileblock = FileBlock.unpack(file.read(FileBlock.SIZE))
+    print(prettytable_to_html_string(imprimir(fileblock)))
 
 for n in ast:
     print(n[1])
+    
+    
