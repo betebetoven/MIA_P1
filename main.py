@@ -120,6 +120,7 @@ lexer = lex()
 # Write functions for each grammar rule which is
 # specified in the docstring.
 mounted_partitions = []
+users={}
 
 def p_command_list(p):
     '''command_list : expression
@@ -274,7 +275,7 @@ def p_mkfs(p):
     '''
     mkfs : MKFS params
     '''
-    mkfs(p[2], mounted_partitions)
+    mkfs(p[2], mounted_partitions, users)
     p[0] = ('mkfs', p[2])
 
 def p_error(p):
@@ -430,5 +431,6 @@ def graph_sistema():
 
 for n in ast:
     print(n[1])
+print(users)
     
     

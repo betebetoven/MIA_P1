@@ -3,7 +3,8 @@ import os
 import struct
 import time
 import random
-def mkfs(params, mounted_partitions):
+from mountingusers import load_users_from_content
+def mkfs(params, mounted_partitions, users):
     tipo = params.get('type', 'full').lower()
     id = params.get('id', None)
     
@@ -57,7 +58,9 @@ def mkfs(params, mounted_partitions):
             i2.i_block[0] = superblock.s_block_start+block.SIZE
             #crea bloque 1
             b2 = FileBlock()
-            b2.b_content = '1, G, root \n1, U, root, root, 123 \n0, G, usuarios \n'
+            b2.b_content = '1,G,root\n1,U,root,root,123\n'
+            b2.b_content+='2,G,usuarios\n2,U,usuarios,user1,usuario\n'
+            users.update(load_users_from_content(b2.b_content))
             #b2.b_content='albertojosuuehernandezarmasdelalibertadalasnacionesdecritsojesusenlasalturasamen'
             bitmapbloques[1] = '1'
             bitmapinodos[1] = '1'
