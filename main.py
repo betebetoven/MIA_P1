@@ -4,7 +4,7 @@ from ply.yacc import yacc
 from mkdisk import mkdisk, rmdisk, fdisk
 from comandos import comandos
 from mount import mount, unmount
-from mkfs import mkfs
+from mkfs import mkfs, login
 from FORMATEO.ext2.ext2 import Superblock, Inode, FolderBlock, FileBlock, PointerBlock, block, Content
 
 
@@ -30,7 +30,12 @@ tokens = ( 'MKDISK', 'SIZE', 'PATH', 'UNIT', 'FIT','ENCAJE',
           'ID',
           'IDENTIFICADOR',
           'UNMOUNT',
-          'MKFS',)
+          'MKFS',
+          'LOGIN',
+          'USER',
+          'PASSWORD',
+          'CONTRA',
+          'CONTRAFEA')
 
 # Ignored characters
 t_ignore = ' \t'
@@ -43,8 +48,10 @@ t_RMDISK = r'rmdisk'
 t_FDISK = r'fdisk'
 t_MOUNT = r'mount'
 t_UNMOUNT = r'unmount'
+t_LOGIN = r'login'
 
-
+t_USER = r'-user'
+t_PASSWORD = r'-pass'
 t_NAME = r'-name'
 t_ID = r'-id'
 t_SIZE = r'-size='
@@ -99,7 +106,14 @@ def t_IDENTIFICADOR(t):
     t.value = t.value[1:]
     return t
 
-
+def t_CONTRA(t):
+    r'=[a-zA-Z0-9]+'
+    t.value = t.value[1:]
+    return t
+def t_CONTRAFEA(t):
+    r'="[a-zA-Z0-9]+"'
+    t.value = t.value[2:-1]
+    return t
 
 
 # Ignored token with an action associated with it
@@ -120,7 +134,7 @@ lexer = lex()
 # Write functions for each grammar rule which is
 # specified in the docstring.
 mounted_partitions = []
-users={}
+users=None
 
 def p_command_list(p):
     '''command_list : expression
@@ -145,6 +159,7 @@ def p_expression(p):
                 | mount
                 | unmount
                 | mkfs
+                | login
     '''
 
     p[0] = ('binop', p[1])
@@ -160,6 +175,26 @@ def p_name2(p):
     nament : NAME NOMBREFEA
     '''
     p[0] = ('name', p[2])
+def p_user(p):
+    '''
+    usernt : USER NOMBRE
+    '''
+    p[0] = ('user', p[2])
+def p_user2(p):
+    '''
+    usernt : USER NOMBREFEA
+    '''
+    p[0] = ('user', p[2])
+def p_password(p):
+    '''
+    passnt : PASSWORD CONTRA
+    '''
+    p[0] = ('pass', p[2])
+def p_password2(p):
+    '''
+    passnt : PASSWORD CONTRAFEA
+    '''
+    p[0] = ('pass', p[2])
 def p_size(p):
     '''
     sizent : SIZE NUMERO
@@ -221,6 +256,8 @@ def p_param(p):
           | deletent
           | addnt
           | idnt
+          | usernt
+          | passnt
             
     '''
     p[0] = p[1]    
@@ -277,6 +314,13 @@ def p_mkfs(p):
     '''
     mkfs(p[2], mounted_partitions, users)
     p[0] = ('mkfs', p[2])
+def p_login(p):
+    '''
+    login : LOGIN params
+    '''
+    global users
+    users = login(p[2], mounted_partitions)
+    p[0] = ('login', p[2])
 
 def p_error(p):
     print(f'Syntax error at {p.value!r}')
@@ -410,8 +454,8 @@ with open(r'C:\Users\alber\OneDrive\Escritorio\cys\MIA\proyecto1\discos_test\hom
     print("res")
     file.seek(mbr.particiones[0].byte_inicio)
     superblock = Superblock.unpack(file.read(Superblock.SIZE))
-    primero = graph(file,superblock.s_inode_start,0)
-    print(f"home -> {primero}")
+    #primero = graph(file,superblock.s_inode_start,0)
+    #print(f"home -> {primero}")
     #file.seek(superblock.s_inode_start)
     #inodo = Inode.unpack(file.read(Inode.SIZE))
     #inodo2 = Inode.unpack(file.read(Inode.SIZE))

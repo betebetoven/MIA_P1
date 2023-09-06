@@ -3,7 +3,7 @@ import os
 import struct
 import time
 import random
-from mountingusers import load_users_from_content
+from mountingusers import load_users_from_content, parse_users, get_user_if_authenticated
 def mkfs(params, mounted_partitions, users):
     tipo = params.get('type', 'full').lower()
     id = params.get('id', None)
@@ -59,8 +59,8 @@ def mkfs(params, mounted_partitions, users):
             #crea bloque 1
             b2 = FileBlock()
             b2.b_content = '1,G,root\n1,U,root,root,123\n'
-            b2.b_content+='2,G,usuarios\n2,U,usuarios,user1,usuario\n'
-            users.update(load_users_from_content(b2.b_content))
+            #b2.b_content+='2,G,usuarios\n2,U,usuarios,user1,usuario\n'
+            #users.update(load_users_from_content(b2.b_content))
             #b2.b_content='albertojosuuehernandezarmasdelalibertadalasnacionesdecritsojesusenlasalturasamen'
             bitmapbloques[1] = '1'
             bitmapinodos[1] = '1'
@@ -85,3 +85,68 @@ def mkfs(params, mounted_partitions, users):
 
 
         print(f"Partition {id} was formatted successfully.")
+from FORMATEO.ext2.ext2 import Superblock, Inode, FolderBlock, FileBlock, PointerBlock, block, Content
+def login(params, mounted_partitions):
+    print("ESTE ES EL LOGIN*************************************************")
+    print(params)
+#user, password need to come in params, if not, return error
+    try:
+        user = params['user']
+        password = params['pass']
+        id = params['id']
+        
+    except:
+        print("Error: The user and password are required.")
+        return
+    partition = None
+    for partition_dict in mounted_partitions:
+        if id in partition_dict:
+            partition = partition_dict[id]
+            break
+
+    if not partition:
+        print(f"Error: The partition with id {id} does not exist.")
+        return
+
+    # Retrieve partition details.
+    path = partition['path']
+    inicio = partition['inicio']
+    size = partition['size']
+    filename = path
+    current_directory = os.getcwd()
+    full_path= f'{current_directory}/discos_test{filename}'
+    if not os.path.exists(full_path):
+        print(f"Error: The file {full_path} does not exist.")
+        return
+    with open(full_path, "rb+") as file:
+        file.seek(inicio)
+        superblock = Superblock.unpack(file.read(Superblock.SIZE))
+        print("ESTE ES EL SUPERBLOCK EN EL LOGIN__________________")
+        print(superblock)
+        file.seek(superblock.s_inode_start)
+        inodo = Inode.unpack(file.read(Inode.SIZE))
+        siguiente = inodo.i_block[0]
+        file.seek(siguiente)
+        folder = FolderBlock.unpack(file.read(FolderBlock.SIZE))
+        siguiente = folder.b_content[0].b_inodo
+        file.seek(siguiente)
+        inodo = Inode.unpack(file.read(Inode.SIZE))
+        texto = ""
+        for n in inodo.i_block:
+            if n != -1:
+                siguiente = n
+                file.seek(siguiente)
+                fileblock = FileBlock.unpack(file.read(FileBlock.SIZE))
+                texto += fileblock.b_content.rstrip('\x00')
+        print("ESTE ES EL TEXTO EN EL LOGIN__________________")
+        
+        #texto+='2,G,usuarios\n2,U,usuarios,user1,usuario\n'
+        #usuarios = load_users_from_content(texto)
+        usuarios = parse_users(texto)
+        users= get_user_if_authenticated(usuarios, user, password)
+        return users
+        
+
+        
+        
+    
