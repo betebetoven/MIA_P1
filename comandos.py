@@ -15,6 +15,7 @@ mkdisk -size=10 -path="/home/mis discos/Disco4.dsk" -unit=M -fit=WF \n\
                                                 fdisk -size=1 -type=L -unit=K -path="/home/mis discos/Disco4.dsk" -name=acanosreimos -fit=FF \
                                         mount -path="/home/mis discos/Disco4.dsk" -name=laprimera \
                                               mkfs -type=full -id=531Disco4\
+                                                  logout\
                                                   login -user=root -pass=123 -id=531Disco4\
                                                       logout\
 '

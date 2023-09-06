@@ -329,11 +329,13 @@ def p_logout(p):
     logout : LOGOUT
     '''
     global users
+    exited_user = {}
     if users is not None:
+        exited_user = users
         users = None
     else:
         print("No user is logged in")
-    p[0] = ('logout', ({}))
+    p[0] = ('logout', (exited_user))
 
 def p_error(p):
     print(f'Syntax error at {p.value!r}')
