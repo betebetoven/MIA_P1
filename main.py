@@ -35,7 +35,8 @@ tokens = ( 'MKDISK', 'SIZE', 'PATH', 'UNIT', 'FIT','ENCAJE',
           'USER',
           'PASSWORD',
           'CONTRA',
-          'CONTRAFEA')
+          'CONTRAFEA',
+          'LOGOUT')
 
 # Ignored characters
 t_ignore = ' \t'
@@ -49,6 +50,7 @@ t_FDISK = r'fdisk'
 t_MOUNT = r'mount'
 t_UNMOUNT = r'unmount'
 t_LOGIN = r'login'
+t_LOGOUT = r'logout'
 
 t_USER = r'-user'
 t_PASSWORD = r'-pass'
@@ -160,6 +162,7 @@ def p_expression(p):
                 | unmount
                 | mkfs
                 | login
+                | logout
     '''
 
     p[0] = ('binop', p[1])
@@ -321,6 +324,16 @@ def p_login(p):
     global users
     users = login(p[2], mounted_partitions)
     p[0] = ('login', p[2])
+def p_logout(p):
+    '''
+    logout : LOGOUT
+    '''
+    global users
+    if users is not None:
+        users = None
+    else:
+        print("No user is logged in")
+    p[0] = ('logout', ({}))
 
 def p_error(p):
     print(f'Syntax error at {p.value!r}')
