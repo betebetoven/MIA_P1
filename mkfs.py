@@ -58,6 +58,7 @@ def mkfs(params, mounted_partitions):
             #crea bloque 1
             b2 = FileBlock()
             b2.b_content = '1, G, root \n1, U, root, root, 123 \n0, G, usuarios \n'
+            #b2.b_content='albertojosuuehernandezarmasdelalibertadalasnacionesdecritsojesusenlasalturasamen'
             bitmapbloques[1] = '1'
             bitmapinodos[1] = '1'
             
