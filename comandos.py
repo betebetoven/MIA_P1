@@ -17,6 +17,6 @@ mkdisk -size=10 -path="/home/mis discos/Disco4.dsk" -unit=M -fit=WF \n\
                                               mkfs -type=full -id=531Disco4\
                                                   logout\
                                                   login -user=root -pass=123 -id=531Disco4\
-                                                      logout\
+                                                      mkusr -user=user1 -pass=usuario -grp=usuarios\
 '
 #unmount -id=533Disco4 \

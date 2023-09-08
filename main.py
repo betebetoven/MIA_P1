@@ -4,7 +4,7 @@ from ply.yacc import yacc
 from mkdisk import mkdisk, rmdisk, fdisk
 from comandos import comandos
 from mount import mount, unmount
-from mkfs import mkfs, login
+from mkfs import mkfs, login, makeuser
 from FORMATEO.ext2.ext2 import Superblock, Inode, FolderBlock, FileBlock, PointerBlock, block, Content
 
 
@@ -36,7 +36,9 @@ tokens = ( 'MKDISK', 'SIZE', 'PATH', 'UNIT', 'FIT','ENCAJE',
           'PASSWORD',
           'CONTRA',
           'CONTRAFEA',
-          'LOGOUT')
+          'LOGOUT',
+          'MKUSR', 
+          'GRP')
 
 # Ignored characters
 t_ignore = ' \t'
@@ -51,9 +53,11 @@ t_MOUNT = r'mount'
 t_UNMOUNT = r'unmount'
 t_LOGIN = r'login'
 t_LOGOUT = r'logout'
+t_MKUSR = r'mkusr'
 
 t_USER = r'-user'
 t_PASSWORD = r'-pass'
+t_GRP = r'-grp'
 t_NAME = r'-name'
 t_ID = r'-id'
 t_SIZE = r'-size='
@@ -137,6 +141,7 @@ lexer = lex()
 # specified in the docstring.
 mounted_partitions = []
 users=None
+current_partition = None
 
 def p_command_list(p):
     '''command_list : expression
@@ -163,6 +168,7 @@ def p_expression(p):
                 | mkfs
                 | login
                 | logout
+                | mkusr
     '''
 
     p[0] = ('binop', p[1])
@@ -188,6 +194,16 @@ def p_user2(p):
     usernt : USER NOMBREFEA
     '''
     p[0] = ('user', p[2])
+def p_grp(p):
+    '''
+    grpnt : GRP NOMBRE
+    '''
+    p[0] = ('grp', p[2])
+def p_grp2(p):
+    '''
+    grpnt : GRP NOMBREFEA
+    '''
+    p[0] = ('grp', p[2])
 def p_password(p):
     '''
     passnt : PASSWORD CONTRA
@@ -196,6 +212,16 @@ def p_password(p):
 def p_password2(p):
     '''
     passnt : PASSWORD CONTRAFEA
+    '''
+    p[0] = ('pass', p[2])
+def p_password3(p):
+    '''
+    passnt : PASSWORD NOMBRE
+    '''
+    p[0] = ('pass', p[2])
+def p_password4(p):
+    '''
+    passnt : PASSWORD NOMBREFEA
     '''
     p[0] = ('pass', p[2])
 def p_size(p):
@@ -261,6 +287,7 @@ def p_param(p):
           | idnt
           | usernt
           | passnt
+          | grpnt
             
     '''
     p[0] = p[1]    
@@ -322,7 +349,8 @@ def p_login(p):
     login : LOGIN params
     '''
     global users
-    users = login(p[2], mounted_partitions)
+    global current_partition
+    users, current_partition = login(p[2], mounted_partitions)
     p[0] = ('login', p[2])
 def p_logout(p):
     '''
@@ -336,6 +364,16 @@ def p_logout(p):
     else:
         print("No user is logged in")
     p[0] = ('logout', (exited_user))
+def p_mkusr(p):
+    '''
+    mkusr : MKUSR params
+    '''
+    if users != None and users['username']=='root' :
+        makeuser(p[2], mounted_partitions, current_partition)
+    else:
+        print("Error: You must be logged in as root to use this command")
+    
+    p[0] = ('mkusr', p[2])
 
 def p_error(p):
     print(f'Syntax error at {p.value!r}')
@@ -491,5 +529,6 @@ def graph_sistema():
 for n in ast:
     print(n[1])
 print(users)
+print(current_partition)
     
     

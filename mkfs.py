@@ -97,7 +97,7 @@ def login(params, mounted_partitions):
         
     except:
         print("Error: The user and password are required.")
-        return
+        return None, None
     partition = None
     for partition_dict in mounted_partitions:
         if id in partition_dict:
@@ -144,9 +144,59 @@ def login(params, mounted_partitions):
         #usuarios = load_users_from_content(texto)
         usuarios = parse_users(texto)
         users= get_user_if_authenticated(usuarios, user, password)
-        return users
+        return users,id
         
-
+def makeuser(params, mounted_partitions,id):
+    print("ESTE ES EL MAKEUSER*************************************************")
+    print(params)
+    if id == None:
+        print("Error: The id is required.")
+        return
+    try: 
+        user = params['user']
+        password = params['pass']
+        group = params['grp']
+    except:
+        print("Error: The user, password and group are required.")
+        return
+    partition = None
+    for partition_dict in mounted_partitions:
+        if id in partition_dict:
+            partition = partition_dict[id]
+            break
+    if not partition:
+        print(f"Error: The partition with id {id} does not exist.")
+        return
+    # Retrieve partition details.
+    path = partition['path']
+    inicio = partition['inicio']
+    size = partition['size']
+    filename = path
+    current_directory = os.getcwd()
+    full_path= f'{current_directory}/discos_test{filename}'
+    if not os.path.exists(full_path):
+        print(f"Error: The file {full_path} does not exist.")
+        return
+    with open(full_path, "rb+") as file:
+        file.seek(inicio)
+        superblock = Superblock.unpack(file.read(Superblock.SIZE))
+        print("ESTE ES EL SUPERBLOCK EN EL MAKEUSER__________________")
+        print(superblock)
+        file.seek(superblock.s_inode_start)
+        inodo = Inode.unpack(file.read(Inode.SIZE))
+        siguiente = inodo.i_block[0]
+        file.seek(siguiente)
+        folder = FolderBlock.unpack(file.read(FolderBlock.SIZE))
+        siguiente = folder.b_content[0].b_inodo
+        file.seek(siguiente)
+        inodo = Inode.unpack(file.read(Inode.SIZE))
+        siguiente = inodo.i_block[0]
+        file.seek(siguiente)
+        fileblock = FileBlock.unpack(file.read(FileBlock.SIZE))
+        texto = fileblock.b_content.rstrip('\x00')
+        print("*********ESTE ES EL TEXTO EN EL MAKEUSER__________________")
+        print(texto)
+        
         
         
     
