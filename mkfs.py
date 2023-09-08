@@ -3,7 +3,7 @@ import os
 import struct
 import time
 import random
-from mountingusers import load_users_from_content, parse_users, get_user_if_authenticated
+from mountingusers import load_users_from_content, parse_users, get_user_if_authenticated, get_id_by_group
 def mkfs(params, mounted_partitions, users):
     tipo = params.get('type', 'full').lower()
     id = params.get('id', None)
@@ -204,60 +204,76 @@ def makeuser(params, mounted_partitions,id):
                 texto += fileblock.b_content.rstrip('\x00')
         indice_a_borrar = (primerbloque- superblock.s_block_start)//64   
         grupos = parse_users(texto)
-        user = user[:10]
-        password = password[:10]
-        group = group[:10]
+        
+        #user = user[:10]
+        #password = password[:10]
+        #group = group[:10]
+        #print("ESTE ES EL GRUPO QUE SE VA A CREAR")
+        #print("usuario a buscar___")
+        #print(user)
+        #print("grupos____")
+        print(grupos)
+        group_exists = False  # Initially, we assume the group does not exist
         for n in grupos:
-            if group in n:
-                if user in n[group]:
-                    print("Error: The user already exists.")
-                    return
+            #print (n)
+            #print(user)
+            if user in n:
+                print("Error: The user already exists.*********************************************************************")
+                return
         for n in grupos:
-            if group in n:
-                if user in n[group]:
-                    print("Error: The user already exists.")
-                    return
-                else:
-                    print("ESTE ES EL USUARIO QUE SE VA A CREAR")
-                    id = int(n[group]['id'])
-                    #texto+='2,G,usuarios\n2,U,usuarios,user1,usuario\n'
-                    texto += f'{id},U,{group},{user},{password}\n'
-                    length = len(texto)
-                    fileblocks = length//64
-                    if length%64 != 0:
-                        fileblocks += 1
-                    bitmap_bloques_inicio = superblock.s_bm_block_start
-                    cantidad_bloques = superblock.s_blocks_count
-                    FORMAT = f'{cantidad_bloques}s'
-                    SIZE = struct.calcsize(FORMAT)
-                    file.seek(bitmap_bloques_inicio)
-                    bitmap_bloques = struct.unpack(FORMAT, file.read(SIZE))
-                    bitmap=bitmap_bloques[0].decode('utf-8')
-                    print(bitmap)
+            # Check if the group exists in current item
+            if n[next(iter(n))]['group'] == group:  # Access the nested dictionary and compare its 'group' value
+                group_exists = True
+                break
+
+        if group_exists==False:
+            print(f"Error: The group {group} does not exist.")
+            return
+
+             
+        
+            
+        print("ESTE ES EL USUARIO QUE SE VA A CREAR")
+        id = get_id_by_group(grupos, group)
+        #texto+='2,G,usuarios\n2,U,usuarios,user1,usuario\n'
+        texto += f'{id},U,{group},{user},{password}\n'
+        length = len(texto)
+        fileblocks = length//64
+        if length%64 != 0:
+            fileblocks += 1
+        bitmap_bloques_inicio = superblock.s_bm_block_start
+        cantidad_bloques = superblock.s_blocks_count
+        FORMAT = f'{cantidad_bloques}s'
+        SIZE = struct.calcsize(FORMAT)
+        file.seek(bitmap_bloques_inicio)
+        bitmap_bloques = struct.unpack(FORMAT, file.read(SIZE))
+        bitmap=bitmap_bloques[0].decode('utf-8')
+        print(bitmap)
                     
-                    if fileblocks<=12:
-                        bitmap = bitmap[:indice_a_borrar] + '0'*cont + bitmap[indice_a_borrar+cont:]
-                        index = bitmap.find('0'*fileblocks)
-                        print(bitmap)
-                        a = bitmap[:index] + '1'*fileblocks + bitmap[index+fileblocks:]
-                        chunks = [texto[i:i+64] for i in range(0, len(texto), 64)]
-                        for i,n in enumerate(chunks):
-                            new_fileblock = FileBlock()
-                            new_fileblock.b_content = n
-                            inodo.i_block[i] = primerbloque+i*64
-                            file.seek(primerbloque+i*64)
-                            file.write(new_fileblock.pack())
-                        #rewriteinode
-                        file.seek(ubicacion_inodo_users)
-                        file.write(inodo.pack())
-                        #rewrite bitmap
-                        file.seek(bitmap_bloques_inicio)
-                        file.write(a.encode('utf-8'))
+        if fileblocks<=12:
+            bitmap = bitmap[:indice_a_borrar] + '0'*cont + bitmap[indice_a_borrar+cont:]
+            index = bitmap.find('0'*fileblocks)
+            print(bitmap)
+            a = bitmap[:index] + '1'*fileblocks + bitmap[index+fileblocks:]
+            chunks = [texto[i:i+64] for i in range(0, len(texto), 64)]
+            for i,n in enumerate(chunks):
+                new_fileblock = FileBlock()
+                new_fileblock.b_content = n
+                inodo.i_block[i] = primerbloque+i*64
+                file.seek(primerbloque+i*64)
+                file.write(new_fileblock.pack())
+            #rewriteinode
+            file.seek(ubicacion_inodo_users)
+            file.write(inodo.pack())
+            #rewrite bitmap
+            file.seek(bitmap_bloques_inicio)
+            file.write(a.encode('utf-8'))
+            return
                         
 
                     
                         
-                    print(texto)
+                    
         #print(f'no se encontro el grupo {group}')
         
         

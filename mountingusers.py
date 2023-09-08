@@ -27,8 +27,8 @@ def load_users_from_content(content):
     return data_structure
 def parse_users(texto):
     lines = texto.split('\n')
-    print("ESTAS SON LAS LINEAS EN EL PARSE USERS")
-    print(lines)
+    #print("ESTAS SON LAS LINEAS EN EL PARSE USERS")
+    #print(lines)
     users_list = []
     
     # Temporary storage for groups
@@ -67,6 +67,13 @@ def get_user_if_authenticated(usuarios, user, password):
                 return user_data[user]
     # User not found or password doesn't match
     return None
+
+def get_id_by_group(grupos, group):
+    for item in grupos:
+        user_data = item[next(iter(item))]
+        if user_data['group'] == group:
+            return user_data['id']
+    return None  # If the group was not found
 
 
 
