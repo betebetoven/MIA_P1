@@ -391,4 +391,114 @@ def makegroup(params, mounted_partitions,id):
         
         
         
-    
+def remgroup(params, mounted_partitions,id):
+    print("ESTE ES EL REMGROUP*************************************************")
+    if id == None:
+        print("Error: The id is required.")
+        return
+    try: 
+        group = params['name']
+    except:
+        print("Error: The user, password and group are required.")
+        return
+    partition = None
+    for partition_dict in mounted_partitions:
+        if id in partition_dict:
+            partition = partition_dict[id]
+            break
+    if not partition:
+        print(f"Error: The partition with id {id} does not exist.")
+        return
+    # Retrieve partition details.
+    path = partition['path']
+    inicio = partition['inicio']
+    size = partition['size']
+    filename = path
+    current_directory = os.getcwd()
+    full_path= f'{current_directory}/discos_test{filename}'
+    if not os.path.exists(full_path):
+        print(f"Error: The file {full_path} does not exist.")
+        return
+    with open(full_path, "rb+") as file:
+        file.seek(inicio)
+        superblock = Superblock.unpack(file.read(Superblock.SIZE))
+        file.seek(superblock.s_inode_start)
+        inodo = Inode.unpack(file.read(Inode.SIZE))
+        siguiente = inodo.i_block[0]
+        file.seek(siguiente)
+        folder = FolderBlock.unpack(file.read(FolderBlock.SIZE))
+        siguiente = folder.b_content[0].b_inodo
+        file.seek(siguiente)
+        ubicacion_inodo_users = siguiente
+        inodo = Inode.unpack(file.read(Inode.SIZE))
+        primerbloque = -1
+        cont = 0
+        texto = ""
+        for i,item in enumerate(inodo.i_block[:12]):
+            if item != -1 and i == 0:
+                primerbloque = item
+            if item != -1:
+                cont = i+1
+                siguiente = item
+                file.seek(siguiente)
+                fileblock = FileBlock.unpack(file.read(FileBlock.SIZE))
+                texto += fileblock.b_content.rstrip('\x00')
+        indice_a_borrar = (primerbloque- superblock.s_block_start)//64   
+        grupos = extract_active_groups(texto)
+        group_exists = False  # Initially, we assume the group does not exist
+        for n in grupos:
+            # Check if the group exists in current item
+            if n['groupname'] == group:
+                group_exists = True
+                break
+
+        if group_exists==False:
+            print(f"Error: The group {group} doesn´t exists.")
+            return
+        arreglo = texto.split('\n')
+        lineas = []
+        for i,n in enumerate(arreglo):
+            if n == '':
+                continue
+            linea = n.split(',')
+            if linea[1] == 'G' and linea[2] == group:
+                linea[0] = '0'
+            lineas.append(','.join(linea))
+            print(lineas)
+        texto = '\n'.join(lineas)
+        texto+='\n'
+        print(texto)
+        #print(texto.split('\n'))
+        length = len(texto)
+        fileblocks = length//64
+        if length%64 != 0:
+            fileblocks += 1
+        bitmap_bloques_inicio = superblock.s_bm_block_start
+        cantidad_bloques = superblock.s_blocks_count
+        FORMAT = f'{cantidad_bloques}s'
+        SIZE = struct.calcsize(FORMAT)
+        file.seek(bitmap_bloques_inicio)
+        bitmap_bloques = struct.unpack(FORMAT, file.read(SIZE))
+        bitmap=bitmap_bloques[0].decode('utf-8')
+        print(bitmap)
+                    
+        if fileblocks<=12:
+            bitmap = bitmap[:indice_a_borrar] + '0'*cont + bitmap[indice_a_borrar+cont:]
+            index = bitmap.find('0'*fileblocks)
+            print(bitmap)
+            a = bitmap[:index] + '1'*fileblocks + bitmap[index+fileblocks:]
+            print(a)
+            chunks = [texto[i:i+64] for i in range(0, len(texto), 64)]
+            for i,n in enumerate(chunks):
+                new_fileblock = FileBlock()
+                new_fileblock.b_content = n
+                inodo.i_block[i] = primerbloque+i*64
+                file.seek(primerbloque+i*64)
+                file.write(new_fileblock.pack())
+            #rewriteinode
+            file.seek(ubicacion_inodo_users)
+            file.write(inodo.pack())
+            #rewrite bitmap
+            file.seek(bitmap_bloques_inicio)
+            file.write(a.encode('utf-8'))
+            return

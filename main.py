@@ -4,7 +4,7 @@ from ply.yacc import yacc
 from mkdisk import mkdisk, rmdisk, fdisk
 from comandos import comandos
 from mount import mount, unmount
-from mkfs import mkfs, login, makeuser, makegroup
+from mkfs import mkfs, login, makeuser, makegroup, remgroup
 from FORMATEO.ext2.ext2 import Superblock, Inode, FolderBlock, FileBlock, PointerBlock, block, Content
 
 
@@ -39,7 +39,8 @@ tokens = ( 'MKDISK', 'SIZE', 'PATH', 'UNIT', 'FIT','ENCAJE',
           'LOGOUT',
           'MKUSR', 
           'GRP',
-          'MKGRP')
+          'MKGRP',
+          'RMGRP',)
 
 # Ignored characters
 t_ignore = ' \t'
@@ -56,6 +57,7 @@ t_LOGIN = r'login'
 t_LOGOUT = r'logout'
 t_MKUSR = r'mkusr'
 t_MKGRP = r'mkgrp'
+t_RMGRP = r'rmgrp'
 
 t_USER = r'-user'
 t_PASSWORD = r'-pass'
@@ -172,6 +174,7 @@ def p_expression(p):
                 | logout
                 | mkusr
                 | mkgrp
+                | rmgrp
     '''
 
     p[0] = ('binop', p[1])
@@ -386,6 +389,15 @@ def p_mkgrp(p):
     else:
         print("Error: You must be logged in as root to use this command")
     p[0] = ('mkgrp', p[2])
+def p_rmgrp(p):
+    '''
+    rmgrp : RMGRP params
+    '''
+    if users != None and users['username']=='root' :
+        remgroup(p[2], mounted_partitions, current_partition)
+    else:
+        print("Error: You must be logged in as root to use this command")
+    p[0] = ('rmgrp', p[2])
 
 def p_error(p):
     print(f'Syntax error at {p.value!r}')

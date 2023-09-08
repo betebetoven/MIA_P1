@@ -34,7 +34,6 @@ mkdisk -size=10 -path="/home/mis discos/Disco4.dsk" -unit=M -fit=WF \n\
                                                                                                          mkgrp -name=usuarios4 \
                                                                                                              mkgrp -name=usuarios4 \
                                                                                                                  mkusr -user=mamadas -pass=usuario -grp=usuarios4\
-                                                                                                                     logout\
-                                                  login -user=mamadas -pass=usuario -id=531Disco4\
+                                                      rmgrp -name=usuarios\
 '
 #unmount -id=533Disco4 \

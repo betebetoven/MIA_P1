@@ -38,7 +38,7 @@ def parse_users(texto):
         parts = line.split(',')
         
         # Group
-        if len(parts) == 3 and parts[1] == 'G':
+        if len(parts) == 3 and parts[1] == 'G'and parts[0]!='0':
             groups[parts[2]] = parts[0]
             grupo_actual = parts[2]
         
