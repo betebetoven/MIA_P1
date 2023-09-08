@@ -86,6 +86,7 @@ def mkfs(params, mounted_partitions, users):
 
         print(f"Partition {id} was formatted successfully.")
 from FORMATEO.ext2.ext2 import Superblock, Inode, FolderBlock, FileBlock, PointerBlock, block, Content
+import struct
 def login(params, mounted_partitions):
     print("ESTE ES EL LOGIN*************************************************")
     print(params)
@@ -180,8 +181,6 @@ def makeuser(params, mounted_partitions,id):
     with open(full_path, "rb+") as file:
         file.seek(inicio)
         superblock = Superblock.unpack(file.read(Superblock.SIZE))
-        print("ESTE ES EL SUPERBLOCK EN EL MAKEUSER__________________")
-        print(superblock)
         file.seek(superblock.s_inode_start)
         inodo = Inode.unpack(file.read(Inode.SIZE))
         siguiente = inodo.i_block[0]
@@ -189,13 +188,79 @@ def makeuser(params, mounted_partitions,id):
         folder = FolderBlock.unpack(file.read(FolderBlock.SIZE))
         siguiente = folder.b_content[0].b_inodo
         file.seek(siguiente)
+        ubicacion_inodo_users = siguiente
         inodo = Inode.unpack(file.read(Inode.SIZE))
-        siguiente = inodo.i_block[0]
-        file.seek(siguiente)
-        fileblock = FileBlock.unpack(file.read(FileBlock.SIZE))
-        texto = fileblock.b_content.rstrip('\x00')
-        print("*********ESTE ES EL TEXTO EN EL MAKEUSER__________________")
-        print(texto)
+        primerbloque = -1
+        cont = 0
+        texto = ""
+        for i,item in enumerate(inodo.i_block[:12]):
+            if item != -1 and i == 0:
+                primerbloque = item
+            if item != -1:
+                cont = i+1
+                siguiente = item
+                file.seek(siguiente)
+                fileblock = FileBlock.unpack(file.read(FileBlock.SIZE))
+                texto += fileblock.b_content.rstrip('\x00')
+        indice_a_borrar = (primerbloque- superblock.s_block_start)//64   
+        grupos = parse_users(texto)
+        user = user[:10]
+        password = password[:10]
+        group = group[:10]
+        for n in grupos:
+            if group in n:
+                if user in n[group]:
+                    print("Error: The user already exists.")
+                    return
+        for n in grupos:
+            if group in n:
+                if user in n[group]:
+                    print("Error: The user already exists.")
+                    return
+                else:
+                    print("ESTE ES EL USUARIO QUE SE VA A CREAR")
+                    id = int(n[group]['id'])
+                    #texto+='2,G,usuarios\n2,U,usuarios,user1,usuario\n'
+                    texto += f'{id},U,{group},{user},{password}\n'
+                    length = len(texto)
+                    fileblocks = length//64
+                    if length%64 != 0:
+                        fileblocks += 1
+                    bitmap_bloques_inicio = superblock.s_bm_block_start
+                    cantidad_bloques = superblock.s_blocks_count
+                    FORMAT = f'{cantidad_bloques}s'
+                    SIZE = struct.calcsize(FORMAT)
+                    file.seek(bitmap_bloques_inicio)
+                    bitmap_bloques = struct.unpack(FORMAT, file.read(SIZE))
+                    bitmap=bitmap_bloques[0].decode('utf-8')
+                    print(bitmap)
+                    
+                    if fileblocks<=12:
+                        bitmap = bitmap[:indice_a_borrar] + '0'*cont + bitmap[indice_a_borrar+cont:]
+                        index = bitmap.find('0'*fileblocks)
+                        print(bitmap)
+                        a = bitmap[:index] + '1'*fileblocks + bitmap[index+fileblocks:]
+                        chunks = [texto[i:i+64] for i in range(0, len(texto), 64)]
+                        for i,n in enumerate(chunks):
+                            new_fileblock = FileBlock()
+                            new_fileblock.b_content = n
+                            inodo.i_block[i] = primerbloque+i*64
+                            file.seek(primerbloque+i*64)
+                            file.write(new_fileblock.pack())
+                        #rewriteinode
+                        file.seek(ubicacion_inodo_users)
+                        file.write(inodo.pack())
+                        #rewrite bitmap
+                        file.seek(bitmap_bloques_inicio)
+                        file.write(a.encode('utf-8'))
+                        
+
+                    
+                        
+                    print(texto)
+        #print(f'no se encontro el grupo {group}')
+        
+        
         
         
         
