@@ -460,29 +460,29 @@ def graph(file,inicio, index):
         object = PointerBlock.unpack(file.read(PointerBlock.SIZE))
     object_type, pt, lista,index = imprimir(object,inicio)
     total, id = prettytable_to_html_string(object_type, pt, lista,inicio, object)
-    print(f'///////////EL ID ES {id} DEL OBJETO {object_type} CON EL INDICE {inicio}*-*-*-*-*-*-*-*-*-*-*-*-*-*')
+    #print(f'///////////EL ID ES {id} DEL OBJETO {object_type} CON EL INDICE {inicio}*-*-*-*-*-*-*-*-*-*-*-*-*-*')
     codigo_para_graphviz += f'\n///////////EL ID ES {id} DEL OBJETO {object_type} CON EL INDICE {inicio}*-*-*-*-*-*-*-*-*-*-*-*-*-*'
-    print(total)
+    #print(total)
     codigo_para_graphviz += "\n"+total
     if object_type== 'Inode':
         for i,n in enumerate(lista):
             if object.i_type == '0':
                 apuntado = graph(file,n,1)
                 if apuntado is not None:
-                    print(f"bloques{id}:<content{i}> -> bloques{apuntado}")
+                    #print(f"bloques{id}:<content{i}> -> bloques{apuntado}")
                     codigo_para_graphviz += f"\nbloques{id}:<content{i}> -> bloques{apuntado}"
                 
             else:
                 apuntado =graph(file,n,2)
                 if apuntado is not None:
-                    print(f"bloques{id}:<content{i}> -> {apuntado}")
+                    #print(f"bloques{id}:<content{i}> -> {apuntado}")
                     codigo_para_graphviz += f"\nbloques{id}:<content{i}> -> {apuntado}"
     elif object_type== 'FolderBlock':
         for i,n in enumerate(lista):
             if n.b_inodo != -1:
                 apuntado =graph(file,n.b_inodo,0)
                 if apuntado is not None:
-                    print(f"bloques{id}:<content{i}> -> {apuntado}")
+                    #print(f"bloques{id}:<content{i}> -> {apuntado}")
                     codigo_para_graphviz += f"\nbloques{id}:<content{i}> -> {apuntado}"
             
     
