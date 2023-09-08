@@ -411,9 +411,17 @@ def imprimir(obj,index):
     # Print the table
     #print(table)
     return object_type, table, lista,index
-def prettytable_to_html_string(object_type, pt, lista,index):
+current_id = 0
+
+def get_next_id():
+    global current_id
+    current_id += 1
+    return current_id
+def prettytable_to_html_string(object_type, pt, lista,index, object):
+    global current_id
+    get_next_id()
     header_node = f'subgraph cluster_{object_type}{index} {"{"} label = "{object_type}{index}" style = filled fillcolor = "{COLORS[object_type]}"'
-    nodo_tabla = f'\n{id(pt)} [label='
+    nodo_tabla = f'\n{current_id} [label='
     html_string = '''<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4">\n'''
     #html_string += f'  <TR><TD COLSPAN="2">{object_type}</TD></TR>\n'
     # Header
@@ -431,7 +439,7 @@ def prettytable_to_html_string(object_type, pt, lista,index):
 
     html_string += "</TABLE>> shape=box];\n"
     #if list is not none achieve this format bloques [label="{<content0> Content: users.txt | <content1> Content: empty | <content2> Content: empty | <content3> Content: empty}"];
-    bloques = f'\nnode [shape=record];\nbloques{id(pt)} [label='
+    bloques = f'\nnode [shape=record];\nbloques{current_id} [label='
     if lista is not None:
         #print("list is not none")
         #print(list)
@@ -446,11 +454,12 @@ def prettytable_to_html_string(object_type, pt, lista,index):
     if object_type=='FolderBlock':
         total = header_node +  bloques + "}"
 
-    return total,id(pt)
+    return total,current_id
+
 #0 inode, 1 folderblock, 2 fileblock, 3 pointerblock
 def graph(file,inicio, index):
     if inicio == -1:
-        return
+        return None
     file.seek(inicio)
     if index == 0:
         object = Inode.unpack(file.read(Inode.SIZE))
@@ -461,7 +470,8 @@ def graph(file,inicio, index):
     elif index == 3:
         object = PointerBlock.unpack(file.read(PointerBlock.SIZE))
     object_type, pt, lista,index = imprimir(object,inicio)
-    total, id = prettytable_to_html_string(object_type, pt, lista,inicio)
+    total, id = prettytable_to_html_string(object_type, pt, lista,inicio, object)
+    print(f'///////////EL ID ES {id} DEL OBJETO {object_type} CON EL INDICE {inicio}*-*-*-*-*-*-*-*-*-*-*-*-*-*')
     print(total)
     if object_type== 'Inode':
         for i,n in enumerate(lista):
@@ -507,8 +517,8 @@ with open(r'C:\Users\alber\OneDrive\Escritorio\cys\MIA\proyecto1\discos_test\hom
     print("res")
     file.seek(mbr.particiones[0].byte_inicio)
     superblock = Superblock.unpack(file.read(Superblock.SIZE))
-    #primero = graph(file,superblock.s_inode_start,0)
-    #print(f"home -> {primero}")
+    primero = graph(file,superblock.s_inode_start,0)
+    print(f"home -> {primero}")
     #file.seek(superblock.s_inode_start)
     #inodo = Inode.unpack(file.read(Inode.SIZE))
     #inodo2 = Inode.unpack(file.read(Inode.SIZE))
