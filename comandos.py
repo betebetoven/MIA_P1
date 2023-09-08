@@ -22,11 +22,19 @@ mkdisk -size=10 -path="/home/mis discos/Disco4.dsk" -unit=M -fit=WF \n\
                                                               mkusr -user=user3 -pass=usuario -grp=root\
                                                                   mkusr -user=user4 -pass=usuario -grp=root\
                                                                       mkusr -user=user5 -pass=usuario -grp=root\
+                                                                          mkgrp -name=usuarios\
                                                                           mkusr -user=user6 -pass=usuario -grp=root\
                                                                               mkusr -user=user7 -pass=usuario -grp=root\
                                                                                   mkusr -user=user6 -pass=usuario -grp=root\
                                                                                       mkusr -user=user8 -pass=usuario -grp=root\
                                                                                           mkusr -user=user9 -pass=usuario -grp=root\
                                                                                               mkusr -user=user10 -pass=usuario -grp=root\
+                                                                                                 mkgrp -name=usuarios2 \
+                                                                                                     mkgrp -name=usuarios3 \
+                                                                                                         mkgrp -name=usuarios4 \
+                                                                                                             mkgrp -name=usuarios4 \
+                                                                                                                 mkusr -user=mamadas -pass=usuario -grp=usuarios4\
+                                                                                                                     logout\
+                                                  login -user=mamadas -pass=usuario -id=531Disco4\
 '
 #unmount -id=533Disco4 \
