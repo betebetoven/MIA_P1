@@ -3,7 +3,7 @@ import os
 import struct
 import time
 import random
-from mountingusers import load_users_from_content, parse_users, get_user_if_authenticated, get_id_by_group, extract_active_groups
+from mountingusers import load_users_from_content, parse_users, get_user_if_authenticated, get_id_by_group, extract_active_groups,get_group_id
 def mkfs(params, mounted_partitions, users):
     tipo = params.get('type', 'full').lower()
     id = params.get('id', None)
@@ -240,7 +240,7 @@ def makeuser(params, mounted_partitions,id):
         
             
         #print("ESTE ES EL USUARIO QUE SE VA A CREAR")
-        id = get_id_by_group(grupos, group)
+        id = get_group_id(group,grupos22 )
         #texto+='2,G,usuarios\n2,U,usuarios,user1,usuario\n'
         texto += f'{id},U,{group},{user},{password}\n'
         length = len(texto)

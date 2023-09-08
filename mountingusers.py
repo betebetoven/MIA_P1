@@ -90,3 +90,8 @@ def extract_active_groups(text):
             groups.append({'groupname': parts[2], 'id': int(parts[0])})
 
     return groups
+def get_group_id(group_name, groups):
+    for group in groups:
+        if group['groupname'] == group_name:
+            return group['id']
+    return None
