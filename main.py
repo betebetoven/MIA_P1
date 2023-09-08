@@ -388,28 +388,20 @@ ast = parser.parse(comandos)
 from MBR import MBR
 COLORS = {'Inode': 'lightblue', 'Superblock': '#E0E0E0', 'FolderBlock': '#FFCC00', 'FileBlock': 'green', 'PointerBlock': 'orange',  'Content': '#FFCC00'}
 def imprimir(obj,index):
-    # Create a table with two columns: "Attribute" and "Value"
     object_type = type(obj).__name__
-
-    #print(f"Object Type: {object_type}")
+    if object_type == 'FileBlock':
+        obj.b_content = obj.b_content.replace('\x00', '')
+    if object_type == 'FolderBlock':
+        for n in obj.b_content:
+            n.b_name = n.b_name.replace('\x00', '')
     table = PrettyTable(['Attribute', 'Value'])
-
-    # Use the built-in vars() function to get object's attributes
     attributes = vars(obj)
     lista = None
-
-    # Add each attribute and its value as a row in the table
     for attr, value in attributes.items():
-        #if item is not [] type
         if not isinstance(value, list):
             table.add_row([attr, value])
         else:
             lista = value
-            #for i,n in enumerate(value):
-                #table.add_row([f"{attr}[{i}]", n])
-
-    # Print the table
-    #print(table)
     return object_type, table, lista,index
 current_id = 0
 
@@ -423,17 +415,14 @@ def prettytable_to_html_string(object_type, pt, lista,index, object):
     header_node = f'subgraph cluster_{object_type}{index} {"{"} label = "{object_type}{index}" style = filled fillcolor = "{COLORS[object_type]}"'
     nodo_tabla = f'\n{current_id} [label='
     html_string = '''<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4">\n'''
-    #html_string += f'  <TR><TD COLSPAN="2">{object_type}</TD></TR>\n'
-    # Header
     html_string += "  <TR>\n"
     for field in pt._field_names:
         html_string += f"    <TD>{field}</TD>\n"
     html_string += "  </TR>\n"
-
-    # Rows
     for row in pt._rows:
         html_string += "  <TR>\n"
         for cell in row:
+            cell = str(cell).replace("\n", "<BR/>")
             html_string += f"    <TD>{cell}</TD>\n"
         html_string += "  </TR>\n"
 
@@ -441,8 +430,6 @@ def prettytable_to_html_string(object_type, pt, lista,index, object):
     #if list is not none achieve this format bloques [label="{<content0> Content: users.txt | <content1> Content: empty | <content2> Content: empty | <content3> Content: empty}"];
     bloques = f'\nnode [shape=record];\nbloques{current_id} [label='
     if lista is not None:
-        #print("list is not none")
-        #print(list)
         bloques += '"{'
         for i,n in enumerate(lista):
             bloques += f"<content{i}> {n.__str__()} | "
@@ -457,7 +444,9 @@ def prettytable_to_html_string(object_type, pt, lista,index, object):
     return total,current_id
 
 #0 inode, 1 folderblock, 2 fileblock, 3 pointerblock
+codigo_para_graphviz = ''
 def graph(file,inicio, index):
+    global codigo_para_graphviz
     if inicio == -1:
         return None
     file.seek(inicio)
@@ -472,27 +461,33 @@ def graph(file,inicio, index):
     object_type, pt, lista,index = imprimir(object,inicio)
     total, id = prettytable_to_html_string(object_type, pt, lista,inicio, object)
     print(f'///////////EL ID ES {id} DEL OBJETO {object_type} CON EL INDICE {inicio}*-*-*-*-*-*-*-*-*-*-*-*-*-*')
+    codigo_para_graphviz += f'\n///////////EL ID ES {id} DEL OBJETO {object_type} CON EL INDICE {inicio}*-*-*-*-*-*-*-*-*-*-*-*-*-*'
     print(total)
+    codigo_para_graphviz += "\n"+total
     if object_type== 'Inode':
         for i,n in enumerate(lista):
             if object.i_type == '0':
                 apuntado = graph(file,n,1)
                 if apuntado is not None:
                     print(f"bloques{id}:<content{i}> -> bloques{apuntado}")
+                    codigo_para_graphviz += f"\nbloques{id}:<content{i}> -> bloques{apuntado}"
                 
             else:
                 apuntado =graph(file,n,2)
                 if apuntado is not None:
                     print(f"bloques{id}:<content{i}> -> {apuntado}")
+                    codigo_para_graphviz += f"\nbloques{id}:<content{i}> -> {apuntado}"
     elif object_type== 'FolderBlock':
         for i,n in enumerate(lista):
             if n.b_inodo != -1:
                 apuntado =graph(file,n.b_inodo,0)
                 if apuntado is not None:
                     print(f"bloques{id}:<content{i}> -> {apuntado}")
+                    codigo_para_graphviz += f"\nbloques{id}:<content{i}> -> {apuntado}"
             
     
     return id
+
 with open(r'C:\Users\alber\OneDrive\Escritorio\cys\MIA\proyecto1\discos_test\home\mis discos\Disco4.dsk', "rb") as file:
     file.seek(0)
     data = file.read(MBR.SIZE)
@@ -517,8 +512,13 @@ with open(r'C:\Users\alber\OneDrive\Escritorio\cys\MIA\proyecto1\discos_test\hom
     print("res")
     file.seek(mbr.particiones[0].byte_inicio)
     superblock = Superblock.unpack(file.read(Superblock.SIZE))
+    codigo_para_graphviz= ''
     primero = graph(file,superblock.s_inode_start,0)
     print(f"home -> {primero}")
+    codigo_para_graphviz += f"\nhome -> {primero}"
+    with open('graphvizcode.txt', 'w') as f:
+        f.write(f'digraph G {{\n{codigo_para_graphviz}\n}}')
+    
     #file.seek(superblock.s_inode_start)
     #inodo = Inode.unpack(file.read(Inode.SIZE))
     #inodo2 = Inode.unpack(file.read(Inode.SIZE))

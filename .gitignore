@@ -11,3 +11,4 @@ __pycache__/
 
 # Custom ignores for your project
 discos_test/
+graphvizcode.txt
