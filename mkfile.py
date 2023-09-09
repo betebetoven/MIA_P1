@@ -265,7 +265,7 @@ def mkfile(params, mounted_partitions,id, usuario_actual):
                                     nuevo_inodo.i_block[i] = primerbloque+i*64
                                     file.seek(primerbloque+i*64)
                                     file.write(new_fileblock.pack())
-                                nuevo_inodo.i_s = length
+                                nuevo_inodo.i_s = fileblocks*64
                                 file.seek(byte_nuevo_inodo2)
                                 file.write(nuevo_inodo.pack())
                                 file.seek(bitmap_bloques_inicio)
@@ -355,7 +355,7 @@ def mkfile(params, mounted_partitions,id, usuario_actual):
                                     nuevo_inodo.i_block[i] = primerbloque+i*64
                                     file.seek(primerbloque+i*64)
                                     file.write(new_fileblock.pack())
-                                nuevo_inodo.i_s = length
+                                nuevo_inodo.i_s = fileblocks*64
                                 file.seek(byte_nuevo_inodo)
                                 file.write(nuevo_inodo.pack())
                                 file.seek(bitmap_bloques_inicio)
