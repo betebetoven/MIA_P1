@@ -197,7 +197,7 @@ def mkfile(params, mounted_partitions,id, usuario_actual):
                     #_________________________________________________________________
                     nuevo_inodo = Inode()
                     nuevo_inodo.i_uid = int(UID)
-                    nuevo_inodo.I_gid = int(GID)
+                    nuevo_inodo.I_gid = int(GID)    
                     nuevo_inodo.i_s = 0
                     nuevo_inodo.i_perm = 664
                     if not folder_a_escribir.endswith('.txt'):
@@ -213,7 +213,7 @@ def mkfile(params, mounted_partitions,id, usuario_actual):
                         file.seek(bitmap_inodos_inicio)
                         file.write(bitmap_inodos.encode('utf-8'))
                         dict = {'path':'/home'}
-                        #mkfile(params,mounted_partitions,id)
+                        #mkfile(params,mounted_partitions,id, usuario_actual)
                     else:
                         #REVISA LOS BITMAPS AQUI, NO TE CONFIES
                         nuevo_inodo.i_type = '1'
@@ -273,7 +273,7 @@ def mkfile(params, mounted_partitions,id, usuario_actual):
                         file.seek(bitmap_inodos_inicio)
                         file.write(bitmap_inodos.encode('utf-8'))
                         dict = {'path':'/home'}
-                        #mkfile(params,mounted_partitions,id)
+                        #mkfile(params,mounted_partitions,id, usuario_actual)
                     else:
                         #REVISA LOS BITMAPS AQUI, NO TE CONFIES
                         nuevo_inodo.i_type = '1'
@@ -290,8 +290,8 @@ def mkfile(params, mounted_partitions,id, usuario_actual):
                         dict = {'path':'/home'}
                         return
                     #mkfile(dict,mounted_partitions,id)
-                    
-
+    if newI != -1:                
+        mkfile(params,mounted_partitions,id, usuario_actual)
                     
                     
                 #implementar agragar folder o file(da lo mismo reutiliza codigo) si nos encontramos en un slot libre de un inodo
