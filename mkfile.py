@@ -201,7 +201,7 @@ def mkfile(params, mounted_partitions,id, usuario_actual):
                     nuevo_inodo = Inode()
                     nuevo_inodo.i_uid = int(UID)
                     nuevo_inodo.I_gid = int(GID)    
-                    nuevo_inodo.i_s = 0
+                    nuevo_inodo.i_s = int(archivosize)
                     nuevo_inodo.i_perm = 664
                     if not folder_a_escribir.endswith('.txt'):
                         nuevo_inodo.i_block[0] = byte_nuevo_bloque2
@@ -261,7 +261,7 @@ def mkfile(params, mounted_partitions,id, usuario_actual):
                     nuevo_inodo = Inode()
                     nuevo_inodo.i_uid = int(UID)
                     nuevo_inodo.I_gid = int(GID)
-                    nuevo_inodo.i_s = 0
+                    nuevo_inodo.i_s = int(archivosize)
                     nuevo_inodo.i_perm = 664
                     if not folder_a_escribir.endswith('.txt'):
                         nuevo_inodo.i_block[0] = byte_nuevo_bloque
