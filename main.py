@@ -42,7 +42,8 @@ tokens = ( 'MKDISK', 'SIZE', 'PATH', 'UNIT', 'FIT','ENCAJE',
           'MKGRP',
           'RMGRP',
           'RMUSR',
-          'MKFILE')
+          'MKFILE',
+          'MENOSR')
 
 # Ignored characters
 t_ignore = ' \t'
@@ -75,6 +76,7 @@ t_FIT = r'-fit='
 t_TYPE = r'-type='
 t_DELETE = r'-delete='
 t_ADD = r'-add='
+
 
 
 
@@ -127,6 +129,9 @@ def t_CONTRA(t):
 def t_CONTRAFEA(t):
     r'="[a-zA-Z0-9]+"'
     t.value = t.value[2:-1]
+    return t
+def t_MENOSR(t):
+    r'-r'
     return t
 
 
@@ -286,6 +291,12 @@ def p_id(p):
     idnt : ID IDENTIFICADOR
     '''
     p[0] = ('id', p[2])
+def p_menosr(p):
+    '''
+    rnt : MENOSR
+    '''
+    p[0] = ('r', p[1])
+
 def p_param(p):
     '''
     param : sizent
@@ -300,6 +311,7 @@ def p_param(p):
           | usernt
           | passnt
           | grpnt
+          | rnt
           
             
     '''

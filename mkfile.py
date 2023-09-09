@@ -115,6 +115,9 @@ def mkfile(params, mounted_partitions,id, usuario_actual):
             if esta:
                 PI = v
             else:
+                if r != '-r':
+                    print(f'archivo {insidepath} no existe')
+                    return
                 newI = i
                 break
         if newI == -1:
