@@ -6,7 +6,7 @@ from comandos import comandos
 from mount import mount, unmount
 from mkfs import mkfs, login, makeuser, makegroup, remgroup, remuser
 from FORMATEO.ext2.ext2 import Superblock, Inode, FolderBlock, FileBlock, PointerBlock, block, Content
-
+from mkfile import mkfile
 
 # --- Tokenizer
 
@@ -41,7 +41,8 @@ tokens = ( 'MKDISK', 'SIZE', 'PATH', 'UNIT', 'FIT','ENCAJE',
           'GRP',
           'MKGRP',
           'RMGRP',
-          'RMUSR',)
+          'RMUSR',
+          'MKFILE')
 
 # Ignored characters
 t_ignore = ' \t'
@@ -60,6 +61,7 @@ t_MKUSR = r'mkusr'
 t_MKGRP = r'mkgrp'
 t_RMGRP = r'rmgrp'
 t_RMUSR = r'rmusr'
+t_MKFILE = r'mkfile'
 
 t_USER = r'-user'
 t_PASSWORD = r'-pass'
@@ -84,10 +86,10 @@ def t_NUMERO(t):
     return t
 
 def t_DIRECCION(t):
-    r'/[a-zA-Z0-9_\\/:.-]+.dsk'
+    r'/[a-zA-Z0-9_\\/:.-]+(.dsk|.txt)'
     return t
 def t_DIRECCIONFEA(t):
-    r'"/[a-zA-Z0-9_\\/:. -]+.dsk"'
+    r'"/[a-zA-Z0-9_\\/:. -]+(.dsk|.txt)"'
     t.value = t.value[1:-1]  # Strip the double quotes
     return t
 
@@ -178,6 +180,7 @@ def p_expression(p):
                 | mkgrp
                 | rmgrp
                 | rmusr
+                | mkfile
     '''
 
     p[0] = ('binop', p[1])
@@ -411,6 +414,15 @@ def p_rmusr(p):
     else:
         print("Error: You must be logged in as root to use this command")
     p[0] = ('rmusr', p[2])
+def p_mkfile(p):
+    '''
+    mkfile : MKFILE params
+    '''
+    if users != None:
+        mkfile(p[2], mounted_partitions, current_partition)
+    else:
+        print("Error: You must be logged in as root to use this command")
+    p[0] = ('mkfile', p[2])
 
 def p_error(p):
     print(f'Syntax error at {p.value!r}')

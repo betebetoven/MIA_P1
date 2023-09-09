@@ -27,16 +27,18 @@ def busca(file,byte,tipo,x):
         esta = False
         v = None
         for n in folder.b_content:
+            print(f'nombre del nodo {n.b_name} y nombre buscado {x} y numero de inodo {n.b_inodo}')
             if n.b_inodo == -1:
                 continue
-            if n.b_name == x:
+            if n.b_name.rstrip('\x00') == x:
+                print("si son iguales")
                 esta = True
                 v = n.b_inodo
                 break
         return esta,v
     
 def mkfile(params, mounted_partitions,id):
-    print("ESTE ES EL MAKEUSER*************************************************")
+    print("ESTE ES EL MAKEFILE*************************************************")
     #print(params)
     if id == None:
         print("Error: The id is required.")
@@ -70,6 +72,26 @@ def mkfile(params, mounted_partitions,id):
     with open(full_path, "rb+") as file:
         file.seek(inicio)
         superblock = Superblock.unpack(file.read(Superblock.SIZE))
-        file.seek(superblock.s_inode_start)
-        inodo = Inode.unpack(file.read(Inode.SIZE))
+        lista_direcciones = insidepath.split('/')[1:]
+        
+        print(lista_direcciones)
+        PI = superblock.s_inode_start
+        newI = -1
+        for i,n in enumerate(lista_direcciones):
+            esta,v = busca(file,PI,0,n)
+            if esta:
+                PI = v
+            else:
+                newI = i
+                break
+        if newI == -1:
+            print(f'archivo {insidepath} ya existe')
+        else:
+            print(f'archivo {insidepath} no existe')
+            nueva_lista_dirercciones = lista_direcciones[newI:]
+            print(f'ultimo inodo {PI}')
+            print(f'nueva lista de direcciones {nueva_lista_dirercciones}')
+            
+        
+        
         
