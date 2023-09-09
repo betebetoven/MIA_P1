@@ -86,10 +86,10 @@ def t_NUMERO(t):
     return t
 
 def t_DIRECCION(t):
-    r'/[a-zA-Z0-9_\\/:.-]+(.dsk|.txt)'
+    r'/[a-zA-Z0-9_\\/:.-]+(.dsk|.txt)?'
     return t
 def t_DIRECCIONFEA(t):
-    r'"/[a-zA-Z0-9_\\/:. -]+(.dsk|.txt)"'
+    r'"/[a-zA-Z0-9_\\/:. -]+(.dsk|.txt)?"'
     t.value = t.value[1:-1]  # Strip the double quotes
     return t
 

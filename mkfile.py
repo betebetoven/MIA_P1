@@ -204,6 +204,7 @@ def mkfile(params, mounted_partitions,id):
                         file.seek(bitmap_inodos_inicio)
                         file.write(bitmap_inodos.encode('utf-8'))
                         dict = {'path':'/home'}
+                        #mkfile(params,mounted_partitions,id)
                     else:
                         #REVISA LOS BITMAPS AQUI, NO TE CONFIES
                         nuevo_inodo.i_type = '1'
@@ -218,12 +219,14 @@ def mkfile(params, mounted_partitions,id):
                         file.seek(bitmap_inodos_inicio)
                         file.write(bitmap_inodos.encode('utf-8'))
                         dict = {'path':'/home'}
+                        return
                     #mkfile(dict,mounted_partitions,id)
                     
 
                     
                     
-                #si el libre es un bloque, se agrega nombre al bloque y se escribe nuevo inodo y su nuevo bloque
+                #implementar agragar folder o file(da lo mismo reutiliza codigo) si nos encontramos en un slot libre de un inodo
+                #resolver pq no funciona la recursividad para compmlentar toda la direccion necesarai ingresada
                 
                 
         
