@@ -91,7 +91,10 @@ def mkfile(params, mounted_partitions,id):
             nueva_lista_dirercciones = lista_direcciones[newI:]
             print(f'ultimo inodo {PI}')
             print(f'nueva lista de direcciones {nueva_lista_dirercciones}')
-            
+            inodo_inicio = superblock.s_inode_start
+            inodo_size = Inode.SIZE
+            indice = (PI - inodo_inicio) // inodo_size
+            print(f'indice del inodo {indice}')
         
         
         
