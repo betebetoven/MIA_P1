@@ -37,10 +37,10 @@ mkdisk -size=10 -path="/home/mis discos/Disco4.dsk" -unit=M -fit=WF \n\
                                                       rmgrp -name=usuarios\
                                                           rmusr -user=user1\
                                                               mkfile -path=/users.txt\
-                                                                  mkfile -path=/home/users.txt\
+                                                                  mkfile -path=/home.txt/users.txt\
                                                                       mkfile -path=/home2\
                                                                           mkfile -path=/home3\
-                                                                              mkfile -path=/home4\
+                                                                              mkfile -path=/home4.txt\
                                                                                   mkfile -path=/home5\
 '
 #unmount -id=533Disco4 \

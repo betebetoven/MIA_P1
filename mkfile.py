@@ -168,6 +168,73 @@ def mkfile(params, mounted_partitions,id):
                 a,b,c,d = busca_espacio_libre(file,PI,0)
                 if c == 0:
                     print(f'{a}byte libre {b} tipo libre inodo indice libre {d}')
+                    index_bloque_inicial = bitmap_bloques.find('0')
+                    bitmap_bloques=bitmap_bloques[:index_bloque_inicial] + '1' + bitmap_bloques[index_bloque_inicial+1:]
+                    byte_nuevo_bloque = superblock.s_block_start + index_bloque_inicial*block.SIZE
+                    file.seek(b)
+                    inodo_presente = Inode.unpack(file.read(Inode.SIZE))
+                    inodo_presente.i_block[d] = byte_nuevo_bloque
+                    file.seek(b)
+                    file.write(inodo_presente.pack())
+                    nuevo_bloque = FolderBlock()
+                    ####################################
+                    index_bloque = bitmap_bloques.find('0')
+                    index_nodo = bitmap_inodos.find('0')
+                    bitmap_bloques=bitmap_bloques[:index_bloque] + '1' + bitmap_bloques[index_bloque+1:]
+                    bitmap_inodos=bitmap_inodos[:index_nodo] + '1' + bitmap_inodos[index_nodo+1:]
+                    print(bitmap_bloques)
+                    print(bitmap_inodos)
+                    print(f'{a}byte libre {b} tipo libre bloque indice libre {d}')
+                    byte_nuevo_inodo2 = superblock.s_inode_start + index_nodo*Inode.SIZE
+                    byte_nuevo_bloque2 = superblock.s_block_start + index_bloque*block.SIZE
+                    ####################################
+                    nuevo_bloque.b_content[0].b_name = folder_a_escribir
+                    nuevo_bloque.b_content[0].b_inodo = byte_nuevo_inodo2
+                    file.seek(byte_nuevo_bloque)
+                    file.write(nuevo_bloque.pack())
+                    #_________________________________________________________________
+                    nuevo_inodo = Inode()
+                    nuevo_inodo.i_uid = 1
+                    nuevo_inodo.i_gid = 1
+                    nuevo_inodo.i_size = 0
+                    nuevo_inodo.i_perm = 664
+                    if not folder_a_escribir.endswith('.txt'):
+                        nuevo_inodo.i_block[0] = byte_nuevo_bloque2
+                        file.seek(byte_nuevo_inodo2)
+                        file.write(nuevo_inodo.pack())
+                        nuevo_bloque = FolderBlock()
+                        file.seek(byte_nuevo_bloque2)
+                        file.write(nuevo_bloque.pack())
+                        #escribe de nuevo los bitmaps
+                        file.seek(bitmap_bloques_inicio)
+                        file.write(bitmap_bloques.encode('utf-8'))
+                        file.seek(bitmap_inodos_inicio)
+                        file.write(bitmap_inodos.encode('utf-8'))
+                        dict = {'path':'/home'}
+                        #mkfile(params,mounted_partitions,id)
+                    else:
+                        #REVISA LOS BITMAPS AQUI, NO TE CONFIES
+                        nuevo_inodo.i_type = '1'
+                        file.seek(byte_nuevo_inodo2)
+                        file.write(nuevo_inodo.pack())
+                        #nuevo_bloque = FileBlock()
+                        #file.seek(byte_nuevo_bloque)
+                        #file.write(nuevo_bloque.pack())
+                        #escribe de nuevo los bitmaps
+                        file.seek(bitmap_bloques_inicio)
+                        file.write(bitmap_bloques.encode('utf-8'))
+                        file.seek(bitmap_inodos_inicio)
+                        file.write(bitmap_inodos.encode('utf-8'))
+                        dict = {'path':'/home'}
+                        return
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
                 elif c == 1:
                     #solo se necesita un inodo y un folderblock nuevos
                     index_bloque = bitmap_bloques.find('0')
