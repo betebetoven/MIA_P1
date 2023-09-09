@@ -1,6 +1,6 @@
 comandos = '\
 mkdisk -size=10 -path="/home/mis discos/Disco4.dsk" -unit=M -fit=WF \n\
-    fdisk -size=10 -path="/home/mis discos/Disco4.dsk" -name=laprimera -type=P\
+    fdisk -size=150 -path="/home/mis discos/Disco4.dsk" -name=laprimera -type=P\
         fdisk -size=100 -type=E -unit=K -path="/home/mis discos/Disco4.dsk" -name=lasegunda -fit=BF \
             fdisk -size=10 -type=P -unit=K -path="/home/mis discos/Disco4.dsk" -name=latercera -fit=WF \
                 fdisk -size=300 -type=P -unit=K -path="/home/mis discos/Disco4.dsk" -name=lacuarta -fit=FF \
@@ -42,5 +42,10 @@ mkdisk -size=10 -path="/home/mis discos/Disco4.dsk" -unit=M -fit=WF \n\
                                                                           mkfile -path=/home3\
                                                                               mkfile -path=/home4.txt\
                                                                                   mkfile -path=/home5\
+                                                                                      mkfile -path=/home5/ejemplo.txt\
+                                                                                          mkfile -path=/home5/ejemplo2\
+                                                                                              mkfile -path=/home5/ejemplo3.txt\
+                                                                                                  mkfile -path=/home5/ejemplo4.txt\
+                                                                                                      mkfile -path=/home5/ejemplo5.txt\
 '
 #unmount -id=533Disco4 \
