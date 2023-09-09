@@ -419,7 +419,7 @@ def p_mkfile(p):
     mkfile : MKFILE params
     '''
     if users != None:
-        mkfile(p[2], mounted_partitions, current_partition)
+        mkfile(p[2], mounted_partitions, current_partition, users)
     else:
         print("Error: You must be logged in as root to use this command")
     p[0] = ('mkfile', p[2])

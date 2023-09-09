@@ -68,7 +68,9 @@ def busca_espacio_libre(file,byte,tipo):
             
         return False, None, None,None    
     
-def mkfile(params, mounted_partitions,id):
+def mkfile(params, mounted_partitions,id, usuario_actual):
+    UID = usuario_actual['id']
+    GID = UID
     print("ESTE ES EL MAKEFILE*************************************************")
     #print(params)
     if id == None:
@@ -194,9 +196,9 @@ def mkfile(params, mounted_partitions,id):
                     file.write(nuevo_bloque.pack())
                     #_________________________________________________________________
                     nuevo_inodo = Inode()
-                    nuevo_inodo.i_uid = 1
-                    nuevo_inodo.i_gid = 1
-                    nuevo_inodo.i_size = 0
+                    nuevo_inodo.i_uid = int(UID)
+                    nuevo_inodo.I_gid = int(GID)
+                    nuevo_inodo.i_s = 0
                     nuevo_inodo.i_perm = 664
                     if not folder_a_escribir.endswith('.txt'):
                         nuevo_inodo.i_block[0] = byte_nuevo_bloque2
@@ -254,9 +256,9 @@ def mkfile(params, mounted_partitions,id):
                     file.seek(b)
                     file.write(bloque_actual.pack())
                     nuevo_inodo = Inode()
-                    nuevo_inodo.i_uid = 1
-                    nuevo_inodo.i_gid = 1
-                    nuevo_inodo.i_size = 0
+                    nuevo_inodo.i_uid = int(UID)
+                    nuevo_inodo.I_gid = int(GID)
+                    nuevo_inodo.i_s = 0
                     nuevo_inodo.i_perm = 664
                     if not folder_a_escribir.endswith('.txt'):
                         nuevo_inodo.i_block[0] = byte_nuevo_bloque
