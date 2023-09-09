@@ -43,7 +43,8 @@ tokens = ( 'MKDISK', 'SIZE', 'PATH', 'UNIT', 'FIT','ENCAJE',
           'RMGRP',
           'RMUSR',
           'MKFILE',
-          'MENOSR')
+          'MENOSR',
+          'CONT')
 
 # Ignored characters
 t_ignore = ' \t'
@@ -69,6 +70,7 @@ t_PASSWORD = r'-pass'
 t_GRP = r'-grp'
 t_NAME = r'-name'
 t_ID = r'-id'
+t_CONT = r'-cont'
 t_SIZE = r'-size='
 t_PATH = r'-path='
 t_UNIT = r'-unit='
@@ -251,6 +253,16 @@ def p_path(p):
     pathnt : PATH DIRECCION
     '''
     p[0] = ('path', p[2])    
+def p_cont(p):
+    '''
+    contnt : CONT DIRECCION
+    '''
+    p[0] = ('cont', p[2])
+def p_cont2(p):
+    '''
+    contnt : CONT DIRECCIONFEA
+    '''
+    p[0] = ('cont', p[2])
 def p_tipo(p):
     '''
     typent : TYPE TIPO
@@ -312,6 +324,7 @@ def p_param(p):
           | passnt
           | grpnt
           | rnt
+          | contnt
           
             
     '''

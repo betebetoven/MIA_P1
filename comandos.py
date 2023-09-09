@@ -38,7 +38,11 @@ mkdisk -size=10 -path="/home/mis discos/Disco4.dsk" -unit=M -fit=WF \n\
                                                           rmusr -user=user1\
                                                               mkfile -path=/users.txt\
                                                                   mkfile -path=/home/documents/papers/archivos.txt -r -size=10\
-                                                                      mkfile -path=/home/documents/papers/mentos/mentos.txt -r\
+                                                                      mkfile -path=/home/documents/papers/mentos/kk -r \
+                                                                          mkfile -path=/home/documents/papers/mentos/kk1 -r \
+                                                                              mkfile -path=/home/documents/papers/mentos/kk2 -r \
+                                                                                  mkfile -path=/home/documents/papers/mentos/kk3 -r \
+                                                                      mkfile -path=/home/documents/papers/mentos/mentos.txt -r -cont=/contenido.txt\
                                                                           mkfile -path=/home2/documents/papers/mentos/mentos2.txt -r\
                         '
 #unmount -id=533Disco4 \

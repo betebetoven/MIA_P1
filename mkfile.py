@@ -66,7 +66,19 @@ def busca_espacio_libre(file,byte,tipo):
             if n.b_inodo == -1 and n.b_name.rstrip('\x00') == "empty":
                 return True,byte,tipo,i
             
-        return False, None, None,None    
+        return False, None, None,None 
+def get_file_content(partial_path):
+    current_directory = os.getcwd()
+    full_path = full_path= f'{current_directory}{partial_path}'
+    
+    if not os.path.exists(full_path):
+        print(f"Error: The file {full_path} does not exist.")
+        return ''
+
+    with open(full_path, 'r') as file:
+        content = file.read()
+
+    return content   
     
 def mkfile(params, mounted_partitions,id, usuario_actual):
     UID = usuario_actual['id']
@@ -81,6 +93,9 @@ def mkfile(params, mounted_partitions,id, usuario_actual):
         r = params.get('r', '/')
         archivosize = params.get('size', 0)
         archivocont = params.get('cont', '')
+        if archivocont != '':
+            archivocont = get_file_content(archivocont)
+            print(archivocont)
     except:
         print("Error: The user, password and group are required.")
         return
@@ -231,6 +246,36 @@ def mkfile(params, mounted_partitions,id, usuario_actual):
                         file.seek(bitmap_inodos_inicio)
                         file.write(bitmap_inodos.encode('utf-8'))
                         dict = {'path':'/home'}
+                        #NOW WRITE THE CONTENT OF THE FILE IF ARCHIVOCONT IS NOT EMPTY
+                        if archivocont!='':
+                            
+                            length = len(archivocont)
+                            fileblocks = length//64
+                            if length%64 != 0:
+                                fileblocks += 1
+                            indice_bloque = bitmap_bloques.find('0'*fileblocks)
+                            bitmap_bloques = bitmap_bloques[:indice_bloque] + '1'*fileblocks + bitmap_bloques[indice_bloque+fileblocks:]
+                            if fileblocks<=12:
+                                texto = archivocont 
+                                chunks = [texto[i:i+64] for i in range(0, len(texto), 64)]
+                                primerbloque = superblock.s_block_start + indice_bloque*block.SIZE
+                                for i,n in enumerate(chunks):
+                                    new_fileblock = FileBlock()
+                                    new_fileblock.b_content = n
+                                    nuevo_inodo.i_block[i] = primerbloque+i*64
+                                    file.seek(primerbloque+i*64)
+                                    file.write(new_fileblock.pack())
+                                nuevo_inodo.i_s = length
+                                file.seek(byte_nuevo_inodo2)
+                                file.write(nuevo_inodo.pack())
+                                file.seek(bitmap_bloques_inicio)
+                                file.write(bitmap_bloques.encode('utf-8'))
+                        
+                        
+                        
+                        
+                        
+                        
                         return
                     
                     
@@ -291,6 +336,35 @@ def mkfile(params, mounted_partitions,id, usuario_actual):
                         file.seek(bitmap_inodos_inicio)
                         file.write(bitmap_inodos.encode('utf-8'))
                         dict = {'path':'/home'}
+                        #NOW WRITE THE CONTENT OF THE FILE IF ARCHIVOCONT IS NOT EMPTY
+                        if archivocont!='':
+                            
+                            length = len(archivocont)
+                            fileblocks = length//64
+                            if length%64 != 0:
+                                fileblocks += 1
+                            indice_bloque = bitmap_bloques.find('0'*fileblocks)
+                            bitmap_bloques = bitmap_bloques[:indice_bloque] + '1'*fileblocks + bitmap_bloques[indice_bloque+fileblocks:]
+                            if fileblocks<=12:
+                                texto = archivocont 
+                                chunks = [texto[i:i+64] for i in range(0, len(texto), 64)]
+                                primerbloque = superblock.s_block_start + indice_bloque*block.SIZE
+                                for i,n in enumerate(chunks):
+                                    new_fileblock = FileBlock()
+                                    new_fileblock.b_content = n
+                                    nuevo_inodo.i_block[i] = primerbloque+i*64
+                                    file.seek(primerbloque+i*64)
+                                    file.write(new_fileblock.pack())
+                                nuevo_inodo.i_s = length
+                                file.seek(byte_nuevo_inodo)
+                                file.write(nuevo_inodo.pack())
+                                file.seek(bitmap_bloques_inicio)
+                                file.write(bitmap_bloques.encode('utf-8'))
+                        
+                        
+                        
+                        
+                        
                         return
                     #mkfile(dict,mounted_partitions,id)
     if newI != -1:                
