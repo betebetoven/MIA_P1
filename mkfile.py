@@ -27,15 +27,16 @@ def busca(file,byte,tipo,x):
         esta = False
         v = None
         for n in folder.b_content:
-            print(f'nombre del nodo {n.b_name} y nombre buscado {x} y numero de inodo {n.b_inodo}')
+            #print(f'nombre del nodo {n.b_name} y nombre buscado {x} y numero de inodo {n.b_inodo}')
             if n.b_inodo == -1:
                 continue
             if n.b_name.rstrip('\x00') == x:
-                print("si son iguales")
+                #print("si son iguales")
                 esta = True
                 v = n.b_inodo
                 break
         return esta,v
+
 def busca_espacio_libre(file,byte,tipo):
     x = -1
     if tipo == 0:
@@ -62,7 +63,7 @@ def busca_espacio_libre(file,byte,tipo):
         tipo_libre = 1
         indice_libre    = None
         for i,n in enumerate(folder.b_content):
-            print(f'nombre del nodo {n.b_name} y nombre buscado {x} y numero de inodo {n.b_inodo}')
+            #print(f'nombre del nodo {n.b_name} y nombre buscado {x} y numero de inodo {n.b_inodo}')
             if n.b_inodo == -1 and n.b_name.rstrip('\x00') == "empty":
                 return True,byte,tipo,i
             
@@ -95,7 +96,7 @@ def mkfile(params, mounted_partitions,id, usuario_actual):
         archivocont = params.get('cont', '')
         if archivocont != '':
             archivocont = get_file_content(archivocont)
-            print(archivocont)
+            #print(archivocont)
     except:
         print("Error: The user, password and group are required.")
         return
@@ -122,7 +123,7 @@ def mkfile(params, mounted_partitions,id, usuario_actual):
         superblock = Superblock.unpack(file.read(Superblock.SIZE))
         lista_direcciones = insidepath.split('/')[1:]
         ##########################################################
-        print(lista_direcciones)
+        #print(lista_direcciones)
         PI = superblock.s_inode_start
         newI = -1
         for i,n in enumerate(lista_direcciones):
@@ -375,6 +376,83 @@ def mkfile(params, mounted_partitions,id, usuario_actual):
                 #resolver pq no funciona la recursividad para compmlentar toda la direccion necesarai ingresada
                 
                 
-        
+def cat(params, mounted_partitions,id, usuario_actual):  
+    
+    if id == None:
+        print("Error: The id is required.")
+        return
+    insidepaths = []  
+    insidepath1 = params.get('file1', '')
+    if insidepath1 != '':
+        insidepaths.append(insidepath1)
+    insidepath2 = params.get('file2', '')
+    if insidepath2 != '':
+        insidepaths.append(insidepath2)
+    insidepath3 = params.get('file3', '')
+    if insidepath3 != '':
+        insidepaths.append(insidepath3)
+    insidepath4 = params.get('file4', '')
+    if insidepath4 != '':
+        insidepaths.append(insidepath4)
+    for n in insidepaths:
+        print(n)
+    partition = None
+    for partition_dict in mounted_partitions:
+        if id in partition_dict:
+            partition = partition_dict[id]
+            break
+    if not partition:
+        print(f"Error: The partition with id {id} does not exist.")
+        return
+    # Retrieve partition details.
+    path = partition['path']
+    inicio = partition['inicio']
+    size = partition['size']
+    filename = path
+    current_directory = os.getcwd()
+    full_path= f'{current_directory}/discos_test{filename}'
+    if not os.path.exists(full_path):
+        print(f"Error: The file {full_path} does not exist.")
+        return
+    with open(full_path, "rb+") as file:
+        file.seek(inicio)
+        superblock = Superblock.unpack(file.read(Superblock.SIZE))
+        for insidepath in insidepaths:
+            print(f'\n\nCAT DE {insidepath} ')
+            lista_direcciones = insidepath.split('/')[1:]
+            ##########################################################
+            PI = superblock.s_inode_start
+            newI = -1
+            for i,n in enumerate(lista_direcciones):
+                esta,v = busca(file,PI,0,n)
+                if esta:
+                    PI = v
+                else:
+                    print(f'archivo {insidepath} no existe')
+                    newI = i
+                    break
+            if newI == -1:
+                print("#############################################")
+                print(f'archivo {insidepath} ya existe')
+                print(f'byte del inodo {PI}')
+                file.seek(PI)
+                inodo = Inode.unpack(file.read(Inode.SIZE))
+                print(inodo)
+                #print(inodo.i_block)
+                print("#############################################")
+                texto = ''
+                for n in inodo.i_block:
+                    if n == -1:
+                        continue
+                    file.seek(n)
+                    bloque = FileBlock.unpack(file.read(FileBlock.SIZE))
+                    texto +=bloque.b_content.strip('\x00')
+                print(texto)
+                print("#############################################")
+                
+                
+            ##########################################################
+    
+       
         
         

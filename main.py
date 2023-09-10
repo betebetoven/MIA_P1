@@ -6,7 +6,7 @@ from comandos import comandos
 from mount import mount, unmount
 from mkfs import mkfs, login, makeuser, makegroup, remgroup, remuser
 from FORMATEO.ext2.ext2 import Superblock, Inode, FolderBlock, FileBlock, PointerBlock, block, Content
-from mkfile import mkfile
+from mkfile import mkfile, cat
 
 # --- Tokenizer
 
@@ -44,7 +44,12 @@ tokens = ( 'MKDISK', 'SIZE', 'PATH', 'UNIT', 'FIT','ENCAJE',
           'RMUSR',
           'MKFILE',
           'MENOSR',
-          'CONT')
+          'CONT',
+          'CAT',
+          'FILE1',
+          'FILE2',
+          'FILE3',
+          'FILE4',)
 
 # Ignored characters
 t_ignore = ' \t'
@@ -64,13 +69,19 @@ t_MKGRP = r'mkgrp'
 t_RMGRP = r'rmgrp'
 t_RMUSR = r'rmusr'
 t_MKFILE = r'mkfile'
+t_CAT = r'cat'
 
 t_USER = r'-user'
 t_PASSWORD = r'-pass'
 t_GRP = r'-grp'
 t_NAME = r'-name'
 t_ID = r'-id'
-t_CONT = r'-cont'
+t_CONT = r'-cont='
+t_FILE1 = r'-file1='
+t_FILE2 = r'-file2='
+t_FILE3 = r'-file3='
+t_FILE4 = r'-file4='
+
 t_SIZE = r'-size='
 t_PATH = r'-path='
 t_UNIT = r'-unit='
@@ -188,6 +199,7 @@ def p_expression(p):
                 | rmgrp
                 | rmusr
                 | mkfile
+                | cat
     '''
 
     p[0] = ('binop', p[1])
@@ -263,6 +275,46 @@ def p_cont2(p):
     contnt : CONT DIRECCIONFEA
     '''
     p[0] = ('cont', p[2])
+def p_file1(p):
+    '''
+    file1nt : FILE1 DIRECCION
+    '''
+    p[0] = ('file1', p[2])
+def p_file2(p):
+    '''
+    file2nt : FILE2 DIRECCION
+    '''
+    p[0] = ('file2', p[2])
+def p_file3(p):
+    '''
+    file3nt : FILE3 DIRECCION
+    '''
+    p[0] = ('file3', p[2])
+def p_file4(p):
+    '''
+    file4nt : FILE4 DIRECCION
+    '''
+    p[0] = ('file4', p[2])
+def p_fil12(p):
+    '''
+    file1nt : FILE1 DIRECCIONFEA
+    '''
+    p[0] = ('file1', p[2])
+def p_file22(p):
+    '''
+    file2nt : FILE2 DIRECCIONFEA
+    '''
+    p[0] = ('file2', p[2])
+def p_file32(p):
+    '''
+    file3nt : FILE3 DIRECCIONFEA
+    '''
+    p[0] = ('file3', p[2])
+def p_file42(p):
+    '''
+    file4nt : FILE4 DIRECCIONFEA
+    '''
+    p[0] = ('file4', p[2])
 def p_tipo(p):
     '''
     typent : TYPE TIPO
@@ -325,6 +377,11 @@ def p_param(p):
           | grpnt
           | rnt
           | contnt
+          | file1nt
+          | file2nt
+          | file3nt
+          | file4nt
+            
           
             
     '''
@@ -448,6 +505,15 @@ def p_mkfile(p):
     else:
         print("Error: You must be logged in as root to use this command")
     p[0] = ('mkfile', p[2])
+def p_cat(p):
+    '''
+    cat : CAT params
+    '''
+    if users != None:
+        cat(p[2], mounted_partitions, current_partition, users)
+    else:
+        print("Error: You must be logged in as root to use this command")
+    p[0] = ('cat', p[2])
 
 def p_error(p):
     print(f'Syntax error at {p.value!r}')

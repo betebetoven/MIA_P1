@@ -44,5 +44,7 @@ mkdisk -size=10 -path="/home/mis discos/Disco4.dsk" -unit=M -fit=WF \n\
                                                                                   mkfile -path=/home/documents/papers/mentos/kk3 -r \
                                                                       mkfile -path=/home/documents/papers/mentos/mentos.txt -r -cont=/contenido.txt\
                                                                           mkfile -path=/home2/documents/papers/mentos/mentos2.txt -r\
-                        '
+                                                                              cat -file1=/home/documents/papers/mentos/mentos.txt -file2=/home2/documents/papers/mentos/mentos2.txt  -file3=/home/documents/speedy.txt\
+                        cat -file1=/home/documents/papers/mentos/mentos.txt -file2=/home2/documents/papers/mentos/mentos2.txt  -file3=/home/documents/speedy.txt\
+                        '                               
 #unmount -id=533Disco4 \
