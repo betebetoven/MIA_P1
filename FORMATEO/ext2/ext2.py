@@ -20,7 +20,7 @@ class Inode:
         self.i_block = [-1] * 15
         self.i_perm = 0  # define permissions as required
     def __str__(self) -> str:
-        return f"Inode: uid={self.i_uid}, gid={self.I_gid}, size={self.i_s}, atime={self.i_atime}, ctime={self.i_ctime}, mtime={self.i_mtime}, type={self.i_type}, block={self.i_block}, perm={self.i_perm}"
+        return f"\nInode: uid={self.i_uid},\n gid={self.I_gid},\n size={self.i_s},\n atime={self.i_atime},\n ctime={self.i_ctime},\n mtime={self.i_mtime},\n type={self.i_type},\n block={self.i_block},\n perm={self.i_perm}"
     def pack(self):
         packed_inode = struct.pack(self.FORMAT, self.i_uid, self.I_gid, self.i_s, self.i_atime, self.i_ctime, self.i_mtime, self.i_type.encode('utf-8'), *self.i_block, self.i_perm)
         return packed_inode
