@@ -49,5 +49,6 @@ mkdisk -size=10 -path="/home/mis discos/Disco4.dsk" -unit=M -fit=WF \n\
                                     mkfile -path=/casa" -r\
                                          mkdir -path=/carro" -r\
                                              rename -path=/carro -name=carrititito\
+                                                 edit -path=/home2/documents/papers/mentos/mentos2.txt -cont=/contenido_editado.txt -r\
                         '                               
 #unmount -id=533Disco4 \

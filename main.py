@@ -123,7 +123,8 @@ tokens = ( 'MKDISK', 'SIZE', 'PATH', 'UNIT', 'FIT','ENCAJE',
           'FILE3',
           'FILE4',
           'REMOVE',
-          'RENAME')
+          'RENAME',
+          'EDIT')
 
 # Ignored characters
 t_ignore = ' \t'
@@ -146,6 +147,7 @@ t_MKFILE = r'mkfile|mkdir'
 t_CAT = r'cat'
 t_REMOVE = r'remove'
 t_RENAME = r'rename'
+t_EDIT = r'edit'
 
 t_USER = r'-user'
 t_PASSWORD = r'-pass'
@@ -278,6 +280,7 @@ def p_expression(p):
                 | cat
                 | remove
                 | rename
+                | edit
     '''
 
     p[0] = ('binop', p[1])
@@ -618,6 +621,17 @@ def p_rename(p):
     else:
         print("Error: You must be logged in to use this command")
     p[0] = ('rename', p[2])
+def p_edit(p):
+    '''
+    edit : EDIT params
+    '''
+    if users != None:
+        remove(p[2], mounted_partitions, current_partition, users)
+        mkfile(p[2], mounted_partitions, current_partition, users)
+        ver_bitmaps('edit',mounted_partitions, current_partition)
+    else:
+        print("Error: You must be logged in to use this command")
+    p[0] = ('edit', p[2])
 def p_error(p):
     print(f'Syntax error at {p.value!r}')
 
