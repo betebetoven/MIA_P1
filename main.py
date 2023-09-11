@@ -6,7 +6,7 @@ from comandos import comandos
 from mount import mount, unmount
 from mkfs import mkfs, login, makeuser, makegroup, remgroup, remuser
 from FORMATEO.ext2.ext2 import Superblock, Inode, FolderBlock, FileBlock, PointerBlock, block, Content
-from mkfile import mkfile, cat
+from mkfile import mkfile, cat, remove
 
 # --- Tokenizer
 
@@ -49,7 +49,8 @@ tokens = ( 'MKDISK', 'SIZE', 'PATH', 'UNIT', 'FIT','ENCAJE',
           'FILE1',
           'FILE2',
           'FILE3',
-          'FILE4',)
+          'FILE4',
+          'REMOVE',)
 
 # Ignored characters
 t_ignore = ' \t'
@@ -70,6 +71,7 @@ t_RMGRP = r'rmgrp'
 t_RMUSR = r'rmusr'
 t_MKFILE = r'mkfile'
 t_CAT = r'cat'
+t_REMOVE = r'remove'
 
 t_USER = r'-user'
 t_PASSWORD = r'-pass'
@@ -200,6 +202,7 @@ def p_expression(p):
                 | rmusr
                 | mkfile
                 | cat
+                | remove
     '''
 
     p[0] = ('binop', p[1])
@@ -512,8 +515,17 @@ def p_cat(p):
     if users != None:
         cat(p[2], mounted_partitions, current_partition, users)
     else:
-        print("Error: You must be logged in as root to use this command")
+        print("Error: You must be logged in to use this command")
     p[0] = ('cat', p[2])
+def p_remove(p):
+    '''
+    remove : REMOVE params
+    '''
+    if users != None:
+        remove(p[2], mounted_partitions, current_partition, users)
+    else:
+        print("Error: You must be logged in to use this command")
+    p[0] = ('remove', p[2])
 
 def p_error(p):
     print(f'Syntax error at {p.value!r}')

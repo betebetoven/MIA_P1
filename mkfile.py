@@ -36,6 +36,68 @@ def busca(file,byte,tipo,x):
                 v = n.b_inodo
                 break
         return esta,v
+def busca_reseteabloque(file,byte,tipo,x):
+    if tipo == 0:
+        file.seek(byte)
+        inodo = Inode.unpack(file.read(Inode.SIZE))
+        if inodo.i_type == 1:
+            return False, None
+        esta = False
+        v = None
+        for n in inodo.i_block:
+            if n == -1:
+                continue
+            esta,v = busca_reseteabloque(file,n,1,x)
+            if esta:
+                break
+        return esta,v
+    elif tipo == 1:
+        file.seek(byte)
+        folder = FolderBlock.unpack(file.read(FolderBlock.SIZE))
+        esta = False
+        v = None
+        for i,n in enumerate(folder.b_content):
+            #print(f'nombre del nodo {n.b_name} y nombre buscado {x} y numero de inodo {n.b_inodo}')
+            if n.b_inodo == -1:
+                continue
+            if n.b_name.rstrip('\x00') == x:
+                #print("si son iguales")
+                esta = True
+                v = n.b_inodo
+                folder.b_content[i].b_name = 'empty'
+                folder.b_content[i].b_inodo = -1
+                file.seek(byte)
+                file.write(folder.pack())
+                break
+        return esta,v
+def recupera_todos_los_bytes(file,byte,tipo, lista_inodos, lista_bloques):
+    #print("entra a recupera con byte ", byte, " y tipo ", tipo)
+    if tipo == 0:
+        file.seek(byte)
+        inodo = Inode.unpack(file.read(Inode.SIZE))
+        lista_inodos.append(byte)
+        #print(inodo)
+        #print(f'inodo {byte}')
+        for n in inodo.i_block:
+            if n != -1:
+                if inodo.i_type == '0':
+                    recupera_todos_los_bytes(file,n,1,lista_inodos, lista_bloques)  
+                elif inodo.i_type == '1':
+                    #print(f'bloque {n}')
+                    lista_bloques.append(n)
+    elif tipo == 1:
+        file.seek(byte)
+        folder = FolderBlock.unpack(file.read(FolderBlock.SIZE))
+        lista_bloques.append(byte)
+        #print(f'bloque {byte}')
+        for n in folder.b_content:
+            if n.b_inodo != -1:
+                recupera_todos_los_bytes(file,n.b_inodo,0,lista_inodos, lista_bloques)
+
+def byte_to_index(byte, inicio, size):
+    return (byte - inicio) // size               
+
+        
 
 def busca_espacio_libre(file,byte,tipo):
     x = -1
@@ -430,7 +492,7 @@ def cat(params, mounted_partitions,id, usuario_actual):
                 else:
                     print(f'archivo {insidepath} no existe')
                     newI = i
-                    break
+                    return
             if newI == -1:
                 print("#############################################")
                 print(f'archivo {insidepath} ya existe')
@@ -453,6 +515,63 @@ def cat(params, mounted_partitions,id, usuario_actual):
                 
             ##########################################################
     
-       
+def remove(params, mounted_partitions,id, usuario_actual):  
+    print(f'remove {params}')
+    if id == None:
+        print("Error: The id is required.")
+        return
+    try: 
+        insidepath = params['path']
+    except:
+        print("Error:Path must be specified.")
+        return
+    partition = None
+    for partition_dict in mounted_partitions:
+        if id in partition_dict:
+            partition = partition_dict[id]
+            break
+    if not partition:
+        print(f"Error: The partition with id {id} does not exist.")
+        return
+    # Retrieve partition details.
+    path = partition['path']
+    inicio = partition['inicio']
+    size = partition['size']
+    filename = path
+    current_directory = os.getcwd()
+    full_path= f'{current_directory}/discos_test{filename}'
+    if not os.path.exists(full_path):
+        print(f"Error: The file {full_path} does not exist.")
+        return
+    with open(full_path, "rb+") as file:
+        file.seek(inicio)
+        superblock = Superblock.unpack(file.read(Superblock.SIZE))
         
+        lista_direcciones = insidepath.split('/')[1:]
+        PI = superblock.s_inode_start
+        for i,n in enumerate(lista_direcciones):
+            if i == len(lista_direcciones)-1:
+                esta,v = busca_reseteabloque(file,PI,0,n)
+            else:
+                esta,v = busca(file,PI,0,n)
+            if esta:
+                PI = v
+            else:
+                print(f'archivo {insidepath} no existe')
+                return
+        inodos = []
+        bloques = []
+        recupera_todos_los_bytes(file,PI,0,inodos,bloques)
+        print(inodos)
+        print(bloques)
+        index_inodos = []
+        for n in inodos:
+            index_inodos.append(byte_to_index(n,superblock.s_inode_start,Inode.SIZE))
+        index_bloques = []
+        for n in bloques:
+            index_bloques.append(byte_to_index(n,superblock.s_block_start,block.SIZE))
+        print(index_inodos)
+        print(index_bloques)
+        
+    
         
