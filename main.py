@@ -7,6 +7,78 @@ from mount import mount, unmount
 from mkfs import mkfs, login, makeuser, makegroup, remgroup, remuser
 from FORMATEO.ext2.ext2 import Superblock, Inode, FolderBlock, FileBlock, PointerBlock, block, Content
 from mkfile import mkfile, cat, remove
+import struct
+import os
+mapa_de_bytes = []
+contador_historial_mapa_de_bytes= 0
+def ver_bitmaps(instruccion, mounted_partitions, id):
+    partition = None
+    for partition_dict in mounted_partitions:
+        if id in partition_dict:
+            partition = partition_dict[id]
+            break
+    if not partition:
+        print(f"Error: The partition with id {id} does not exist.")
+        return
+    # Retrieve partition details.
+    path = partition['path']
+    inicio = partition['inicio']
+    size = partition['size']
+    filename = path
+    current_directory = os.getcwd()
+    full_path= f'{current_directory}/discos_test{filename}'
+    if not os.path.exists(full_path):
+        print(f"Error: The file {full_path} does not exist.")
+        return
+    with open(full_path, "rb+") as file:
+        file.seek(inicio)
+        superblock = Superblock.unpack(file.read(Superblock.SIZE))
+        #ver bitmaps
+        print("Bitmap de inodos")
+        bitmap_bloques_inicio = superblock.s_bm_block_start
+        cantidad_bloques = superblock.s_blocks_count
+        FORMAT = f'{cantidad_bloques}s'
+        SIZE = struct.calcsize(FORMAT)
+        file.seek(bitmap_bloques_inicio)
+        bitmap_bloques = struct.unpack(FORMAT, file.read(SIZE))
+        bitmap_bloques=bitmap_bloques[0].decode('utf-8')
+        bitmap_inodos_inicio = superblock.s_bm_inode_start
+        cantidad_inodos = superblock.s_inodes_count
+        FORMAT = f'{cantidad_inodos}s'
+        SIZE = struct.calcsize(FORMAT)
+        file.seek(bitmap_inodos_inicio)
+        bitmap_inodos = struct.unpack(FORMAT, file.read(SIZE))
+        bitmap_inodos=bitmap_inodos[0].decode('utf-8')
+        texto =f'\nInstruccion: {instruccion.upper()}'
+        texto +="\n______ESTADO BITMAPS______"
+        texto +="\nbloques"
+        texto +="\n"+bitmap_bloques
+        texto +="\ninodos"
+        texto +="\n"+bitmap_inodos
+        texto +="\n______FIN ESTADO BITMAPS______"
+        global contador_historial_mapa_de_bytes
+        inodo_dot = generate_dot(instruccion,bitmap_inodos, "inodo", contador_historial_mapa_de_bytes)
+        bloque_dot = generate_dot(instruccion,bitmap_bloques, "bloque", contador_historial_mapa_de_bytes)
+        global mapa_de_bytes
+        mapa_de_bytes.append((inodo_dot, bloque_dot))
+        contador_historial_mapa_de_bytes += 1
+import math
+
+def generate_dot(instruccion, bitmap, label, contador):
+    length = len(bitmap)
+    rows = math.ceil(math.sqrt(length))
+    
+    # Split the bitmap string into rows
+    split_bitmap = [bitmap[i:i+rows] for i in range(0, length, rows)]
+    
+    # Join the split rows with <br> tags
+    formatted_bitmap = '\\n'.join(split_bitmap)
+    #dot_string += f'label="gg";\n'
+    
+    # Use the formatted bitmap in the label of the node
+    dot_string = f'{label}_{contador} [shape=box,  label="{instruccion}\n{formatted_bitmap}"];\n'
+    
+    return dot_string
 
 # --- Tokenizer
 
@@ -450,6 +522,7 @@ def p_login(p):
     global current_partition
     users, current_partition = login(p[2], mounted_partitions)
     p[0] = ('login', p[2])
+    ver_bitmaps('login',mounted_partitions, current_partition)
 def p_logout(p):
     '''
     logout : LOGOUT
@@ -468,6 +541,7 @@ def p_mkusr(p):
     '''
     if users != None and users['username']=='root' :
         makeuser(p[2], mounted_partitions, current_partition)
+        ver_bitmaps('mkusr',mounted_partitions, current_partition)
     else:
         print("Error: You must be logged in as root to use this command")
     
@@ -478,6 +552,7 @@ def p_mkgrp(p):
     '''
     if users != None and users['username']=='root' :
         makegroup(p[2], mounted_partitions, current_partition)
+        ver_bitmaps('mkgrp',mounted_partitions, current_partition)
     else:
         print("Error: You must be logged in as root to use this command")
     p[0] = ('mkgrp', p[2])
@@ -487,6 +562,7 @@ def p_rmgrp(p):
     '''
     if users != None and users['username']=='root' :
         remgroup(p[2], mounted_partitions, current_partition)
+        ver_bitmaps('rmgrp',mounted_partitions, current_partition)
     else:
         print("Error: You must be logged in as root to use this command")
     p[0] = ('rmgrp', p[2])
@@ -496,6 +572,7 @@ def p_rmusr(p):
     '''
     if users != None and users['username']=='root' :
         remuser(p[2], mounted_partitions, current_partition)
+        ver_bitmaps('rmusr',mounted_partitions, current_partition)
     else:
         print("Error: You must be logged in as root to use this command")
     p[0] = ('rmusr', p[2])
@@ -505,6 +582,7 @@ def p_mkfile(p):
     '''
     if users != None:
         mkfile(p[2], mounted_partitions, current_partition, users)
+        ver_bitmaps('mkfile',mounted_partitions, current_partition)
     else:
         print("Error: You must be logged in as root to use this command")
     p[0] = ('mkfile', p[2])
@@ -523,6 +601,7 @@ def p_remove(p):
     '''
     if users != None:
         remove(p[2], mounted_partitions, current_partition, users)
+        ver_bitmaps('remove',mounted_partitions, current_partition)
     else:
         print("Error: You must be logged in to use this command")
     p[0] = ('remove', p[2])
@@ -640,6 +719,7 @@ def graph(file,inicio, index):
     
     return id
 
+
 with open(r'C:\Users\alber\OneDrive\Escritorio\cys\MIA\proyecto1\discos_test\home\mis discos\Disco4.dsk', "rb") as file:
     file.seek(0)
     data = file.read(MBR.SIZE)
@@ -692,5 +772,14 @@ for n in ast:
     print(n[1])
 print(users)
 print(current_partition)
+
+codigo_para_graphviz = ''
+for n in mapa_de_bytes[len(mapa_de_bytes)-3:]:
+    codigo_para_graphviz += f'\n{n[0]}\n{n[1]}'
+for n in range(len(mapa_de_bytes[len(mapa_de_bytes)-3:])):
+    codigo_para_graphviz += f'\ninodo_{n} -> inodo_{n+1}'
+    codigo_para_graphviz += f'\nbloque_{n} -> bloque_{n+1}'
     
     
+with open('historial_bitmaps.txt', 'w') as f:
+        f.write(f'digraph G {{\n{codigo_para_graphviz}\n}}')

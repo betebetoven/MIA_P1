@@ -95,7 +95,42 @@ def recupera_todos_los_bytes(file,byte,tipo, lista_inodos, lista_bloques):
                 recupera_todos_los_bytes(file,n.b_inodo,0,lista_inodos, lista_bloques)
 
 def byte_to_index(byte, inicio, size):
-    return (byte - inicio) // size               
+    return (byte - inicio) // size          
+def actualizar_bitmap(file,superblock,lista_inodos,lista_bloques):
+    bitmap_bloques_inicio = superblock.s_bm_block_start
+    cantidad_bloques = superblock.s_blocks_count
+    FORMAT = f'{cantidad_bloques}s'
+    SIZE = struct.calcsize(FORMAT)
+    file.seek(bitmap_bloques_inicio)
+    bitmap_bloques = struct.unpack(FORMAT, file.read(SIZE))
+    bitmap_bloques=bitmap_bloques[0].decode('utf-8')
+    bitmap_inodos_inicio = superblock.s_bm_inode_start
+    cantidad_inodos = superblock.s_inodes_count
+    FORMAT = f'{cantidad_inodos}s'
+    SIZE = struct.calcsize(FORMAT)
+    file.seek(bitmap_inodos_inicio)
+    bitmap_inodos = struct.unpack(FORMAT, file.read(SIZE))
+    bitmap_inodos=bitmap_inodos[0].decode('utf-8')
+    #print("bitmaps antes")
+    #print("bloques")
+    #print(bitmap_bloques)
+    #print("inodos")
+    #print(bitmap_inodos)
+    for n in lista_inodos:
+        index = byte_to_index(n,superblock.s_inode_start,Inode.SIZE)
+        bitmap_inodos = bitmap_inodos[:index] + '0' + bitmap_inodos[index+1:]
+    for n in lista_bloques:
+        index = byte_to_index(n,superblock.s_block_start,block.SIZE)
+        bitmap_bloques = bitmap_bloques[:index] + '0' + bitmap_bloques[index+1:]
+    file.seek(bitmap_bloques_inicio)
+    file.write(bitmap_bloques.encode('utf-8'))
+    file.seek(bitmap_inodos_inicio)
+    file.write(bitmap_inodos.encode('utf-8'))
+    #print("bitmaps despues")
+    #print("bloques")
+    #print(bitmap_bloques)
+    #print("inodos")
+    #print(bitmap_inodos)
 
         
 
@@ -147,7 +182,7 @@ def mkfile(params, mounted_partitions,id, usuario_actual):
     UID = usuario_actual['id']
     GID = UID
     print("ESTE ES EL MAKEFILE*************************************************")
-    #print(params)
+    print(params)
     if id == None:
         print("Error: The id is required.")
         return
@@ -203,14 +238,14 @@ def mkfile(params, mounted_partitions,id, usuario_actual):
             return
         ##########################################################
         else:
-            print(f'archivo {insidepath} no existe')
+            #print(f'archivo {insidepath} no existe')
             nueva_lista_dirercciones = lista_direcciones[newI:]
-            print(f'ultimo inodo {PI}')
-            print(f'nueva lista de direcciones {nueva_lista_dirercciones}')
+            #print(f'ultimo inodo {PI}')
+            #print(f'nueva lista de direcciones {nueva_lista_dirercciones}')
             inodo_inicio = superblock.s_inode_start
             inodo_size = Inode.SIZE
             indice = (PI - inodo_inicio) // inodo_size
-            print(f'indice del inodo {indice}')
+            #print(f'indice del inodo {indice}')
             
             #trabajamos solo con el prier indice de la nueva lista de direcciones
             #si tiene extension es un archivo, si no lo tiene es un folder
@@ -237,7 +272,7 @@ def mkfile(params, mounted_partitions,id, usuario_actual):
                 file.seek(bitmap_bloques_inicio)
                 bitmap_bloques = struct.unpack(FORMAT, file.read(SIZE))
                 bitmap_bloques=bitmap_bloques[0].decode('utf-8')
-                print(bitmap_bloques)
+                #print(bitmap_bloques)
                 bitmap_inodos_inicio = superblock.s_bm_inode_start
                 cantidad_inodos = superblock.s_inodes_count
                 FORMAT = f'{cantidad_inodos}s'
@@ -245,12 +280,12 @@ def mkfile(params, mounted_partitions,id, usuario_actual):
                 file.seek(bitmap_inodos_inicio)
                 bitmap_inodos = struct.unpack(FORMAT, file.read(SIZE))
                 bitmap_inodos=bitmap_inodos[0].decode('utf-8')
-                print(bitmap_inodos)
+                #print(bitmap_inodos)
                 
                 
                 a,b,c,d = busca_espacio_libre(file,PI,0)
                 if c == 0:
-                    print(f'{a}byte libre {b} tipo libre inodo indice libre {d}')
+                    #print(f'{a}byte libre {b} tipo libre inodo indice libre {d}')
                     index_bloque_inicial = bitmap_bloques.find('0')
                     bitmap_bloques=bitmap_bloques[:index_bloque_inicial] + '1' + bitmap_bloques[index_bloque_inicial+1:]
                     byte_nuevo_bloque = superblock.s_block_start + index_bloque_inicial*block.SIZE
@@ -265,9 +300,9 @@ def mkfile(params, mounted_partitions,id, usuario_actual):
                     index_nodo = bitmap_inodos.find('0')
                     bitmap_bloques=bitmap_bloques[:index_bloque] + '1' + bitmap_bloques[index_bloque+1:]
                     bitmap_inodos=bitmap_inodos[:index_nodo] + '1' + bitmap_inodos[index_nodo+1:]
-                    print(bitmap_bloques)
-                    print(bitmap_inodos)
-                    print(f'{a}byte libre {b} tipo libre bloque indice libre {d}')
+                    #print(bitmap_bloques)
+                    #print(bitmap_inodos)
+                    #print(f'{a}byte libre {b} tipo libre bloque indice libre {d}')
                     byte_nuevo_inodo2 = superblock.s_inode_start + index_nodo*Inode.SIZE
                     byte_nuevo_bloque2 = superblock.s_block_start + index_bloque*block.SIZE
                     ####################################
@@ -354,9 +389,9 @@ def mkfile(params, mounted_partitions,id, usuario_actual):
                     index_nodo = bitmap_inodos.find('0')
                     bitmap_bloques=bitmap_bloques[:index_bloque] + '1' + bitmap_bloques[index_bloque+1:]
                     bitmap_inodos=bitmap_inodos[:index_nodo] + '1' + bitmap_inodos[index_nodo+1:]
-                    print(bitmap_bloques)
-                    print(bitmap_inodos)
-                    print(f'{a}byte libre {b} tipo libre bloque indice libre {d}')
+                    #print(bitmap_bloques)
+                    #print(bitmap_inodos)
+                    #print(f'{a}byte libre {b} tipo libre bloque indice libre {d}')
                     byte_nuevo_inodo = superblock.s_inode_start + index_nodo*Inode.SIZE
                     byte_nuevo_bloque = superblock.s_block_start + index_bloque*block.SIZE
 
@@ -572,6 +607,17 @@ def remove(params, mounted_partitions,id, usuario_actual):
             index_bloques.append(byte_to_index(n,superblock.s_block_start,block.SIZE))
         print(index_inodos)
         print(index_bloques)
+        actualizar_bitmap(file,superblock,inodos,bloques)
+        #view bitmaps from file
+        file.seek(superblock.s_bm_block_start)
+        bitmap_bloques = struct.unpack(f'{superblock.s_blocks_count}s', file.read(superblock.s_blocks_count))[0].decode('utf-8')
+        file.seek(superblock.s_bm_inode_start)
+        bitmap_inodos = struct.unpack(f'{superblock.s_inodes_count}s', file.read(superblock.s_inodes_count))[0].decode('utf-8')
+        #print("inodos")
+        #print(bitmap_inodos)
+        #print("bloques")
+        #print(bitmap_bloques)
+        #print("")
         
     
         
