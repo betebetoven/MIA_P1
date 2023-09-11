@@ -141,7 +141,7 @@ t_MKUSR = r'mkusr'
 t_MKGRP = r'mkgrp'
 t_RMGRP = r'rmgrp'
 t_RMUSR = r'rmusr'
-t_MKFILE = r'mkfile'
+t_MKFILE = r'mkfile|mkdir'
 t_CAT = r'cat'
 t_REMOVE = r'remove'
 
