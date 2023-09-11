@@ -80,10 +80,10 @@ def mkfs(params, mounted_partitions, users):
             file.write(b1.pack())
             file.write(b2.pack())
             print(f"Partition {id} was formatted successfully.")
-            print("     bitmap inodos")
-            print(f'    {bitmapinodos}')
-            print("     bitmap bloques")
-            print(f'    {bitmapbloques}')
+            #print("     bitmap inodos")
+            #print(f'    {bitmapinodos}')
+            #print("     bitmap bloques")
+            #print(f'    {bitmapbloques}')
             
 
         
@@ -485,14 +485,14 @@ def remgroup(params, mounted_partitions,id):
         file.seek(bitmap_bloques_inicio)
         bitmap_bloques = struct.unpack(FORMAT, file.read(SIZE))
         bitmap=bitmap_bloques[0].decode('utf-8')
-        print(bitmap)
+        #print(bitmap)
                     
         if fileblocks<=12:
             bitmap = bitmap[:indice_a_borrar] + '0'*cont + bitmap[indice_a_borrar+cont:]
             index = bitmap.find('0'*fileblocks)
-            print(bitmap)
+            #print(bitmap)
             a = bitmap[:index] + '1'*fileblocks + bitmap[index+fileblocks:]
-            print(a)
+            #print(a)
             chunks = [texto[i:i+64] for i in range(0, len(texto), 64)]
             for i,n in enumerate(chunks):
                 new_fileblock = FileBlock()
@@ -598,14 +598,14 @@ def remuser(params, mounted_partitions,id):
         file.seek(bitmap_bloques_inicio)
         bitmap_bloques = struct.unpack(FORMAT, file.read(SIZE))
         bitmap=bitmap_bloques[0].decode('utf-8')
-        print(bitmap)
+        #print(bitmap)
                     
         if fileblocks<=12:
             bitmap = bitmap[:indice_a_borrar] + '0'*cont + bitmap[indice_a_borrar+cont:]
             index = bitmap.find('0'*fileblocks)
-            print(bitmap)
+            #print(bitmap)
             a = bitmap[:index] + '1'*fileblocks + bitmap[index+fileblocks:]
-            print(a)
+            #print(a)
             chunks = [texto[i:i+64] for i in range(0, len(texto), 64)]
             for i,n in enumerate(chunks):
                 new_fileblock = FileBlock()

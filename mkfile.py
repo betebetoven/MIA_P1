@@ -238,22 +238,11 @@ def mkfile(params, mounted_partitions,id, usuario_actual):
             return
         ##########################################################
         else:
-            #print(f'archivo {insidepath} no existe')
+            
             nueva_lista_dirercciones = lista_direcciones[newI:]
-            #print(f'ultimo inodo {PI}')
-            #print(f'nueva lista de direcciones {nueva_lista_dirercciones}')
             inodo_inicio = superblock.s_inode_start
             inodo_size = Inode.SIZE
             indice = (PI - inodo_inicio) // inodo_size
-            #print(f'indice del inodo {indice}')
-            
-            #trabajamos solo con el prier indice de la nueva lista de direcciones
-            #si tiene extension es un archivo, si no lo tiene es un folder
-            #si es un folder, verifica el bitmap de inodos y el bitmap de bloques para ver si hay espacio
-            #si hay espacio, crea el folder y crea el inodo
-            #los escribe en los indices correspondientes y vuelve a hacer recursivamente mkfile() con
-            #el string original asi retorna el byte del inodo necesario
-            #se hace hasta verificar que el archivo existe 
             folder_a_escribir = nueva_lista_dirercciones[0]
             #find the first available slot in the current inode
             file.seek(PI)
@@ -295,16 +284,13 @@ def mkfile(params, mounted_partitions,id, usuario_actual):
                     file.seek(b)
                     file.write(inodo_presente.pack())
                     nuevo_bloque = FolderBlock()
+                    #actualiza el inodo actual con la direccion del nuevo bloque necesario para ambos casos y lo escribe en el disco
                     ####################################
-                    index_bloque = bitmap_bloques.find('0')
+                    
                     index_nodo = bitmap_inodos.find('0')
-                    bitmap_bloques=bitmap_bloques[:index_bloque] + '1' + bitmap_bloques[index_bloque+1:]
                     bitmap_inodos=bitmap_inodos[:index_nodo] + '1' + bitmap_inodos[index_nodo+1:]
-                    #print(bitmap_bloques)
-                    #print(bitmap_inodos)
-                    #print(f'{a}byte libre {b} tipo libre bloque indice libre {d}')
                     byte_nuevo_inodo2 = superblock.s_inode_start + index_nodo*Inode.SIZE
-                    byte_nuevo_bloque2 = superblock.s_block_start + index_bloque*block.SIZE
+                    
                     ####################################
                     nuevo_bloque.b_content[0].b_name = folder_a_escribir
                     nuevo_bloque.b_content[0].b_inodo = byte_nuevo_inodo2
@@ -317,6 +303,9 @@ def mkfile(params, mounted_partitions,id, usuario_actual):
                     nuevo_inodo.i_s = int(archivosize)
                     nuevo_inodo.i_perm = 664
                     if not folder_a_escribir.endswith('.txt'):
+                        index_bloque = bitmap_bloques.find('0')
+                        bitmap_bloques=bitmap_bloques[:index_bloque] + '1' + bitmap_bloques[index_bloque+1:]
+                        byte_nuevo_bloque2 = superblock.s_block_start + index_bloque*block.SIZE
                         nuevo_inodo.i_block[0] = byte_nuevo_bloque2
                         file.seek(byte_nuevo_inodo2)
                         file.write(nuevo_inodo.pack())
@@ -385,34 +374,39 @@ def mkfile(params, mounted_partitions,id, usuario_actual):
                     
                 elif c == 1:
                     #solo se necesita un inodo y un folderblock nuevos
-                    index_bloque = bitmap_bloques.find('0')
+                    #crea en los inodos el nuevo inodo y el nuevo bloque
+                    
                     index_nodo = bitmap_inodos.find('0')
-                    bitmap_bloques=bitmap_bloques[:index_bloque] + '1' + bitmap_bloques[index_bloque+1:]
+                    
                     bitmap_inodos=bitmap_inodos[:index_nodo] + '1' + bitmap_inodos[index_nodo+1:]
-                    #print(bitmap_bloques)
-                    #print(bitmap_inodos)
-                    #print(f'{a}byte libre {b} tipo libre bloque indice libre {d}')
                     byte_nuevo_inodo = superblock.s_inode_start + index_nodo*Inode.SIZE
-                    byte_nuevo_bloque = superblock.s_block_start + index_bloque*block.SIZE
-
+        
+                    #obtiene el index del nuevo inodo y el nuevo bloque
                     file.seek(b)
                     bloque_actual = FolderBlock.unpack(file.read(FileBlock.SIZE))
                     bloque_actual.b_content[d].b_name = folder_a_escribir
                     bloque_actual.b_content[d].b_inodo = byte_nuevo_inodo
                     file.seek(b)
                     file.write(bloque_actual.pack())
+                    #actualiza el bloque actual con la direccion del nuev oinodo
                     nuevo_inodo = Inode()
                     nuevo_inodo.i_uid = int(UID)
                     nuevo_inodo.I_gid = int(GID)
                     nuevo_inodo.i_s = int(archivosize)
                     nuevo_inodo.i_perm = 664
+                    #inicializa nuevo inodo pero aun no ingresa el bloque
                     if not folder_a_escribir.endswith('.txt'):
+                        index_bloque = bitmap_bloques.find('0')
+                        bitmap_bloques=bitmap_bloques[:index_bloque] + '1' + bitmap_bloques[index_bloque+1:]
+                        byte_nuevo_bloque = superblock.s_block_start + index_bloque*block.SIZE
                         nuevo_inodo.i_block[0] = byte_nuevo_bloque
                         file.seek(byte_nuevo_inodo)
                         file.write(nuevo_inodo.pack())
+                        #agrega direccion del bloque creado arriba al principio al inodo
                         nuevo_bloque = FolderBlock()
                         file.seek(byte_nuevo_bloque)
                         file.write(nuevo_bloque.pack())
+                        #escribe el nuevo bloque en el disco
                         #escribe de nuevo los bitmaps
                         file.seek(bitmap_bloques_inicio)
                         file.write(bitmap_bloques.encode('utf-8'))

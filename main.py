@@ -774,11 +774,11 @@ print(users)
 print(current_partition)
 
 codigo_para_graphviz = ''
-for n in mapa_de_bytes[len(mapa_de_bytes)-3:]:
+for n in mapa_de_bytes[len(mapa_de_bytes)-5:]:
     codigo_para_graphviz += f'\n{n[0]}\n{n[1]}'
-for n in range(len(mapa_de_bytes[len(mapa_de_bytes)-3:])):
-    codigo_para_graphviz += f'\ninodo_{n} -> inodo_{n+1}'
-    codigo_para_graphviz += f'\nbloque_{n} -> bloque_{n+1}'
+#for n in range(len(mapa_de_bytes[len(mapa_de_bytes)-5:])):
+    #codigo_para_graphviz += f'\ninodo_{n} -> inodo_{n+1}'
+    #codigo_para_graphviz += f'\nbloque_{n} -> bloque_{n+1}'
     
     
 with open('historial_bitmaps.txt', 'w') as f:

@@ -46,5 +46,7 @@ mkdisk -size=10 -path="/home/mis discos/Disco4.dsk" -unit=M -fit=WF \n\
                                                                           mkfile -path=/home2/documents/papers/mentos/mentos2.txt -r -cont=/contenido.txt\
                             remove -path=/home/documents/papers/mentos/mentos.txt\
                                 mkfile -path=/home/documents/papers/mentos/mentos.txt -r -cont=/contenido.txt\
+                                    mkfile -path=/casa" -r\
+                                         mkfile -path=/carro" -r\
                         '                               
 #unmount -id=533Disco4 \
