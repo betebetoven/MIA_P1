@@ -6,7 +6,7 @@ from comandos import comandos
 from mount import mount, unmount
 from mkfs import mkfs, login, makeuser, makegroup, remgroup, remuser
 from FORMATEO.ext2.ext2 import Superblock, Inode, FolderBlock, FileBlock, PointerBlock, block, Content
-from mkfile import mkfile, cat, remove
+from mkfile import mkfile, cat, remove, rename
 import struct
 import os
 mapa_de_bytes = []
@@ -122,7 +122,8 @@ tokens = ( 'MKDISK', 'SIZE', 'PATH', 'UNIT', 'FIT','ENCAJE',
           'FILE2',
           'FILE3',
           'FILE4',
-          'REMOVE',)
+          'REMOVE',
+          'RENAME')
 
 # Ignored characters
 t_ignore = ' \t'
@@ -144,6 +145,7 @@ t_RMUSR = r'rmusr'
 t_MKFILE = r'mkfile|mkdir'
 t_CAT = r'cat'
 t_REMOVE = r'remove'
+t_RENAME = r'rename'
 
 t_USER = r'-user'
 t_PASSWORD = r'-pass'
@@ -197,11 +199,11 @@ def t_UNIDAD(t):
     r'(K|M|B)'
     return t
 def t_NOMBRE(t):
-    r'=[a-zA-Z_][a-zA-Z0-9_]*'
+    r'=[a-zA-Z_][a-zA-Z0-9_]*(.txt)?'
     t.value = t.value[1:]  # remove the '=' at the beginning
     return t
 def t_NOMBREFEA(t):
-    r'="[a-zA-Z_][a-zA-Z0-9_ ]*"'
+    r'="[a-zA-Z_][a-zA-Z0-9_ ]*(.txt)?"'
     t.value = t.value[2:-1]  # remove the '=' at the beginning
     return t
 def t_IDENTIFICADOR(t):
@@ -275,6 +277,7 @@ def p_expression(p):
                 | mkfile
                 | cat
                 | remove
+                | rename
     '''
 
     p[0] = ('binop', p[1])
@@ -605,7 +608,16 @@ def p_remove(p):
     else:
         print("Error: You must be logged in to use this command")
     p[0] = ('remove', p[2])
-
+def p_rename(p):
+    '''
+    rename : RENAME params
+    '''
+    if users != None:
+        rename(p[2], mounted_partitions, current_partition, users)
+        ver_bitmaps('rename',mounted_partitions, current_partition)
+    else:
+        print("Error: You must be logged in to use this command")
+    p[0] = ('rename', p[2])
 def p_error(p):
     print(f'Syntax error at {p.value!r}')
 

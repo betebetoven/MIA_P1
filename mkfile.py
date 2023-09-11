@@ -70,6 +70,41 @@ def busca_reseteabloque(file,byte,tipo,x):
                 file.write(folder.pack())
                 break
         return esta,v
+def busca_renombrabloque(file,byte,tipo,x,y):
+    if tipo == 0:
+        file.seek(byte)
+        inodo = Inode.unpack(file.read(Inode.SIZE))
+        if inodo.i_type == 1:
+            return False, None
+        esta = False
+        v = None
+        for n in inodo.i_block:
+            if n == -1:
+                continue
+            esta,v = busca_renombrabloque(file,n,1,x,y)
+            if esta:
+                break
+        return esta,v
+    elif tipo == 1:
+        file.seek(byte)
+        folder = FolderBlock.unpack(file.read(FolderBlock.SIZE))
+        esta = False
+        v = None
+        for i,n in enumerate(folder.b_content):
+            #print(f'nombre del nodo {n.b_name} y nombre buscado {x} y numero de inodo {n.b_inodo}')
+            if n.b_inodo == -1:
+                continue
+            if n.b_name.rstrip('\x00') == x:
+                #print("si son iguales")
+                esta = True
+                v = n.b_inodo
+                folder.b_content[i].b_name = y
+                #folder.b_content[i].b_inodo = -1
+                file.seek(byte)
+                file.write(folder.pack())
+                break
+        return esta,v
+    
 def recupera_todos_los_bytes(file,byte,tipo, lista_inodos, lista_bloques):
     #print("entra a recupera con byte ", byte, " y tipo ", tipo)
     if tipo == 0:
@@ -615,3 +650,48 @@ def remove(params, mounted_partitions,id, usuario_actual):
         
     
         
+def rename(params, mounted_partitions,id, usuario_actual):  
+    print(f'remove {params}')
+    if id == None:
+        print("Error: The id is required.")
+        return
+    try: 
+        insidepath = params['path']
+        name = params['name']
+    except:
+        print("Error:Path must be specified.")
+        return
+    partition = None
+    for partition_dict in mounted_partitions:
+        if id in partition_dict:
+            partition = partition_dict[id]
+            break
+    if not partition:
+        print(f"Error: The partition with id {id} does not exist.")
+        return
+    # Retrieve partition details.
+    path = partition['path']
+    inicio = partition['inicio']
+    size = partition['size']
+    filename = path
+    current_directory = os.getcwd()
+    full_path= f'{current_directory}/discos_test{filename}'
+    if not os.path.exists(full_path):
+        print(f"Error: The file {full_path} does not exist.")
+        return
+    with open(full_path, "rb+") as file:
+        file.seek(inicio)
+        superblock = Superblock.unpack(file.read(Superblock.SIZE))
+        
+        lista_direcciones = insidepath.split('/')[1:]
+        PI = superblock.s_inode_start
+        for i,n in enumerate(lista_direcciones):
+            if i == len(lista_direcciones)-1:
+                esta,v = busca_renombrabloque(file,PI,0,n,name)
+            else:
+                esta,v = busca(file,PI,0,n)
+            if esta:
+                PI = v
+            else:
+                print(f'archivo {insidepath} no existe')
+                return
