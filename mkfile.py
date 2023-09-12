@@ -821,6 +821,8 @@ def copy(params, mounted_partitions,id, usuario_actual):
             inodo = Inode.unpack(file.read(Inode.SIZE))
             proceed, byte_bloque = espacio_libre_bitmap_bloques(file,superblock)
             inodo.i_block[d] = byte_bloque
+            file.seek(b)
+            file.write(inodo.pack())
             new_added_folderblock = FolderBlock()
             new_added_folderblock.b_content[0].b_name = lista_direcciones[-1]
             new_added_folderblock.b_content[0].b_inodo = inodo_copia_byte
