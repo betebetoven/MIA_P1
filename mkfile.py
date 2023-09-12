@@ -212,10 +212,10 @@ def busca_en_todo_el_sistema(file,byte,tipo,texto,x,contador):
             if n.b_inodo == -1:
                 continue
             if n.b_name.rstrip('\x00') == x:
-                texto += "\n"+tabs+"|_"+n.b_name.rstrip('\x00') +"  <---------🔎"
+                texto += tabs+"|_"+n.b_name.rstrip('\x00') +"  <---------🔎"+"\n"
                 texto_de_find = texto
                 return
-            texto += "\n"+tabs+"|_"+n.b_name.rstrip('\x00') 
+            texto += tabs+"|_"+n.b_name.rstrip('\x00') +"\n"
             nuevo_contador = contador+1
             busca_en_todo_el_sistema(file,n.b_inodo,0,texto,x,nuevo_contador)
         
@@ -997,5 +997,6 @@ def find(params, mounted_partitions,id, usuario_actual):
         
         if texto_de_find == '':
             print(f'⚠️ no se encontro el archivo {name} en la carpeta {insidepath}')
+        print('🏚️')
         print(texto_de_find)
         print("- - - - - - - - - - - - - - - - -\n")
