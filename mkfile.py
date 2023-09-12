@@ -6,6 +6,7 @@ import random
 from mountingusers import load_users_from_content, parse_users, get_user_if_authenticated, get_id_by_group, extract_active_groups,get_group_id
 from FORMATEO.ext2.ext2 import Superblock, Inode, FolderBlock, FileBlock, PointerBlock, block, Content
 import struct
+from prettytable import PrettyTable
 def busca(file,byte,tipo,x):
     if tipo == 0:
         file.seek(byte)
@@ -947,7 +948,7 @@ def move(params, mounted_partitions,id, usuario_actual):
             file.seek(b)
             file.write(folder.pack())
 def find(params, mounted_partitions,id, usuario_actual):  
-    print(f'\n__________________FIND {params}__________________\n')
+    print(f'\n\n🔻__________________FIND {params}__________________\n')
     if id == None:
         print("Error: The id is required.")
         return
@@ -993,10 +994,14 @@ def find(params, mounted_partitions,id, usuario_actual):
         global texto_de_find
         texto_de_find = ''
         busca_en_todo_el_sistema(file,PI,0,'',name,0)
-        print(f'carpeta de inicio {insidepath} y nombre {name}')
-        
+        table = PrettyTable()
+        table.field_names = [f'carpeta de inicio {insidepath} y nombre {name}']
+        table.align = "l"
         if texto_de_find == '':
-            print(f'⚠️ no se encontro el archivo {name} en la carpeta {insidepath}')
-        print('🏚️')
-        print(texto_de_find)
-        print("- - - - - - - - - - - - - - - - -\n")
+            table.add_row([f'⚠️ no se encontro el archivo {name} en la carpeta {insidepath}'])
+        else:
+            table.add_row(['🏚️'])
+            table.add_row([texto_de_find])
+
+        print(table)
+        print("🔺- - - - - - - - - - - - - - - - -")
