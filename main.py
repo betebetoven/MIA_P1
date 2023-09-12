@@ -209,7 +209,7 @@ def t_UNIDAD(t):
     r'(K|M|B)'
     return t
 def t_NOMBRE(t):
-    r'=[a-zA-Z_][a-zA-Z0-9_]*(.txt)?'
+    r'=[a-zA-Z_\*\?][a-zA-Z0-9_]*(.txt)?'
     t.value = t.value[1:]  # remove the '=' at the beginning
     return t
 def t_NOMBREFEA(t):

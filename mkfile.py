@@ -7,6 +7,8 @@ from mountingusers import load_users_from_content, parse_users, get_user_if_auth
 from FORMATEO.ext2.ext2 import Superblock, Inode, FolderBlock, FileBlock, PointerBlock, block, Content
 import struct
 from prettytable import PrettyTable
+import re
+
 def busca(file,byte,tipo,x):
     if tipo == 0:
         file.seek(byte)
@@ -219,6 +221,43 @@ def busca_en_todo_el_sistema(file,byte,tipo,texto,x,contador):
             texto += tabs+"|_"+n.b_name.rstrip('\x00') +"\n"
             nuevo_contador = contador+1
             busca_en_todo_el_sistema(file,n.b_inodo,0,texto,x,nuevo_contador)
+def busca_en_todo_el_sistema_regex(file, byte, tipo, texto, x, contador):
+    texto = ''
+    tabs = '\t' * contador
+    regex = None
+    if x == '*':
+        regex = re.compile(r'^[a-zA-Z0-9_-]+\.txt$')
+    elif x == '?':
+        regex = re.compile(r'^[a-zA-Z]\.txt$')
+
+    if byte == -1:
+        return ''
+    if tipo == 0:
+        file.seek(byte)
+        inodo = Inode.unpack(file.read(Inode.SIZE))
+        if inodo.i_type == '1':
+            return ''
+        for n in inodo.i_block:
+            if n == -1:
+                continue
+            texto += busca_en_todo_el_sistema_regex(file, n, 1, texto, x, contador)
+    if tipo == 1:
+        file.seek(byte)
+        folder = FolderBlock.unpack(file.read(FolderBlock.SIZE))
+        for n in folder.b_content:
+            if n.b_inodo == -1:
+                continue
+            # Adjust the comparison based on the value of x
+            if regex:
+                match = regex.match(n.b_name.rstrip('\x00'))
+                if match:
+                    texto += tabs + "|_" + n.b_name.rstrip('\x00') + "  <---------🔎" + "\n"
+                    continue
+    
+            texto += tabs + "|_" + n.b_name.rstrip('\x00') + "\n"
+            nuevo_contador = contador + 1
+            texto += busca_en_todo_el_sistema_regex(file, n.b_inodo, 0, texto, x, nuevo_contador)
+    return texto
         
 
 def byte_to_index(byte, inicio, size):
@@ -993,9 +1032,13 @@ def find(params, mounted_partitions,id, usuario_actual):
         #print(PI)
         global texto_de_find
         texto_de_find = ''
-        busca_en_todo_el_sistema(file,PI,0,'',name,0)
+        if name != '*' and name != '?':
+            print(f'entrando a find normal')
+            busca_en_todo_el_sistema(file,PI,0,'',name,0)
+        else:
+            texto_de_find = busca_en_todo_el_sistema_regex(file,PI,0,'',name,0)
         table = PrettyTable()
-        table.field_names = [f'carpeta de inicio {insidepath} y nombre {name}']
+        table.field_names = [f'--------carpeta de inicio {insidepath} y nombre {name}----------']
         table.align = "l"
         if texto_de_find == '':
             table.add_row([f'⚠️ no se encontro el archivo {name} en la carpeta {insidepath}'])
