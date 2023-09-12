@@ -54,5 +54,6 @@ mkdisk -size=10 -path="/home/mis discos/Disco4.dsk" -unit=M -fit=WF \n\
                                                     mkfile -path=/home2/documents/llena3" -r\
                                                         mkfile -path=/home2/documents/llena4" -r\
                                                      copy -path=/home2/documents/papers/mentos/mentos2.txt -destino=/home2/documents\
+                                                         move -path=/home2/documents/papers/mentos/mentos2.txt -destino=/home\
                         '                               
 #unmount -id=533Disco4 \

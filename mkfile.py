@@ -838,3 +838,84 @@ def copy(params, mounted_partitions,id, usuario_actual):
             file.seek(b)
             file.write(folder.pack())
             
+def move(params, mounted_partitions,id, usuario_actual):  
+    print(f'COPY {params}')
+    if id == None:
+        print("Error: The id is required.")
+        return
+    try: 
+        insidepath = params['path']
+        destinypath = params['destino']
+    except:
+        print("Error:Path must be specified.")
+        return
+    partition = None
+    for partition_dict in mounted_partitions:
+        if id in partition_dict:
+            partition = partition_dict[id]
+            break
+    if not partition:
+        print(f"Error: The partition with id {id} does not exist.")
+        return
+    # Retrieve partition details.
+    path = partition['path']
+    inicio = partition['inicio']
+    size = partition['size']
+    filename = path
+    current_directory = os.getcwd()
+    full_path= f'{current_directory}/discos_test{filename}'
+    if not os.path.exists(full_path):
+        print(f"Error: The file {full_path} does not exist.")
+        return
+    with open(full_path, "rb+") as file:
+        file.seek(inicio)
+        superblock = Superblock.unpack(file.read(Superblock.SIZE))
+        
+        lista_direcciones = insidepath.split('/')[1:]
+        PI = superblock.s_inode_start
+        for i,n in enumerate(lista_direcciones):
+            if i == len(lista_direcciones)-1:
+                esta,v = busca_reseteabloque(file,PI,0,n)
+            else:
+                esta,v = busca(file,PI,0,n)
+            if esta:
+                PI = v
+            else:
+                print(f'archivo {insidepath} no existe')
+                return
+        print(PI)
+        
+        lista_direcciones_destino = destinypath.split('/')[1:]
+        PI_destino = superblock.s_inode_start
+        for i,n in enumerate(lista_direcciones_destino):
+            esta,v = busca(file,PI_destino,0,n)
+            if esta:
+                PI_destino = v
+            else:
+                print(f'archivo {destinypath} no existe')
+                return
+        print(PI_destino)
+        a,b,c,d = busca_espacio_libre(file,PI_destino,0)
+        inodo_copia_byte = PI
+        if c == 0:
+            file.seek(b)
+            inodo = Inode.unpack(file.read(Inode.SIZE))
+            proceed, byte_bloque = espacio_libre_bitmap_bloques(file,superblock)
+            inodo.i_block[d] = byte_bloque
+            file.seek(b)
+            file.write(inodo.pack())
+            new_added_folderblock = FolderBlock()
+            new_added_folderblock.b_content[0].b_name = lista_direcciones[-1]
+            new_added_folderblock.b_content[0].b_inodo = inodo_copia_byte
+            file.seek(byte_bloque)
+            file.write(new_added_folderblock.pack())
+        if c==1:
+            file.seek(b)
+            print("ESTE ES EL PI DESTINO")
+            print(b)
+            folder = FolderBlock.unpack(file.read(FolderBlock.SIZE))
+            folder.b_content[d].b_name = lista_direcciones[-1]
+            folder.b_content[d].b_inodo = inodo_copia_byte
+            file.seek(b)
+            file.write(folder.pack())
+            

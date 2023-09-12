@@ -6,7 +6,7 @@ from comandos import comandos
 from mount import mount, unmount
 from mkfs import mkfs, login, makeuser, makegroup, remgroup, remuser
 from FORMATEO.ext2.ext2 import Superblock, Inode, FolderBlock, FileBlock, PointerBlock, block, Content
-from mkfile import mkfile, cat, remove, rename, copy
+from mkfile import mkfile, cat, remove, rename, copy, move
 import struct
 import os
 mapa_de_bytes = []
@@ -126,7 +126,8 @@ tokens = ( 'MKDISK', 'SIZE', 'PATH', 'UNIT', 'FIT','ENCAJE',
           'RENAME',
           'EDIT',
           'COPY',
-          'DESTINO')
+          'DESTINO',
+          'MOVE')
 
 # Ignored characters
 t_ignore = ' \t'
@@ -151,6 +152,7 @@ t_REMOVE = r'remove'
 t_RENAME = r'rename'
 t_EDIT = r'edit'
 t_COPY = r'copy'
+t_MOVE = r'move'
 
 t_USER = r'-user'
 t_PASSWORD = r'-pass'
@@ -286,6 +288,7 @@ def p_expression(p):
                 | rename
                 | edit
                 | copy
+                | move
     '''
 
     p[0] = ('binop', p[1])
@@ -658,6 +661,16 @@ def p_copy(p):
     else:
         print("Error: You must be logged in to use this command")
     p[0] = ('copy', p[2])
+def p_move(p):
+    '''
+    move : MOVE params
+    '''
+    if users != None:
+        move(p[2], mounted_partitions, current_partition, users)
+        ver_bitmaps('move',mounted_partitions, current_partition)
+    else:
+        print("Error: You must be logged in to use this command")
+    p[0] = ('move', p[2])
 def p_error(p):
     print(f'Syntax error at {p.value!r}')
 
