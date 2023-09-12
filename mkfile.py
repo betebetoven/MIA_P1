@@ -128,9 +128,74 @@ def recupera_todos_los_bytes(file,byte,tipo, lista_inodos, lista_bloques):
         for n in folder.b_content:
             if n.b_inodo != -1:
                 recupera_todos_los_bytes(file,n.b_inodo,0,lista_inodos, lista_bloques)
+def recorre(file, inicio, tipo, superblock):
+    if inicio == -1:
+        return -1
+    elif tipo == 0:
+        file.seek(inicio)
+        objeto = Inode.unpack(file.read(Inode.SIZE))
+        proceed, newbyte = espacio_libre_bitmap_inodos(file,superblock)
+        for i,n in enumerate(objeto.i_block):
+            if objeto.i_type == '0':
+                x = recorre(file,n,1,superblock)
+            elif objeto.i_type == '1':
+                x = recorre(file,n,2,superblock)
+            objeto.i_block[i] = x
+    elif tipo == 1:
+        file.seek(inicio)
+        objeto = FolderBlock.unpack(file.read(FolderBlock.SIZE))
+        proceed, newbyte = espacio_libre_bitmap_bloques(file,superblock)
+        for i,n in enumerate(objeto.b_content):
+            x = recorre(file,n.b_inodo,0,superblock)
+            objeto.b_content[i].b_inodo = x
+    elif tipo == 2:
+        file.seek(inicio)
+        objeto = FileBlock.unpack(file.read(FileBlock.SIZE))
+        print("objeto encontrado en "+str(inicio))
+        proceed, newbyte = espacio_libre_bitmap_bloques(file,superblock)
+    file.seek(newbyte)
+    file.write(objeto.pack())
+    return newbyte
+def espacio_libre_bitmap_bloques(file,superblock):
+    bitmap_bloques_inicio = superblock.s_bm_block_start
+    cantidad_bloques = superblock.s_blocks_count
+    FORMAT = f'{cantidad_bloques}s'
+    SIZE = struct.calcsize(FORMAT)
+    file.seek(bitmap_bloques_inicio)
+    bitmap_bloques = struct.unpack(FORMAT, file.read(SIZE))
+    bitmap_bloques=bitmap_bloques[0].decode('utf-8')
+    index = bitmap_bloques.find('0')
+    if index == -1:
+        return False, None
+    #write the new slot in the bitmap
+    bitmap_bloques=bitmap_bloques[:index] + '1' + bitmap_bloques[index+1:]
+    file.seek(bitmap_bloques_inicio)
+    file.write(bitmap_bloques.encode('utf-8'))
+    byte = index_to_byte(index,superblock.s_block_start,block.SIZE)
+    return True, byte
+def espacio_libre_bitmap_inodos(file,superblock):
+    bitmap_inodos_inicio = superblock.s_bm_inode_start
+    cantidad_inodos = superblock.s_inodes_count
+    FORMAT = f'{cantidad_inodos}s'
+    SIZE = struct.calcsize(FORMAT)
+    file.seek(bitmap_inodos_inicio)
+    bitmap_inodos = struct.unpack(FORMAT, file.read(SIZE))
+    bitmap_inodos=bitmap_inodos[0].decode('utf-8')
+    index = bitmap_inodos.find('0')
+    if index == -1:
+        return False, None
+    #write the new slot in the bitmap
+    bitmap_inodos=bitmap_inodos[:index] + '1' + bitmap_inodos[index+1:]
+    file.seek(bitmap_inodos_inicio)
+    file.write(bitmap_inodos.encode('utf-8'))
+    byte = index_to_byte(index,superblock.s_inode_start,Inode.SIZE)
+    return True, byte
+    
 
 def byte_to_index(byte, inicio, size):
-    return (byte - inicio) // size          
+    return (byte - inicio) // size   
+def index_to_byte(index, inicio, size):
+    return inicio + index*size       
 def actualizar_bitmap(file,superblock,lista_inodos,lista_bloques):
     bitmap_bloques_inicio = superblock.s_bm_block_start
     cantidad_bloques = superblock.s_blocks_count
@@ -695,3 +760,79 @@ def rename(params, mounted_partitions,id, usuario_actual):
             else:
                 print(f'archivo {insidepath} no existe')
                 return
+def copy(params, mounted_partitions,id, usuario_actual):  
+    print(f'COPY {params}')
+    if id == None:
+        print("Error: The id is required.")
+        return
+    try: 
+        insidepath = params['path']
+        destinypath = params['destino']
+    except:
+        print("Error:Path must be specified.")
+        return
+    partition = None
+    for partition_dict in mounted_partitions:
+        if id in partition_dict:
+            partition = partition_dict[id]
+            break
+    if not partition:
+        print(f"Error: The partition with id {id} does not exist.")
+        return
+    # Retrieve partition details.
+    path = partition['path']
+    inicio = partition['inicio']
+    size = partition['size']
+    filename = path
+    current_directory = os.getcwd()
+    full_path= f'{current_directory}/discos_test{filename}'
+    if not os.path.exists(full_path):
+        print(f"Error: The file {full_path} does not exist.")
+        return
+    with open(full_path, "rb+") as file:
+        file.seek(inicio)
+        superblock = Superblock.unpack(file.read(Superblock.SIZE))
+        
+        lista_direcciones = insidepath.split('/')[1:]
+        PI = superblock.s_inode_start
+        for i,n in enumerate(lista_direcciones):
+            esta,v = busca(file,PI,0,n)
+            if esta:
+                PI = v
+            else:
+                print(f'archivo {insidepath} no existe')
+                return
+        print(PI)
+        
+        lista_direcciones_destino = destinypath.split('/')[1:]
+        PI_destino = superblock.s_inode_start
+        for i,n in enumerate(lista_direcciones_destino):
+            esta,v = busca(file,PI_destino,0,n)
+            if esta:
+                PI_destino = v
+            else:
+                print(f'archivo {destinypath} no existe')
+                return
+        print(PI_destino)
+        a,b,c,d = busca_espacio_libre(file,PI_destino,0)
+        inodo_copia_byte = recorre(file,PI,0, superblock)
+        if c == 0:
+            file.seek(b)
+            inodo = Inode.unpack(file.read(Inode.SIZE))
+            proceed, byte_bloque = espacio_libre_bitmap_bloques(file,superblock)
+            inodo.i_block[d] = byte_bloque
+            new_added_folderblock = FolderBlock()
+            new_added_folderblock.b_content[0].b_name = lista_direcciones[-1]
+            new_added_folderblock.b_content[0].b_inodo = inodo_copia_byte
+            file.seek(byte_bloque)
+            file.write(new_added_folderblock.pack())
+        if c==1:
+            file.seek(b)
+            print("ESTE ES EL PI DESTINO")
+            print(b)
+            folder = FolderBlock.unpack(file.read(FolderBlock.SIZE))
+            folder.b_content[d].b_name = lista_direcciones[-1]
+            folder.b_content[d].b_inodo = inodo_copia_byte
+            file.seek(b)
+            file.write(folder.pack())
+            

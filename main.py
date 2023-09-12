@@ -6,7 +6,7 @@ from comandos import comandos
 from mount import mount, unmount
 from mkfs import mkfs, login, makeuser, makegroup, remgroup, remuser
 from FORMATEO.ext2.ext2 import Superblock, Inode, FolderBlock, FileBlock, PointerBlock, block, Content
-from mkfile import mkfile, cat, remove, rename
+from mkfile import mkfile, cat, remove, rename, copy
 import struct
 import os
 mapa_de_bytes = []
@@ -124,7 +124,9 @@ tokens = ( 'MKDISK', 'SIZE', 'PATH', 'UNIT', 'FIT','ENCAJE',
           'FILE4',
           'REMOVE',
           'RENAME',
-          'EDIT')
+          'EDIT',
+          'COPY',
+          'DESTINO')
 
 # Ignored characters
 t_ignore = ' \t'
@@ -148,6 +150,7 @@ t_CAT = r'cat'
 t_REMOVE = r'remove'
 t_RENAME = r'rename'
 t_EDIT = r'edit'
+t_COPY = r'copy'
 
 t_USER = r'-user'
 t_PASSWORD = r'-pass'
@@ -159,6 +162,7 @@ t_FILE1 = r'-file1='
 t_FILE2 = r'-file2='
 t_FILE3 = r'-file3='
 t_FILE4 = r'-file4='
+t_DESTINO = r'-destino='
 
 t_SIZE = r'-size='
 t_PATH = r'-path='
@@ -281,6 +285,7 @@ def p_expression(p):
                 | remove
                 | rename
                 | edit
+                | copy
     '''
 
     p[0] = ('binop', p[1])
@@ -421,6 +426,16 @@ def p_path2(p):
     pathnt : PATH DIRECCIONFEA
     '''
     p[0] = ('path', p[2])
+def p_destino(p):
+    '''
+    destint : DESTINO DIRECCION
+    '''
+    p[0] = ('destino', p[2])
+def p_destino2(p):
+    '''
+    destint : DESTINO DIRECCIONFEA
+    '''
+    p[0] = ('destino', p[2])
 def p_unit(p):
     '''
     unitnt : UNIT UNIDAD
@@ -462,6 +477,7 @@ def p_param(p):
           | file2nt
           | file3nt
           | file4nt
+          | destint
             
           
             
@@ -632,6 +648,16 @@ def p_edit(p):
     else:
         print("Error: You must be logged in to use this command")
     p[0] = ('edit', p[2])
+def p_copy(p):
+    '''
+    copy : COPY params
+    '''
+    if users != None:
+        copy(p[2], mounted_partitions, current_partition, users)
+        ver_bitmaps('copy',mounted_partitions, current_partition)
+    else:
+        print("Error: You must be logged in to use this command")
+    p[0] = ('copy', p[2])
 def p_error(p):
     print(f'Syntax error at {p.value!r}')
 
