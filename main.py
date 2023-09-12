@@ -128,7 +128,8 @@ tokens = ( 'MKDISK', 'SIZE', 'PATH', 'UNIT', 'FIT','ENCAJE',
           'COPY',
           'DESTINO',
           'MOVE',
-          'FIND')
+          'FIND',
+          'PAUSE')
 
 # Ignored characters
 t_ignore = ' \t'
@@ -155,6 +156,7 @@ t_EDIT = r'edit'
 t_COPY = r'copy'
 t_MOVE = r'move'
 t_FIND = r'find'
+t_PAUSE = r'pause'
 
 t_USER = r'-user'
 t_PASSWORD = r'-pass'
@@ -292,6 +294,7 @@ def p_expression(p):
                 | copy
                 | move
                 | find
+                | pause
     '''
 
     p[0] = ('binop', p[1])
@@ -683,6 +686,12 @@ def p_find(p):
     else:
         print("Error: You must be logged in to use this command")
     p[0] = ('find', p[2])
+def p_pause(p):
+    '''
+    pause : PAUSE
+    '''
+    input("Press Enter to continue...")
+    p[0] = ('pause', p[1])
 def p_error(p):
     print(f'Syntax error at {p.value!r}')
 

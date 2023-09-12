@@ -59,9 +59,14 @@ mkdisk -size=10 -path="/home/mis discos/Disco4.dsk" -unit=M -fit=WF \n\
                                                              find -path="/home" -name=mentos.txt\
                                                                  find -path="/home" -name=mentos2.txt\
                                                                      find -path="/home" -name=mentos3.txt\
+                                                                         pause\
                                                                          find -path="/homes" -name=mentos2.txt\
                                                                              find -path="/home" -name=mentos\
-                                                                                 find -path="/home" -name=*\
-                                                                                     find -path="/home" -name=?\
+                                                                                 pause\
+                                                                                 find -path="/home" -name=?\
+                                                                                     pause\
+                                                                                     find -path="/home" -name=*\
+                                                                                         pause\
+                                                                                         find -path="/home2" -name=*\
                         '                               
 #unmount -id=533Disco4 \
