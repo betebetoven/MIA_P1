@@ -190,7 +190,35 @@ def espacio_libre_bitmap_inodos(file,superblock):
     file.write(bitmap_inodos.encode('utf-8'))
     byte = index_to_byte(index,superblock.s_inode_start,Inode.SIZE)
     return True, byte
-    
+texto_de_find   = ''
+def busca_en_todo_el_sistema(file,byte,tipo,texto,x,contador):
+    tabs = '\t'*contador
+    global texto_de_find
+    if byte == -1:
+        return
+    if tipo == 0:
+        file.seek(byte)
+        inodo = Inode.unpack(file.read(Inode.SIZE))
+        if inodo.i_type == '1':
+            return   
+        for n in inodo.i_block:
+            if n == -1:
+                continue
+            busca_en_todo_el_sistema(file,n,1,texto,x,contador)
+    if tipo == 1:
+        file.seek(byte)
+        folder = FolderBlock.unpack(file.read(FolderBlock.SIZE))
+        for n in folder.b_content:
+            if n.b_inodo == -1:
+                continue
+            if n.b_name.rstrip('\x00') == x:
+                texto += "\n"+tabs+"|_"+n.b_name.rstrip('\x00') +"  <---------🔎"
+                texto_de_find = texto
+                return
+            texto += "\n"+tabs+"|_"+n.b_name.rstrip('\x00') 
+            nuevo_contador = contador+1
+            busca_en_todo_el_sistema(file,n.b_inodo,0,texto,x,nuevo_contador)
+        
 
 def byte_to_index(byte, inicio, size):
     return (byte - inicio) // size   
@@ -839,7 +867,7 @@ def copy(params, mounted_partitions,id, usuario_actual):
             file.write(folder.pack())
             
 def move(params, mounted_partitions,id, usuario_actual):  
-    print(f'COPY {params}')
+    print(f'MOVE {params}')
     if id == None:
         print("Error: The id is required.")
         return
@@ -918,4 +946,56 @@ def move(params, mounted_partitions,id, usuario_actual):
             folder.b_content[d].b_inodo = inodo_copia_byte
             file.seek(b)
             file.write(folder.pack())
-            
+def find(params, mounted_partitions,id, usuario_actual):  
+    print(f'\n__________________FIND {params}__________________\n')
+    if id == None:
+        print("Error: The id is required.")
+        return
+    try: 
+        insidepath = params['path']
+        name = params['name']
+    except:
+        print("Error:Path must be specified.")
+        return
+    partition = None
+    for partition_dict in mounted_partitions:
+        if id in partition_dict:
+            partition = partition_dict[id]
+            break
+    if not partition:
+        print(f"Error: The partition with id {id} does not exist.")
+        return
+    # Retrieve partition details.
+    path = partition['path']
+    inicio = partition['inicio']
+    size = partition['size']
+    filename = path
+    current_directory = os.getcwd()
+    full_path= f'{current_directory}/discos_test{filename}'
+    if not os.path.exists(full_path):
+        print(f"⚠️ Error: The file {full_path} does not exist.")
+        return
+    with open(full_path, "rb+") as file:
+        file.seek(inicio)
+        superblock = Superblock.unpack(file.read(Superblock.SIZE))
+        
+        lista_direcciones = insidepath.split('/')[1:]
+        PI = superblock.s_inode_start
+        
+        for i,n in enumerate(lista_direcciones):
+            esta,v = busca(file,PI,0,n)
+            if esta:
+                PI = v
+            else:
+                print(f'⚠️ archivo {insidepath} no existe')
+                return
+        #print(PI)
+        global texto_de_find
+        texto_de_find = ''
+        busca_en_todo_el_sistema(file,PI,0,'',name,0)
+        print(f'carpeta de inicio {insidepath} y nombre {name}')
+        
+        if texto_de_find == '':
+            print(f'⚠️ no se encontro el archivo {name} en la carpeta {insidepath}')
+        print(texto_de_find)
+        print("- - - - - - - - - - - - - - - - -\n")
