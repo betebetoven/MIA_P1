@@ -23,10 +23,15 @@ def mkfs(params, mounted_partitions, users):
     path = partition['path']
     inicio = partition['inicio']
     size = partition['size']
+    ext = partition.get('fs', 'ext2')
+    if ext == 'ext2':
+        ext = 2
+    elif ext == 'ext3':
+        ext = 3
 
     # Step 3: Format based on tipo.
     if tipo == 'full':
-        superblock = Superblock(inicio, size)
+        superblock = Superblock(inicio, size,ext)
         superblock.s_free_inodes_count -= 1
         superblock.s_free_blocks_count -= 1 #for the superblock
         filename = path

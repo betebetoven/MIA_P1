@@ -2,6 +2,27 @@ import os
 import struct
 import time
 import random
+#JOURNAL
+class Journal:
+    FORMAT = '3512s'
+    SIZE = struct.calcsize(FORMAT)
+    
+    def __init__(self):
+        self.journal_data = '' # Store commands as bytes
+    
+    def __str__(self) -> str:
+        return f"Journal: data={self.journal_data.decode('utf-8')}"
+    
+    def pack(self):
+        packed_journal = struct.pack(self.FORMAT, self.journal_data)
+        return packed_journal
+    
+    @classmethod
+    def unpack(cls, data):
+        unpacked_data = struct.unpack(cls.FORMAT, data)
+        journal = cls()
+        journal.journal_data = unpacked_data[0].rstrip(b'\x00')
+        return journal
 
 
 #INODE
@@ -123,8 +144,11 @@ class Superblock:
     FORMAT = 'i i i i i d d i i i i i i i i i i'
     SIZE = struct.calcsize(FORMAT)
 
-    def __init__(self, inicio_particion, size_particion):
-        number_of_structures = (size_particion - Superblock.SIZE) // (Inode.SIZE + 4+(3*block.SIZE))
+    def __init__(self, inicio_particion, size_particion,ext):
+        if ext == 2:
+            number_of_structures = (size_particion - Superblock.SIZE) // (Inode.SIZE + 4+(3*block.SIZE))
+        elif ext == 3:
+            number_of_structures = (size_particion - Superblock.SIZE) // (Inode.SIZE +Journal.SIZE+ 4+(3*block.SIZE))
         number_of_inodes = number_of_structures //4
         number_of_blocks = number_of_inodes * 3
         self.s_filesystem_type = 0xEF53
@@ -140,7 +164,10 @@ class Superblock:
         self.s_block_s = block.SIZE
         self.s_firts_ino = 0
         self.s_first_blo = 0
-        self.s_bm_inode_start = inicio_particion + Superblock.SIZE
+        if ext == 2:
+            self.s_bm_inode_start = inicio_particion + Superblock.SIZE
+        elif ext == 3:
+            self.s_bm_inode_start = inicio_particion + Superblock.SIZE + Journal.SIZE
         self.s_bm_block_start = self.s_bm_inode_start + self.s_inodes_count
         self.s_inode_start = self.s_bm_block_start + self.s_blocks_count
         self.s_block_start = self.s_inode_start + (self.s_inodes_count * Inode.SIZE)
@@ -153,7 +180,7 @@ class Superblock:
     @classmethod
     def unpack(cls, data):
         unpacked_data = struct.unpack(cls.FORMAT, data)
-        superblock = cls(0,0)
+        superblock = cls(0,0,2)
         superblock.s_filesystem_type = unpacked_data[0]
         superblock.s_inodes_count = unpacked_data[1]
         superblock.s_blocks_count = unpacked_data[2]
