@@ -81,7 +81,7 @@ def generate_dot(instruccion, bitmap, label, contador):
     dot_string = f'{label}_{contador} [shape=box,  label="{instruccion}\n{formatted_bitmap}"];\n'
     
     return dot_string
-
+import ast
 def recuperar(params, mounted_partitions, users):
     id = params.get('id', None)
     # Check if the id exists in mounted_partitions.
@@ -110,7 +110,13 @@ def recuperar(params, mounted_partitions, users):
         file.seek(inicio+Superblock.SIZE)
         journal = Journal.unpack(file.read(Journal.SIZE))
         content = journal.journal_data
-        
+        commands = [ast.literal_eval(line) for line in content.split("\n") if line.strip()]
+        print(commands)
+        for n in commands:
+            if n[0] == 'mkfs':
+                mkfs(n[1], mounted_partitions, users)
+                ver_bitmaps("mkfs"+str(n[1]), mounted_partitions, id)
+                
 
 # --- Tokenizer
 
@@ -345,6 +351,7 @@ def p_expression(p):
                 | chgrp
                 | chmod
                 | loss
+                | recovery
     '''
 
     p[0] = ('binop', p[1])
@@ -803,6 +810,12 @@ def p_loss(p):
     '''
     loss(p[2], mounted_partitions, current_partition)
     p[0] = ('loss', p[2])
+def p_recovery(p):
+    '''
+    recovery : RECOVERY params
+    '''
+    recuperar(p[2], mounted_partitions, current_partition)
+    p[0] = ('recovery', p[2])
 def p_error(p):
     print(f'Syntax error at {p.value!r}')
 

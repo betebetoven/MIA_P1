@@ -79,5 +79,6 @@ chown -path=/home2/documents -r -user=mamadas   \
 chgrp -user=mamadas -grp=usuarios2  \
 chmod -path=/home2 -ugo=777 -r\n\
     loss -id=531Disco4\
+        recovery -id=531Disco4\
                         '                               
 #unmount -id=533Disco4 \

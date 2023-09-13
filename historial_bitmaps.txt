@@ -246,6 +246,12 @@ inodo_40 [shape=box,  label="chgrp{'user': 'mamadas', 'grp': 'usuarios2'}
 bloque_40 [shape=box,  label="chgrp{'user': 'mamadas', 'grp': 'usuarios2'}
 1111111111\n1111111111\n1111111111\n1111100000\n0000000000\n0000000000\n0000000000\n0000000000\n0000000"];
 
+inodo_41 [shape=box,  label="mkfs{'type': 'full', 'id': '531Disco4', 'fs': 'ext3'}
+110000\n000000\n000000\n000000\n00000"];
+
+bloque_41 [shape=box,  label="mkfs{'type': 'full', 'id': '531Disco4', 'fs': 'ext3'}
+1100000000\n0000000000\n0000000000\n0000000000\n0000000000\n0000000000\n0000000000\n0000000000\n0000000"];
+
 inodo_0 -> inodo_1
 bloque_0 -> bloque_1
 inodo_1 -> inodo_2
@@ -328,4 +334,6 @@ inodo_39 -> inodo_40
 bloque_39 -> bloque_40
 inodo_40 -> inodo_41
 bloque_40 -> bloque_41
+inodo_41 -> inodo_42
+bloque_41 -> bloque_42
 }
