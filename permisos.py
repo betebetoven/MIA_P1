@@ -10,6 +10,8 @@ from prettytable import PrettyTable
 import re
 from mkfile import busca
 from mkfs import parse_users
+from mountingusers import extract_active_groups, get_group_id
+
 def read_file_inode(file, lista):
     texto = ''
     for n in lista:
@@ -38,7 +40,53 @@ def cambiar_id_inodos_recursivamente(file,byte, tipo, id):
         for n in bloque.b_content:
             if n.b_inodo != -1:
                 cambiar_id_inodos_recursivamente(file,n.b_inodo,0,id)
+def change_group_user(text, new_id,new_group_name, name):
+    # Splitting the text into lines
+    lines = text.strip().split('\n')
+    
+    # First, we modify the group ID of the user
+    for idx, line in enumerate(lines):
+        parts = line.split(',')
+        if parts[1] == 'U' and parts[3] == name:
+            parts[0] = str(new_id)
+            parts[2] = new_group_name
+            lines[idx] = ','.join(parts)
+            break
+    
+    # Then, we reorder the text
+    groups = {}
+    users = {}
+    
+    for line in lines:
+        parts = line.split(',')
+        if parts[1] == 'G':
+            groups[parts[0]] = line
+            users[parts[0]] = []
+        elif parts[1] == 'U':
+            if parts[0] not in users:
+                users[parts[0]] = []
+            users[parts[0]].append(line)
+    
+    # Reconstructing the text
+    sorted_lines = []
+    for gid, group in groups.items():
+        sorted_lines.append(group)
+        sorted_lines.extend(users.get(gid, []))
+    
+    return '\n'.join(sorted_lines)
         
+def count_occupied_blocks_in_inode(inodo):
+    count = 0
+    for n in inodo.i_block:
+        if n != -1:
+            count += 1
+    return count
+def count_bloques_for_a_text(text):
+    length = len(text)
+    fileblocks = length//64
+    if length%64 != 0:
+        fileblocks += 1
+    return fileblocks
         
 def chown(params, mounted_partitions,id, usuario_actual):  
     print(f'CHOWN {params}')
@@ -94,7 +142,7 @@ def chown(params, mounted_partitions,id, usuario_actual):
         file.seek(PI_users)
         inodo_archivo = Inode.unpack(file.read(Inode.SIZE))
         texto_usuarios = read_file_inode(file, inodo_archivo.i_block)
-        #print(texto_usuarios)
+        print(texto_usuarios)
         grupos = parse_users(texto_usuarios)
         usuario_obtenido = None
         for n in grupos:
@@ -113,3 +161,75 @@ def chown(params, mounted_partitions,id, usuario_actual):
             if r == '-r':
                 cambiar_id_inodos_recursivamente(file,PI,0,inodo.i_uid)
             
+def chgrp(params, mounted_partitions,id, usuario_actual):  
+    print(f'- - - - - - -CHGRP {params}')
+    if id == None:
+        print("Error: The id is required.")
+        return
+    try: 
+        user = params['user']
+        group = params['grp']
+        
+    except:
+        print("Error:Path must be specified.")
+        return
+    partition = None
+    for partition_dict in mounted_partitions:
+        if id in partition_dict:
+            partition = partition_dict[id]
+            break
+    if not partition:
+        print(f"Error: The partition with id {id} does not exist.")
+        return
+    # Retrieve partition details.
+    path = partition['path']
+    inicio = partition['inicio']
+    size = partition['size']
+    filename = path
+    current_directory = os.getcwd()
+    full_path= f'{current_directory}/discos_test{filename}'
+    if not os.path.exists(full_path):
+        print(f"Error: The file {full_path} does not exist.")
+        return
+    with open(full_path, "rb+") as file:
+        file.seek(inicio)
+        superblock = Superblock.unpack(file.read(Superblock.SIZE))
+        
+        
+        PI = superblock.s_inode_start
+        _,PI_users = busca(file,PI,0,'users.txt')
+        file.seek(PI_users)
+        inodo_archivo = Inode.unpack(file.read(Inode.SIZE))
+        texto_usuarios = read_file_inode(file, inodo_archivo.i_block)
+        group_id = get_group_id( group,extract_active_groups(texto_usuarios))
+        new_texto = change_group_user(texto_usuarios, group_id,group , user)
+        cantidad_bloques_utilizados = count_occupied_blocks_in_inode(inodo_archivo)
+        cantitda_bloques_por_utilizat = count_bloques_for_a_text(new_texto)
+        bitmap_bloques_inicio = superblock.s_bm_block_start
+        cantidad_bloques = superblock.s_blocks_count
+        FORMAT = f'{cantidad_bloques}s'
+        SIZE = struct.calcsize(FORMAT)
+        file.seek(bitmap_bloques_inicio)
+        bitmap_bloques = struct.unpack(FORMAT, file.read(SIZE))
+        bitmap=bitmap_bloques[0].decode('utf-8')
+        primerbloque = inodo_archivo.i_block[0]
+        indice_a_borrar = (primerbloque-superblock.s_block_start)//64
+        if cantitda_bloques_por_utilizat<=12:
+            bitmap = bitmap[:indice_a_borrar] + '0'*cantidad_bloques_utilizados + bitmap[indice_a_borrar+cantidad_bloques_utilizados:]
+            index = bitmap.find('0'*cantitda_bloques_por_utilizat)
+            a = bitmap[:index] + '1'*cantitda_bloques_por_utilizat + bitmap[index+cantitda_bloques_por_utilizat:]
+            #print(a)
+            texto = new_texto
+            chunks = [texto[i:i+64] for i in range(0, len(texto), 64)]
+            for i,n in enumerate(chunks):
+                new_fileblock = FileBlock()
+                new_fileblock.b_content = n
+                inodo_archivo.i_block[i] = primerbloque+i*64
+                file.seek(primerbloque+i*64)
+                file.write(new_fileblock.pack())
+            file.seek(PI_users)
+            file.write(inodo_archivo.pack())
+            file.seek(bitmap_bloques_inicio)
+            file.write(struct.pack(FORMAT,a.encode('utf-8')))
+            print(f'✅✅__El grupo del usuario {user} ha sido cambiado a {group}')
+        

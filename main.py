@@ -7,7 +7,7 @@ from mount import mount, unmount
 from mkfs import mkfs, login, makeuser, makegroup, remgroup, remuser
 from FORMATEO.ext2.ext2 import Superblock, Inode, FolderBlock, FileBlock, PointerBlock, block, Content
 from mkfile import mkfile, cat, remove, rename, copy, move, find
-from permisos import chown
+from permisos import chown, chgrp
 import struct
 import os
 mapa_de_bytes = []
@@ -131,7 +131,8 @@ tokens = ( 'MKDISK', 'SIZE', 'PATH', 'UNIT', 'FIT','ENCAJE',
           'MOVE',
           'FIND',
           'PAUSE',
-          'CHOWN',)
+          'CHOWN',
+          'CHGRP')
 
 # Ignored characters
 t_ignore = ' \t'
@@ -160,6 +161,7 @@ t_MOVE = r'move'
 t_FIND = r'find'
 t_PAUSE = r'pause'
 t_CHOWN = r'chown'
+t_CHGRP = r'chgrp'
 
 t_USER = r'-user'
 t_PASSWORD = r'-pass'
@@ -299,6 +301,7 @@ def p_expression(p):
                 | find
                 | pause
                 | chown
+                | chgrp
     '''
 
     p[0] = ('binop', p[1])
@@ -705,6 +708,16 @@ def p_chown(p):
     else:
         print("Error: You must be logged in to use this command")
     p[0] = ('chown', p[2])
+def p_chgrp(p):
+    '''
+    chgrp : CHGRP params
+    '''
+    if users != None and users['username']=='root' :
+        chgrp(p[2], mounted_partitions, current_partition, users)
+        ver_bitmaps('chgrp'+str(p[2]),mounted_partitions, current_partition)
+    else:
+        print("Error: You must be logged in as root to use this command")
+    p[0] = ('chgrp', p[2])
 def p_error(p):
     print(f'Syntax error at {p.value!r}')
 
