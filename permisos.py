@@ -51,13 +51,13 @@ def cambiar_permiso_inodos_recursivamente(file,byte, tipo, permiso):
             return
         for n in inodo.i_block:
             if n != -1:
-                cambiar_id_inodos_recursivamente(file,n,1,permiso)
+                cambiar_permiso_inodos_recursivamente(file,n,1,permiso)
     if tipo == 1:
         file.seek(byte)
         bloque = FolderBlock.unpack(file.read(FolderBlock.SIZE))
         for n in bloque.b_content:
             if n.b_inodo != -1:
-                cambiar_id_inodos_recursivamente(file,n.b_inodo,0,permiso)
+                cambiar_permiso_inodos_recursivamente(file,n.b_inodo,0,permiso)
 def change_group_user(text, new_id,new_group_name, name):
     # Splitting the text into lines
     lines = text.strip().split('\n')
@@ -317,4 +317,4 @@ def chmod(params, mounted_partitions,id, usuario_actual):
         print(f'El propietario del archivo {insidepath} ha sido cambiado a {ugo}')
         r = params.get('r', '/')
         if r == '-r':
-            cambiar_id_inodos_recursivamente(file,PI,0,inodo.i_uid)
+            cambiar_permiso_inodos_recursivamente(file,PI,0,inodo.i_perm)
