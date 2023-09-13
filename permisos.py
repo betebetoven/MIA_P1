@@ -19,6 +19,26 @@ def read_file_inode(file, lista):
         fileblock = FileBlock.unpack(file.read(FileBlock.SIZE))
         texto += fileblock.b_content.rstrip('\x00')
     return texto
+def cambiar_id_inodos_recursivamente(file,byte, tipo, id):
+    if tipo == 0:
+        file.seek(byte)
+        inodo = Inode.unpack(file.read(Inode.SIZE))
+        inodo.i_uid = id
+        inodo.I_gid = id
+        file.seek(byte)
+        file.write(inodo.pack())
+        if inodo.i_type == '1':
+            return
+        for n in inodo.i_block:
+            if n != -1:
+                cambiar_id_inodos_recursivamente(file,n,1,id)
+    if tipo == 1:
+        file.seek(byte)
+        bloque = FolderBlock.unpack(file.read(FolderBlock.SIZE))
+        for n in bloque.b_content:
+            if n.b_inodo != -1:
+                cambiar_id_inodos_recursivamente(file,n.b_inodo,0,id)
+        
         
 def chown(params, mounted_partitions,id, usuario_actual):  
     print(f'CHOWN {params}')
@@ -89,4 +109,7 @@ def chown(params, mounted_partitions,id, usuario_actual):
             file.seek(PI)
             file.write(inodo.pack())
             print(f'El propietario del archivo {insidepath} ha sido cambiado a {user}')
+            r = params.get('r', '/')
+            if r == '-r':
+                cambiar_id_inodos_recursivamente(file,PI,0,inodo.i_uid)
             

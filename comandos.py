@@ -69,6 +69,6 @@ mkdisk -size=10 -path="/home/mis discos/Disco4.dsk" -unit=M -fit=WF \n\
                                                                                          pause\
                                                                                          find -path="/home2" -name=*\
                                                                                              chown -path=/home2/documents/mentos2.txt -user=mamadas\
-                                                                                                 chown -path=/home2/documents/mentos2.txt -user=mamadas\
+                                                                                                 chown -path=/home2/documents -r -user=mamadas\
                         '                               
 #unmount -id=533Disco4 \
