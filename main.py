@@ -5,9 +5,10 @@ from mkdisk import mkdisk, rmdisk, fdisk
 from comandos import comandos
 from mount import mount, unmount
 from mkfs import mkfs, login, makeuser, makegroup, remgroup, remuser
-from FORMATEO.ext2.ext2 import Superblock, Inode, FolderBlock, FileBlock, PointerBlock, block, Content
+from FORMATEO.ext2.ext2 import Superblock, Inode, FolderBlock, FileBlock, PointerBlock, block, Content, Journal
 from mkfile import mkfile, cat, remove, rename, copy, move, find
 from permisos import chown, chgrp,chmod
+from journal import add_to_journal, ver_journal_actual, loss
 import struct
 import os
 mapa_de_bytes = []
@@ -81,6 +82,36 @@ def generate_dot(instruccion, bitmap, label, contador):
     
     return dot_string
 
+def recuperar(params, mounted_partitions, users):
+    id = params.get('id', None)
+    # Check if the id exists in mounted_partitions.
+    partition = None
+    for partition_dict in mounted_partitions:
+        if id in partition_dict:
+            partition = partition_dict[id]
+            break
+
+    if not partition:
+        print(f"Error: The partition with id {id} does not exist.")
+        return
+
+    # Retrieve partition details.
+    path = partition['path']
+    inicio = partition['inicio']
+    size = partition['size']
+    #write null bytes all over the partition
+    filename = path
+    current_directory = os.getcwd()
+    full_path= f'{current_directory}/discos_test{filename}'
+    if not os.path.exists(full_path):
+        print(f"Error: The file {full_path} does not exist.")
+        return
+    with open(full_path, "rb+") as file:
+        file.seek(inicio+Superblock.SIZE)
+        journal = Journal.unpack(file.read(Journal.SIZE))
+        content = journal.journal_data
+        
+
 # --- Tokenizer
 
 # All tokens must be named in advance.
@@ -135,7 +166,9 @@ tokens = ( 'MKDISK', 'SIZE', 'PATH', 'UNIT', 'FIT','ENCAJE',
           'CHGRP',
           'UGO',
           'CHMOD',
-          'FS')
+          'FS',
+          'LOSS',
+          'RECOVERY')
 
 # Ignored characters
 t_ignore = ' \t'
@@ -166,6 +199,8 @@ t_PAUSE = r'pause'
 t_CHOWN = r'chown'
 t_CHGRP = r'chgrp'
 t_CHMOD = r'chmod'
+t_LOSS = r'loss'
+t_RECOVERY = r'recovery'
 
 t_USER = r'-user'
 t_PASSWORD = r'-pass'
@@ -309,6 +344,7 @@ def p_expression(p):
                 | chown
                 | chgrp
                 | chmod
+                | loss
     '''
 
     p[0] = ('binop', p[1])
@@ -580,6 +616,7 @@ def p_login(p):
     users, current_partition = login(p[2], mounted_partitions)
     p[0] = ('login', p[2])
     ver_bitmaps('login'+str(p[2]),mounted_partitions, current_partition)
+    add_to_journal(mounted_partitions,current_partition, str(('login', p[2])))
 def p_logout(p):
     '''
     logout : LOGOUT
@@ -591,6 +628,7 @@ def p_logout(p):
         users = None
     else:
         print("No user is logged in")
+    add_to_journal(mounted_partitions,current_partition, str(('logout', {})))
     p[0] = ('logout', (exited_user))
 def p_mkusr(p):
     '''
@@ -599,6 +637,7 @@ def p_mkusr(p):
     if users != None and users['username']=='root' :
         makeuser(p[2], mounted_partitions, current_partition)
         ver_bitmaps('mkusr'+str(p[2]),mounted_partitions, current_partition)
+        add_to_journal(mounted_partitions,current_partition, str(('mkusr', p[2])))
     else:
         print("Error: You must be logged in as root to use this command")
     
@@ -610,6 +649,7 @@ def p_mkgrp(p):
     if users != None and users['username']=='root' :
         makegroup(p[2], mounted_partitions, current_partition)
         ver_bitmaps('mkgrp'+str(p[2]),mounted_partitions, current_partition)
+        add_to_journal(mounted_partitions,current_partition, str(('mkgrp', p[2])))
     else:
         print("Error: You must be logged in as root to use this command")
     p[0] = ('mkgrp', p[2])
@@ -620,6 +660,7 @@ def p_rmgrp(p):
     if users != None and users['username']=='root' :
         remgroup(p[2], mounted_partitions, current_partition)
         ver_bitmaps('rmgrp'+str(p[2]),mounted_partitions, current_partition)
+        add_to_journal(mounted_partitions,current_partition, str(('rmgrp', p[2])))
     else:
         print("Error: You must be logged in as root to use this command")
     p[0] = ('rmgrp', p[2])
@@ -630,6 +671,7 @@ def p_rmusr(p):
     if users != None and users['username']=='root' :
         remuser(p[2], mounted_partitions, current_partition)
         ver_bitmaps('rmusr'+str(p[2]),mounted_partitions, current_partition)
+        add_to_journal(mounted_partitions,current_partition, str(('rmusr', p[2])))
     else:
         print("Error: You must be logged in as root to use this command")
     p[0] = ('rmusr', p[2])
@@ -640,6 +682,7 @@ def p_mkfile(p):
     if users != None:
         mkfile(p[2], mounted_partitions, current_partition, users)
         ver_bitmaps('mkfile'+str(p[2]),mounted_partitions, current_partition)
+        add_to_journal(mounted_partitions,current_partition, str(('mkfile', p[2])))
     else:
         print("Error: You must be logged in as root to use this command")
     p[0] = ('mkfile', p[2])
@@ -659,6 +702,7 @@ def p_remove(p):
     if users != None:
         remove(p[2], mounted_partitions, current_partition, users)
         ver_bitmaps('remove'+str(p[2]),mounted_partitions, current_partition)
+        add_to_journal(mounted_partitions,current_partition, str(('remove', p[2])))
     else:
         print("Error: You must be logged in to use this command")
     p[0] = ('remove', p[2])
@@ -669,6 +713,7 @@ def p_rename(p):
     if users != None:
         rename(p[2], mounted_partitions, current_partition, users)
         ver_bitmaps('rename'+str(p[2]),mounted_partitions, current_partition)
+        add_to_journal(mounted_partitions,current_partition, str(('rename', p[2])))
     else:
         print("Error: You must be logged in to use this command")
     p[0] = ('rename', p[2])
@@ -680,6 +725,7 @@ def p_edit(p):
         remove(p[2], mounted_partitions, current_partition, users)
         mkfile(p[2], mounted_partitions, current_partition, users)
         ver_bitmaps('edit'+str(p[2]),mounted_partitions, current_partition)
+        add_to_journal(mounted_partitions,current_partition, str(('edit', p[2])))
     else:
         print("Error: You must be logged in to use this command")
     p[0] = ('edit', p[2])
@@ -690,6 +736,7 @@ def p_copy(p):
     if users != None:
         copy(p[2], mounted_partitions, current_partition, users)
         ver_bitmaps('copy'+str(p[2]),mounted_partitions, current_partition)
+        add_to_journal(mounted_partitions,current_partition, str(('copy', p[2])))
     else:
         print("Error: You must be logged in to use this command")
     p[0] = ('copy', p[2])
@@ -700,6 +747,7 @@ def p_move(p):
     if users != None:
         move(p[2], mounted_partitions, current_partition, users)
         ver_bitmaps('move'+str(p[2]),mounted_partitions, current_partition)
+        add_to_journal(mounted_partitions,current_partition, str(('move', p[2])))
     else:
         print("Error: You must be logged in to use this command")
     p[0] = ('move', p[2])
@@ -724,6 +772,7 @@ def p_chown(p):
     '''
     if users != None:
         chown(p[2], mounted_partitions, current_partition, users)
+        add_to_journal(mounted_partitions,current_partition, str(('chown', p[2])))
     else:
         print("Error: You must be logged in to use this command")
     p[0] = ('chown', p[2])
@@ -734,6 +783,7 @@ def p_chgrp(p):
     if users != None and users['username']=='root' :
         chgrp(p[2], mounted_partitions, current_partition, users)
         ver_bitmaps('chgrp'+str(p[2]),mounted_partitions, current_partition)
+        add_to_journal(mounted_partitions,current_partition, str(('chgrp', p[2])))
     else:
         print("Error: You must be logged in as root to use this command")
     p[0] = ('chgrp', p[2])
@@ -743,9 +793,16 @@ def p_chmod(p):
     '''
     if users != None and users['username']=='root' :
         chmod(p[2], mounted_partitions, current_partition, users)
+        add_to_journal(mounted_partitions,current_partition, str(('chmod', p[2])))
     else:
         print("Error: You must be logged in to use this command")
     p[0] = ('chmod', p[2])
+def p_loss(p):
+    '''
+    loss : LOSS params
+    '''
+    loss(p[2], mounted_partitions, current_partition)
+    p[0] = ('loss', p[2])
 def p_error(p):
     print(f'Syntax error at {p.value!r}')
 
@@ -860,6 +917,14 @@ def graph(file,inicio, index):
     return id
 
 
+
+
+
+    
+        
+        
+        
+        
 with open(r'C:\Users\alber\OneDrive\Escritorio\cys\MIA\proyecto1\discos_test\home\mis discos\Disco4.dsk', "rb") as file:
     file.seek(0)
     data = file.read(MBR.SIZE)
@@ -885,28 +950,16 @@ with open(r'C:\Users\alber\OneDrive\Escritorio\cys\MIA\proyecto1\discos_test\hom
     file.seek(mbr.particiones[0].byte_inicio)
     superblock = Superblock.unpack(file.read(Superblock.SIZE))
     codigo_para_graphviz= ''
-    primero = graph(file,superblock.s_inode_start,0)
-    print(f"home -> {primero}")
-    codigo_para_graphviz += f"\nhome -> {primero}"
-    with open('graphvizcode.txt', 'w') as f:
-        f.write(f'digraph G {{\n{codigo_para_graphviz}\n}}')
-    
-    #file.seek(superblock.s_inode_start)
-    #inodo = Inode.unpack(file.read(Inode.SIZE))
-    #inodo2 = Inode.unpack(file.read(Inode.SIZE))
-    #a,b,c,d = imprimir(inodo,0)
-    #print( prettytable_to_html_string(a,b,c,d))
-    #a,b,c,d = imprimir(inodo2,1)
-    #print( prettytable_to_html_string(a,b,c,d))
-    
-    #print(inodo2)
+    try:
+        primero = graph(file,superblock.s_inode_start,0)
+        print(f"home -> {primero}")
+        codigo_para_graphviz += f"\nhome -> {primero}"
+        with open('graphvizcode.txt', 'w') as f:
+            f.write(f'digraph G {{\n{codigo_para_graphviz}\n}}')
+    except:
+        print("no hay nada pq se hizo el loss")
     
     
-def graph_sistema():
-    code = "digraph G {"
-    
-
-    code += "}"
 
 for n in ast:
     print(n[1])

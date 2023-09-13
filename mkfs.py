@@ -82,6 +82,7 @@ def mkfs(params, mounted_partitions, users):
             file.write(superblock.pack())
             if ext == 3:
                 jrnl = Journal()
+                jrnl.journal_data = str(('mkfs',params))+"\n"
                 file.write(jrnl.pack())
             
             for i in range(superblock.s_inodes_count):

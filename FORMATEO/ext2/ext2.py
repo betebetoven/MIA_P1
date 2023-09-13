@@ -8,7 +8,7 @@ class Journal:
     SIZE = struct.calcsize(FORMAT)
     
     def __init__(self):
-        self.journal_data = 'vacio por ahora' # Store commands as bytes
+        self.journal_data = '' # Store commands as bytes
     
     def __str__(self) -> str:
         return f"Journal: data={self.journal_data.decode('utf-8')}"
@@ -21,7 +21,7 @@ class Journal:
     def unpack(cls, data):
         unpacked_data = struct.unpack(cls.FORMAT, data)
         journal = cls()
-        journal.journal_data = unpacked_data[0].rstrip(b'\x00')
+        journal.journal_data = unpacked_data[0].decode('utf-8').rstrip('\x00')
         return journal
 
 
