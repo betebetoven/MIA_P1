@@ -553,7 +553,7 @@ def p_login(p):
     global current_partition
     users, current_partition = login(p[2], mounted_partitions)
     p[0] = ('login', p[2])
-    ver_bitmaps('login',mounted_partitions, current_partition)
+    ver_bitmaps('login'+str(p[2]),mounted_partitions, current_partition)
 def p_logout(p):
     '''
     logout : LOGOUT
@@ -572,7 +572,7 @@ def p_mkusr(p):
     '''
     if users != None and users['username']=='root' :
         makeuser(p[2], mounted_partitions, current_partition)
-        ver_bitmaps('mkusr',mounted_partitions, current_partition)
+        ver_bitmaps('mkusr'+str(p[2]),mounted_partitions, current_partition)
     else:
         print("Error: You must be logged in as root to use this command")
     
@@ -583,7 +583,7 @@ def p_mkgrp(p):
     '''
     if users != None and users['username']=='root' :
         makegroup(p[2], mounted_partitions, current_partition)
-        ver_bitmaps('mkgrp',mounted_partitions, current_partition)
+        ver_bitmaps('mkgrp'+str(p[2]),mounted_partitions, current_partition)
     else:
         print("Error: You must be logged in as root to use this command")
     p[0] = ('mkgrp', p[2])
@@ -593,7 +593,7 @@ def p_rmgrp(p):
     '''
     if users != None and users['username']=='root' :
         remgroup(p[2], mounted_partitions, current_partition)
-        ver_bitmaps('rmgrp',mounted_partitions, current_partition)
+        ver_bitmaps('rmgrp'+str(p[2]),mounted_partitions, current_partition)
     else:
         print("Error: You must be logged in as root to use this command")
     p[0] = ('rmgrp', p[2])
@@ -603,7 +603,7 @@ def p_rmusr(p):
     '''
     if users != None and users['username']=='root' :
         remuser(p[2], mounted_partitions, current_partition)
-        ver_bitmaps('rmusr',mounted_partitions, current_partition)
+        ver_bitmaps('rmusr'+str(p[2]),mounted_partitions, current_partition)
     else:
         print("Error: You must be logged in as root to use this command")
     p[0] = ('rmusr', p[2])
@@ -613,7 +613,7 @@ def p_mkfile(p):
     '''
     if users != None:
         mkfile(p[2], mounted_partitions, current_partition, users)
-        ver_bitmaps('mkfile',mounted_partitions, current_partition)
+        ver_bitmaps('mkfile'+str(p[2]),mounted_partitions, current_partition)
     else:
         print("Error: You must be logged in as root to use this command")
     p[0] = ('mkfile', p[2])
@@ -632,7 +632,7 @@ def p_remove(p):
     '''
     if users != None:
         remove(p[2], mounted_partitions, current_partition, users)
-        ver_bitmaps('remove',mounted_partitions, current_partition)
+        ver_bitmaps('remove'+str(p[2]),mounted_partitions, current_partition)
     else:
         print("Error: You must be logged in to use this command")
     p[0] = ('remove', p[2])
@@ -642,7 +642,7 @@ def p_rename(p):
     '''
     if users != None:
         rename(p[2], mounted_partitions, current_partition, users)
-        ver_bitmaps('rename',mounted_partitions, current_partition)
+        ver_bitmaps('rename'+str(p[2]),mounted_partitions, current_partition)
     else:
         print("Error: You must be logged in to use this command")
     p[0] = ('rename', p[2])
@@ -653,7 +653,7 @@ def p_edit(p):
     if users != None:
         remove(p[2], mounted_partitions, current_partition, users)
         mkfile(p[2], mounted_partitions, current_partition, users)
-        ver_bitmaps('edit',mounted_partitions, current_partition)
+        ver_bitmaps('edit'+str(p[2]),mounted_partitions, current_partition)
     else:
         print("Error: You must be logged in to use this command")
     p[0] = ('edit', p[2])
@@ -663,7 +663,7 @@ def p_copy(p):
     '''
     if users != None:
         copy(p[2], mounted_partitions, current_partition, users)
-        ver_bitmaps('copy',mounted_partitions, current_partition)
+        ver_bitmaps('copy'+str(p[2]),mounted_partitions, current_partition)
     else:
         print("Error: You must be logged in to use this command")
     p[0] = ('copy', p[2])
@@ -673,7 +673,7 @@ def p_move(p):
     '''
     if users != None:
         move(p[2], mounted_partitions, current_partition, users)
-        ver_bitmaps('move',mounted_partitions, current_partition)
+        ver_bitmaps('move'+str(p[2]),mounted_partitions, current_partition)
     else:
         print("Error: You must be logged in to use this command")
     p[0] = ('move', p[2])
@@ -860,11 +860,11 @@ print(users)
 print(current_partition)
 
 codigo_para_graphviz = ''
-for n in mapa_de_bytes[len(mapa_de_bytes)-5:]:
+for n in mapa_de_bytes:
     codigo_para_graphviz += f'\n{n[0]}\n{n[1]}'
-#for n in range(len(mapa_de_bytes[len(mapa_de_bytes)-5:])):
-    #codigo_para_graphviz += f'\ninodo_{n} -> inodo_{n+1}'
-    #codigo_para_graphviz += f'\nbloque_{n} -> bloque_{n+1}'
+for n in range(len(mapa_de_bytes)):
+    codigo_para_graphviz += f'\ninodo_{n} -> inodo_{n+1}'
+    codigo_para_graphviz += f'\nbloque_{n} -> bloque_{n+1}'
     
     
 with open('historial_bitmaps.txt', 'w') as f:
