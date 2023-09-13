@@ -40,6 +40,24 @@ def cambiar_id_inodos_recursivamente(file,byte, tipo, id):
         for n in bloque.b_content:
             if n.b_inodo != -1:
                 cambiar_id_inodos_recursivamente(file,n.b_inodo,0,id)
+def cambiar_permiso_inodos_recursivamente(file,byte, tipo, permiso):
+    if tipo == 0:
+        file.seek(byte)
+        inodo = Inode.unpack(file.read(Inode.SIZE))
+        inodo.i_perm = permiso
+        file.seek(byte)
+        file.write(inodo.pack())
+        if inodo.i_type == '1':
+            return
+        for n in inodo.i_block:
+            if n != -1:
+                cambiar_id_inodos_recursivamente(file,n,1,permiso)
+    if tipo == 1:
+        file.seek(byte)
+        bloque = FolderBlock.unpack(file.read(FolderBlock.SIZE))
+        for n in bloque.b_content:
+            if n.b_inodo != -1:
+                cambiar_id_inodos_recursivamente(file,n.b_inodo,0,permiso)
 def change_group_user(text, new_id,new_group_name, name):
     # Splitting the text into lines
     lines = text.strip().split('\n')
@@ -244,3 +262,59 @@ def chgrp(params, mounted_partitions,id, usuario_actual):
             file.write(struct.pack(FORMAT,a.encode('utf-8')))
             print(f'✅✅__El grupo del usuario {user} ha sido cambiado a {group}')
         
+        
+def chmod(params, mounted_partitions,id, usuario_actual):  
+    print(f'CHOWN {params}')
+    if id == None:
+        print("Error: The id is required.")
+        return
+    try: 
+        insidepath = params['path']
+        ugo = params['ugo']
+    except:
+        print("Error:Path must be specified.")
+        return
+    partition = None
+    for partition_dict in mounted_partitions:
+        if id in partition_dict:
+            partition = partition_dict[id]
+            break
+    if not partition:
+        print(f"Error: The partition with id {id} does not exist.")
+        return
+    # Retrieve partition details.
+    path = partition['path']
+    inicio = partition['inicio']
+    size = partition['size']
+    filename = path
+    current_directory = os.getcwd()
+    full_path= f'{current_directory}/discos_test{filename}'
+    if not os.path.exists(full_path):
+        print(f"Error: The file {full_path} does not exist.")
+        return
+    with open(full_path, "rb+") as file:
+        file.seek(inicio)
+        superblock = Superblock.unpack(file.read(Superblock.SIZE))
+        
+        lista_direcciones = insidepath.split('/')[1:]
+        PI = superblock.s_inode_start
+        for i,n in enumerate(lista_direcciones):
+            esta,v = busca(file,PI,0,n)
+            if esta:
+                PI = v
+            else:
+                print(f'archivo {insidepath} no existe')
+                return
+        permisos_existentes = ['664','777','000','111','222','333','444','555','666']
+        if str(ugo) not in permisos_existentes:
+            print(f'🚷🚷__El permiso {ugo} no existe')
+            return
+        file.seek(PI)
+        inodo = Inode.unpack(file.read(Inode.SIZE))
+        inodo.i_perm = int(ugo)
+        file.seek(PI)
+        file.write(inodo.pack())
+        print(f'El propietario del archivo {insidepath} ha sido cambiado a {ugo}')
+        r = params.get('r', '/')
+        if r == '-r':
+            cambiar_id_inodos_recursivamente(file,PI,0,inodo.i_uid)

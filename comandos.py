@@ -71,5 +71,6 @@ mkdisk -size=10 -path="/home/mis discos/Disco4.dsk" -unit=M -fit=WF \n\
                                                                                              chown -path=/home2/documents/mentos2.txt -user=mamadas\
                                                                                                  chown -path=/home2/documents -r -user=mamadas\
                                                                                                      chgrp -user=mamadas -grp=usuarios2\
+                                                                                                         chmod -path=/home2/documents/mentos2.txt -ugo=777\
                         '                               
 #unmount -id=533Disco4 \
