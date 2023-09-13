@@ -4,7 +4,7 @@ import time
 import random
 #JOURNAL
 class Journal:
-    FORMAT = '100s'
+    FORMAT = '300s'
     SIZE = struct.calcsize(FORMAT)
     
     def __init__(self):
