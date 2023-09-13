@@ -4,7 +4,7 @@ import time
 import random
 #JOURNAL
 class Journal:
-    FORMAT = '300s'
+    FORMAT = '1000s'
     SIZE = struct.calcsize(FORMAT)
     
     def __init__(self):
@@ -177,6 +177,9 @@ class Superblock:
     def pack(self):
         packed_superblock = struct.pack(self.FORMAT, self.s_filesystem_type, self.s_inodes_count, self.s_blocks_count, self.s_free_blocks_count, self.s_free_inodes_count, self.s_mtime, self.s_umtime, self.s_mnt_count, self.s_magic, self.s_inode_s, self.s_block_s, self.s_firts_ino, self.s_first_blo, self.s_bm_inode_start, self.s_bm_block_start, self.s_inode_start, self.s_block_start)
         return packed_superblock
+    def ver_bytes_inidices(self):
+        print(f"bm_inode_start={self.s_bm_inode_start}, \nbm_block_start={self.s_bm_block_start},  \ninode_start={self.s_inode_start},  \nblock_start={self.s_block_start} \n count_inodes={self.s_inodes_count} \n count_blocks={self.s_blocks_count}")
+        input("____especificaciones de ext y superbloque, presione enter para continuar:::")
     @classmethod
     def unpack(cls, data):
         unpacked_data = struct.unpack(cls.FORMAT, data)

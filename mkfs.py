@@ -31,7 +31,9 @@ def mkfs(params, mounted_partitions, users):
 
     # Step 3: Format based on tipo.
     if tipo == 'full':
-        superblock = Superblock(inicio, size,ext)
+        print(f'size de particion: {size}')
+        superblock = Superblock(inicio, int(size),ext)
+        superblock.ver_bytes_inidices()
         superblock.s_free_inodes_count -= 1
         superblock.s_free_blocks_count -= 1 #for the superblock
         filename = path
