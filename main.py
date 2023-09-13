@@ -134,7 +134,8 @@ tokens = ( 'MKDISK', 'SIZE', 'PATH', 'UNIT', 'FIT','ENCAJE',
           'CHOWN',
           'CHGRP',
           'UGO',
-          'CHMOD')
+          'CHMOD',
+          'FS')
 
 # Ignored characters
 t_ignore = ' \t'
@@ -177,6 +178,7 @@ t_FILE2 = r'-file2='
 t_FILE3 = r'-file3='
 t_FILE4 = r'-file4='
 t_DESTINO = r'-destino='
+t_FS = r'-fs'
 
 t_SIZE = r'-size='
 t_UGO = r'-ugo='
@@ -332,6 +334,11 @@ def p_user2(p):
     usernt : USER NOMBREFEA
     '''
     p[0] = ('user', p[2])
+def p_fs(p):
+    '''
+    fsnt : FS NOMBRE
+    '''
+    p[0] = ('fs', p[2])
 def p_grp(p):
     '''
     grpnt : GRP NOMBRE
@@ -505,6 +512,7 @@ def p_param(p):
           | file4nt
           | destint
           | ugont
+          | fsnt
             
           
             

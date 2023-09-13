@@ -14,9 +14,10 @@ mkdisk -size=10 -path="/home/mis discos/Disco4.dsk" -unit=M -fit=WF \n\
                                             fdisk -size=1 -type=L -unit=K -path="/home/mis discos/Disco4.dsk" -name=acanosfuimos -fit=FF \
                                                 fdisk -size=1 -type=L -unit=K -path="/home/mis discos/Disco4.dsk" -name=acanosreimos -fit=FF \
                                         mount -path="/home/mis discos/Disco4.dsk" -name=laprimera \
-                                              mkfs -type=full -id=531Disco4\
-                                                  logout\
-                                                  login -user=root -pass=123 -id=531Disco4\
+    mkfs -type=full -id=531Disco4 -fs=ext2\n\
+    logout \
+    login -user=root -pass=123 -id=531Disco4\n\
+    \
                                                       mkusr -user=user1 -pass=usuario -grp=root\
                                                           mkusr -user=user2 -pass=usuario -grp=root\
                                                               mkusr -user=user3 -pass=usuario -grp=root\
@@ -37,7 +38,10 @@ mkdisk -size=10 -path="/home/mis discos/Disco4.dsk" -unit=M -fit=WF \n\
                                                       rmgrp -name=usuarios\
                                                           rmusr -user=user1\
                                                               mkfile -path=/users.txt\
+                                                                  \
                                                                   mkfile -path=/home/documents/papers/archivos.txt -r -size=10\
+                                                                      cat -file1=/users.txt\
+                                                                      \
                                                                       mkfile -path=/home/documents/papers/mentos/kk -r \
                                                                           mkfile -path=/home/documents/papers/mentos/kk1 -r \
                                                                               mkfile -path=/home/documents/papers/mentos/kk2 -r \
@@ -45,6 +49,8 @@ mkdisk -size=10 -path="/home/mis discos/Disco4.dsk" -unit=M -fit=WF \n\
                                                                       mkfile -path=/home/documents/papers/mentos/mentos.txt -r -cont=/contenido.txt\
                                                                           mkfile -path=/home2/documents/papers/mentos/mentos2.txt -r -cont=/contenido.txt\
                             remove -path=/home/documents/papers/mentos/mentos.txt\
+                                \
+                                    \
                                 mkfile -path=/home/documents/papers/mentos/mentos.txt -r -cont=/contenido.txt\
                                     mkfile -path=/casa" -r\
                                          mkdir -path=/carro" -r\
@@ -58,19 +64,19 @@ mkdisk -size=10 -path="/home/mis discos/Disco4.dsk" -unit=M -fit=WF \n\
                                                              mkfile -path=/home/a.txt" -r\
                                                              find -path="/home" -name=mentos.txt\
                                                                  find -path="/home" -name=mentos2.txt\
-                                                                     find -path="/home" -name=mentos3.txt\
-                                                                         pause\
-                                                                         find -path="/homes" -name=mentos2.txt\
-                                                                             find -path="/home" -name=mentos\
-                                                                                 pause\
-                                                                                 find -path="/home" -name=?\
-                                                                                     pause\
-                                                                                     find -path="/home" -name=*\
-                                                                                         pause\
-                                                                                         find -path="/home2" -name=*\
-                                                                                             chown -path=/home2/documents/mentos2.txt -user=mamadas\
-                                                                                                 chown -path=/home2/documents -r -user=mamadas\
-                                                                                                     chgrp -user=mamadas -grp=usuarios2\
-                                                                                                         chmod -path=/home2 -ugo=777 -r\
+find -path="/home" -name=mentos3.txt\n\
+pause\n\
+find -path="/homes" -name=mentos2.txt   \
+find -path="/home" -name=mentos \
+pause   \
+find -path="/home" -name=?  \
+pause   \
+find -path="/home" -name=*  \
+pause   \
+find -path="/home2" -name=* \
+chown -path=/home2/documents/mentos2.txt -user=mamadas  \
+chown -path=/home2/documents -r -user=mamadas   \
+chgrp -user=mamadas -grp=usuarios2  \
+chmod -path=/home2 -ugo=777 -r\n\
                         '                               
 #unmount -id=533Disco4 \

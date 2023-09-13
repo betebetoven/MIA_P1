@@ -173,6 +173,7 @@ def espacio_libre_bitmap_bloques(file,superblock):
     #write the new slot in the bitmap
     bitmap_bloques=bitmap_bloques[:index] + '1' + bitmap_bloques[index+1:]
     file.seek(bitmap_bloques_inicio)
+    
     file.write(bitmap_bloques.encode('utf-8'))
     byte = index_to_byte(index,superblock.s_block_start,block.SIZE)
     return True, byte
@@ -190,6 +191,7 @@ def espacio_libre_bitmap_inodos(file,superblock):
     #write the new slot in the bitmap
     bitmap_inodos=bitmap_inodos[:index] + '1' + bitmap_inodos[index+1:]
     file.seek(bitmap_inodos_inicio)
+    
     file.write(bitmap_inodos.encode('utf-8'))
     byte = index_to_byte(index,superblock.s_inode_start,Inode.SIZE)
     return True, byte
@@ -291,8 +293,10 @@ def actualizar_bitmap(file,superblock,lista_inodos,lista_bloques):
         index = byte_to_index(n,superblock.s_block_start,block.SIZE)
         bitmap_bloques = bitmap_bloques[:index] + '0' + bitmap_bloques[index+1:]
     file.seek(bitmap_bloques_inicio)
+    
     file.write(bitmap_bloques.encode('utf-8'))
     file.seek(bitmap_inodos_inicio)
+    
     file.write(bitmap_inodos.encode('utf-8'))
     #print("bitmaps despues")
     #print("bloques")
@@ -482,8 +486,10 @@ def mkfile(params, mounted_partitions,id, usuario_actual):
                         file.write(nuevo_bloque.pack())
                         #escribe de nuevo los bitmaps
                         file.seek(bitmap_bloques_inicio)
+                        
                         file.write(bitmap_bloques.encode('utf-8'))
                         file.seek(bitmap_inodos_inicio)
+                        
                         file.write(bitmap_inodos.encode('utf-8'))
                         dict = {'path':'/home'}
                         #mkfile(params,mounted_partitions,id, usuario_actual)
@@ -497,8 +503,10 @@ def mkfile(params, mounted_partitions,id, usuario_actual):
                         #file.write(nuevo_bloque.pack())
                         #escribe de nuevo los bitmaps
                         file.seek(bitmap_bloques_inicio)
+                        
                         file.write(bitmap_bloques.encode('utf-8'))
                         file.seek(bitmap_inodos_inicio)
+                        
                         file.write(bitmap_inodos.encode('utf-8'))
                         dict = {'path':'/home'}
                         #NOW WRITE THE CONTENT OF THE FILE IF ARCHIVOCONT IS NOT EMPTY
@@ -524,6 +532,7 @@ def mkfile(params, mounted_partitions,id, usuario_actual):
                                 file.seek(byte_nuevo_inodo2)
                                 file.write(nuevo_inodo.pack())
                                 file.seek(bitmap_bloques_inicio)
+                                
                                 file.write(bitmap_bloques.encode('utf-8'))
                         
                         
@@ -577,8 +586,10 @@ def mkfile(params, mounted_partitions,id, usuario_actual):
                         #escribe el nuevo bloque en el disco
                         #escribe de nuevo los bitmaps
                         file.seek(bitmap_bloques_inicio)
+                        
                         file.write(bitmap_bloques.encode('utf-8'))
                         file.seek(bitmap_inodos_inicio)
+                        
                         file.write(bitmap_inodos.encode('utf-8'))
                         dict = {'path':'/home'}
                         #mkfile(params,mounted_partitions,id, usuario_actual)
@@ -594,6 +605,7 @@ def mkfile(params, mounted_partitions,id, usuario_actual):
                         #file.seek(bitmap_bloques_inicio)
                         #file.write(bitmap_bloques.encode('utf-8'))
                         file.seek(bitmap_inodos_inicio)
+                        
                         file.write(bitmap_inodos.encode('utf-8'))
                         dict = {'path':'/home'}
                         #NOW WRITE THE CONTENT OF THE FILE IF ARCHIVOCONT IS NOT EMPTY
@@ -619,6 +631,7 @@ def mkfile(params, mounted_partitions,id, usuario_actual):
                                 file.seek(byte_nuevo_inodo)
                                 file.write(nuevo_inodo.pack())
                                 file.seek(bitmap_bloques_inicio)
+                                
                                 file.write(bitmap_bloques.encode('utf-8'))
                         
                         
@@ -627,7 +640,8 @@ def mkfile(params, mounted_partitions,id, usuario_actual):
                         
                         return
                     #mkfile(dict,mounted_partitions,id)
-    if newI != -1:                
+    if newI != -1:    
+        
         mkfile(params,mounted_partitions,id, usuario_actual)
                     
                     

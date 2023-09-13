@@ -1,4 +1,4 @@
-from FORMATEO.ext2.ext2 import Superblock, Inode, FolderBlock, FileBlock, PointerBlock, block, Content
+from FORMATEO.ext2.ext2 import Superblock, Inode, FolderBlock, FileBlock, PointerBlock, block, Content, Journal
 import os
 import struct
 import time
@@ -7,6 +7,10 @@ from mountingusers import load_users_from_content, parse_users, get_user_if_auth
 def mkfs(params, mounted_partitions, users):
     tipo = params.get('type', 'full').lower()
     id = params.get('id', None)
+    fsext = params.get('fs', 'ext2')
+    ext = 2
+    if fsext == 'ext3':
+        ext = 3
     
     # Check if the id exists in mounted_partitions.
     partition = None
@@ -23,11 +27,7 @@ def mkfs(params, mounted_partitions, users):
     path = partition['path']
     inicio = partition['inicio']
     size = partition['size']
-    ext = partition.get('fs', 'ext2')
-    if ext == 'ext2':
-        ext = 2
-    elif ext == 'ext3':
-        ext = 3
+    
 
     # Step 3: Format based on tipo.
     if tipo == 'full':
@@ -44,6 +44,10 @@ def mkfs(params, mounted_partitions, users):
             
             bitmapinodos = ['0']*superblock.s_inodes_count
             bitmapbloques = ['0']*superblock.s_blocks_count
+            #fill partition from inicio to size with null bytes
+            file.seek(inicio)
+            file.write(b'\x00'*size)        
+            
             
             #crea inodo 0
             i1 = Inode()
@@ -74,6 +78,10 @@ def mkfs(params, mounted_partitions, users):
             
             file.seek(inicio)
             file.write(superblock.pack())
+            if ext == 3:
+                jrnl = Journal()
+                file.write(jrnl.pack())
+            
             for i in range(superblock.s_inodes_count):
                 file.write(bitmapinodos[i].encode('utf-8'))
             for i in range(superblock.s_blocks_count):

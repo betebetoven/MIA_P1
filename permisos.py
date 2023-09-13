@@ -149,9 +149,8 @@ def chown(params, mounted_partitions,id, usuario_actual):
                 print(f'archivo {insidepath} no existe')
                 return
         file.seek(PI)
+        
         inodo = Inode.unpack(file.read(Inode.SIZE))
-        print(inodo.i_uid)
-        print(usuario_actual['id'])
         if str(inodo.i_uid) != str(usuario_actual['id']):
             print(f'No tiene permisos para cambiar el propietario del archivo {insidepath}')
             return
@@ -168,7 +167,7 @@ def chown(params, mounted_partitions,id, usuario_actual):
                 usuario_obtenido = n
                 break
         print(usuario_obtenido)
-        input()
+        
         if usuario_obtenido:
             inodo.i_uid = int(usuario_obtenido[user]['id'])
             inodo.I_gid = int(usuario_obtenido[user]['id'])

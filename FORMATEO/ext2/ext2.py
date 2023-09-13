@@ -4,17 +4,17 @@ import time
 import random
 #JOURNAL
 class Journal:
-    FORMAT = '3512s'
+    FORMAT = '100s'
     SIZE = struct.calcsize(FORMAT)
     
     def __init__(self):
-        self.journal_data = '' # Store commands as bytes
+        self.journal_data = 'vacio por ahora' # Store commands as bytes
     
     def __str__(self) -> str:
         return f"Journal: data={self.journal_data.decode('utf-8')}"
     
     def pack(self):
-        packed_journal = struct.pack(self.FORMAT, self.journal_data)
+        packed_journal = struct.pack(self.FORMAT, self.journal_data.encode('utf-8'))
         return packed_journal
     
     @classmethod
@@ -167,7 +167,7 @@ class Superblock:
         if ext == 2:
             self.s_bm_inode_start = inicio_particion + Superblock.SIZE
         elif ext == 3:
-            self.s_bm_inode_start = inicio_particion + Superblock.SIZE + Journal.SIZE
+            self.s_bm_inode_start =inicio_particion + Superblock.SIZE + Journal.SIZE
         self.s_bm_block_start = self.s_bm_inode_start + self.s_inodes_count
         self.s_inode_start = self.s_bm_block_start + self.s_blocks_count
         self.s_block_start = self.s_inode_start + (self.s_inodes_count * Inode.SIZE)
