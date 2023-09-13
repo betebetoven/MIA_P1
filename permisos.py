@@ -202,6 +202,17 @@ def chgrp(params, mounted_partitions,id, usuario_actual):
         inodo_archivo = Inode.unpack(file.read(Inode.SIZE))
         texto_usuarios = read_file_inode(file, inodo_archivo.i_block)
         group_id = get_group_id( group,extract_active_groups(texto_usuarios))
+        usuario_existe = False
+        for n in parse_users(texto_usuarios):
+            if user in n:
+                usuario_existe = True
+                break
+        if not usuario_existe:
+            print(f'🚷🚷__El usuario {user} no existe')
+            return
+        if group_id == None:
+            print(f'🚷🚷__El grupo {group} no existe')
+            return
         new_texto = change_group_user(texto_usuarios, group_id,group , user)
         cantidad_bloques_utilizados = count_occupied_blocks_in_inode(inodo_archivo)
         cantitda_bloques_por_utilizat = count_bloques_for_a_text(new_texto)

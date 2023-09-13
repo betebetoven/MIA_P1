@@ -59,7 +59,7 @@ def parse_users(texto):
 
 
 def get_user_if_authenticated(usuarios, user, password):
-    print(f'buscando a {user} con password {password} en {usuarios}')
+    #print(f'buscando a {user} con password {password} en {usuarios}')
     for user_data in usuarios:
         if user in user_data:
             # User found
@@ -80,7 +80,7 @@ def get_id_by_group(grupos, group):
 def extract_active_groups(text):
     lines = text.split("\n")
     groups = []
-    print(lines)
+    #print(lines)
     for line in lines:
         if line == '':
             continue
