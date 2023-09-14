@@ -252,6 +252,108 @@ inodo_41 [shape=box,  label="mkfs{'type': 'full', 'id': '531Disco4', 'fs': 'ext3
 bloque_41 [shape=box,  label="mkfs{'type': 'full', 'id': '531Disco4', 'fs': 'ext3'}
 1100000000\n0000000000\n0000000000\n0000000000\n0000000000\n0000000000\n0000000000\n0000000000\n0000000"];
 
+inodo_42 [shape=box,  label="login{'user': 'root', 'pass': '123', 'id': '531Disco4'}
+110000\n000000\n000000\n000000\n00000"];
+
+bloque_42 [shape=box,  label="login{'user': 'root', 'pass': '123', 'id': '531Disco4'}
+1100000000\n0000000000\n0000000000\n0000000000\n0000000000\n0000000000\n0000000000\n0000000000\n0000000"];
+
+inodo_43 [shape=box,  label="mkusr{'user': 'user1', 'pass': 'usuario', 'grp': 'root'}
+110000\n000000\n000000\n000000\n00000"];
+
+bloque_43 [shape=box,  label="mkusr{'user': 'user1', 'pass': 'usuario', 'grp': 'root'}
+1100000000\n0000000000\n0000000000\n0000000000\n0000000000\n0000000000\n0000000000\n0000000000\n0000000"];
+
+inodo_44 [shape=box,  label="mkusr{'user': 'user2', 'pass': 'usuario', 'grp': 'root'}
+110000\n000000\n000000\n000000\n00000"];
+
+bloque_44 [shape=box,  label="mkusr{'user': 'user2', 'pass': 'usuario', 'grp': 'root'}
+1110000000\n0000000000\n0000000000\n0000000000\n0000000000\n0000000000\n0000000000\n0000000000\n0000000"];
+
+inodo_45 [shape=box,  label="mkusr{'user': 'user3', 'pass': 'usuario', 'grp': 'root'}
+110000\n000000\n000000\n000000\n00000"];
+
+bloque_45 [shape=box,  label="mkusr{'user': 'user3', 'pass': 'usuario', 'grp': 'root'}
+1110000000\n0000000000\n0000000000\n0000000000\n0000000000\n0000000000\n0000000000\n0000000000\n0000000"];
+
+inodo_46 [shape=box,  label="mkusr{'user': 'user4', 'pass': 'usuario', 'grp': 'root'}
+110000\n000000\n000000\n000000\n00000"];
+
+bloque_46 [shape=box,  label="mkusr{'user': 'user4', 'pass': 'usuario', 'grp': 'root'}
+1110000000\n0000000000\n0000000000\n0000000000\n0000000000\n0000000000\n0000000000\n0000000000\n0000000"];
+
+inodo_47 [shape=box,  label="mkusr{'user': 'user5', 'pass': 'usuario', 'grp': 'root'}
+110000\n000000\n000000\n000000\n00000"];
+
+bloque_47 [shape=box,  label="mkusr{'user': 'user5', 'pass': 'usuario', 'grp': 'root'}
+1111000000\n0000000000\n0000000000\n0000000000\n0000000000\n0000000000\n0000000000\n0000000000\n0000000"];
+
+inodo_48 [shape=box,  label="mkgrp{'name': 'usuarios'}
+110000\n000000\n000000\n000000\n00000"];
+
+bloque_48 [shape=box,  label="mkgrp{'name': 'usuarios'}
+1111000000\n0000000000\n0000000000\n0000000000\n0000000000\n0000000000\n0000000000\n0000000000\n0000000"];
+
+inodo_49 [shape=box,  label="mkusr{'user': 'user6', 'pass': 'usuario', 'grp': 'root'}
+110000\n000000\n000000\n000000\n00000"];
+
+bloque_49 [shape=box,  label="mkusr{'user': 'user6', 'pass': 'usuario', 'grp': 'root'}
+1111000000\n0000000000\n0000000000\n0000000000\n0000000000\n0000000000\n0000000000\n0000000000\n0000000"];
+
+inodo_50 [shape=box,  label="mkusr{'user': 'user7', 'pass': 'usuario', 'grp': 'root'}
+110000\n000000\n000000\n000000\n00000"];
+
+bloque_50 [shape=box,  label="mkusr{'user': 'user7', 'pass': 'usuario', 'grp': 'root'}
+1111100000\n0000000000\n0000000000\n0000000000\n0000000000\n0000000000\n0000000000\n0000000000\n0000000"];
+
+inodo_51 [shape=box,  label="mkusr{'user': 'user6', 'pass': 'usuario', 'grp': 'root'}
+110000\n000000\n000000\n000000\n00000"];
+
+bloque_51 [shape=box,  label="mkusr{'user': 'user6', 'pass': 'usuario', 'grp': 'root'}
+1111100000\n0000000000\n0000000000\n0000000000\n0000000000\n0000000000\n0000000000\n0000000000\n0000000"];
+
+inodo_52 [shape=box,  label="mkusr{'user': 'user8', 'pass': 'usuario', 'grp': 'root'}
+110000\n000000\n000000\n000000\n00000"];
+
+bloque_52 [shape=box,  label="mkusr{'user': 'user8', 'pass': 'usuario', 'grp': 'root'}
+1111100000\n0000000000\n0000000000\n0000000000\n0000000000\n0000000000\n0000000000\n0000000000\n0000000"];
+
+inodo_53 [shape=box,  label="mkusr{'user': 'user9', 'pass': 'usuario', 'grp': 'root'}
+110000\n000000\n000000\n000000\n00000"];
+
+bloque_53 [shape=box,  label="mkusr{'user': 'user9', 'pass': 'usuario', 'grp': 'root'}
+1111110000\n0000000000\n0000000000\n0000000000\n0000000000\n0000000000\n0000000000\n0000000000\n0000000"];
+
+inodo_54 [shape=box,  label="mkusr{'user': 'user10', 'pass': 'usuario', 'grp': 'root'}
+110000\n000000\n000000\n000000\n00000"];
+
+bloque_54 [shape=box,  label="mkusr{'user': 'user10', 'pass': 'usuario', 'grp': 'root'}
+1111110000\n0000000000\n0000000000\n0000000000\n0000000000\n0000000000\n0000000000\n0000000000\n0000000"];
+
+inodo_55 [shape=box,  label="mkgrp{'name': 'usuarios2'}
+110000\n000000\n000000\n000000\n00000"];
+
+bloque_55 [shape=box,  label="mkgrp{'name': 'usuarios2'}
+1111110000\n0000000000\n0000000000\n0000000000\n0000000000\n0000000000\n0000000000\n0000000000\n0000000"];
+
+inodo_56 [shape=box,  label="mkgrp{'name': 'usuarios3'}
+110000\n000000\n000000\n000000\n00000"];
+
+bloque_56 [shape=box,  label="mkgrp{'name': 'usuarios3'}
+1111111000\n0000000000\n0000000000\n0000000000\n0000000000\n0000000000\n0000000000\n0000000000\n0000000"];
+
+inodo_57 [shape=box,  label="mkgrp{'name': 'usuarios4'}
+110000\n000000\n000000\n000000\n00000"];
+
+bloque_57 [shape=box,  label="mkgrp{'name': 'usuarios4'}
+1111111000\n0000000000\n0000000000\n0000000000\n0000000000\n0000000000\n0000000000\n0000000000\n0000000"];
+
+inodo_58 [shape=box,  label="mkgrp{'name': 'usuarios4'}
+110000\n000000\n000000\n000000\n00000"];
+
+bloque_58 [shape=box,  label="mkgrp{'name': 'usuarios4'}
+1111111000\n0000000000\n0000000000\n0000000000\n0000000000\n0000000000\n0000000000\n0000000000\n0000000"];
+
 inodo_0 -> inodo_1
 bloque_0 -> bloque_1
 inodo_1 -> inodo_2
@@ -336,4 +438,38 @@ inodo_40 -> inodo_41
 bloque_40 -> bloque_41
 inodo_41 -> inodo_42
 bloque_41 -> bloque_42
+inodo_42 -> inodo_43
+bloque_42 -> bloque_43
+inodo_43 -> inodo_44
+bloque_43 -> bloque_44
+inodo_44 -> inodo_45
+bloque_44 -> bloque_45
+inodo_45 -> inodo_46
+bloque_45 -> bloque_46
+inodo_46 -> inodo_47
+bloque_46 -> bloque_47
+inodo_47 -> inodo_48
+bloque_47 -> bloque_48
+inodo_48 -> inodo_49
+bloque_48 -> bloque_49
+inodo_49 -> inodo_50
+bloque_49 -> bloque_50
+inodo_50 -> inodo_51
+bloque_50 -> bloque_51
+inodo_51 -> inodo_52
+bloque_51 -> bloque_52
+inodo_52 -> inodo_53
+bloque_52 -> bloque_53
+inodo_53 -> inodo_54
+bloque_53 -> bloque_54
+inodo_54 -> inodo_55
+bloque_54 -> bloque_55
+inodo_55 -> inodo_56
+bloque_55 -> bloque_56
+inodo_56 -> inodo_57
+bloque_56 -> bloque_57
+inodo_57 -> inodo_58
+bloque_57 -> bloque_58
+inodo_58 -> inodo_59
+bloque_58 -> bloque_59
 }

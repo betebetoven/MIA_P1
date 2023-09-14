@@ -82,7 +82,12 @@ def generate_dot(instruccion, bitmap, label, contador):
     
     return dot_string
 import ast
-def recuperar(params, mounted_partitions, users):
+mounted_partitions = []
+users=None
+current_partition = None
+def recuperar(params, mounted_partitions, usuario_actual_boluo):
+    global users
+    global current_partition
     id = params.get('id', None)
     # Check if the id exists in mounted_partitions.
     partition = None
@@ -115,7 +120,48 @@ def recuperar(params, mounted_partitions, users):
         for n in commands:
             if n[0] == 'mkfs':
                 mkfs(n[1], mounted_partitions, users)
-                ver_bitmaps("mkfs"+str(n[1]), mounted_partitions, id)
+            elif n[0] == 'login':
+                users, current_partition = login(n[1], mounted_partitions)
+            elif n[0]=='mkusr':
+                if users != None and users['username']=='root' :
+                    makeuser(n[1], mounted_partitions, current_partition)
+                    
+                else:
+                    print("Error: You must be logged in as root to use this command")
+            elif n[0]=='mkgrp':
+                if users != None and users['username']=='root' :
+                    makegroup(n[1], mounted_partitions, current_partition)
+            
+                else:
+                    print("Error: You must be logged in as root to use this command")
+            elif n[0]=='rmusr':
+                if users != None and users['username']=='root' :
+                    remuser(n[1], mounted_partitions, current_partition)
+                else:
+                    print("Error: You must be logged in as root to use this command")
+            elif n[0]=='rmgrp':
+                if users != None and users['username']=='root' :
+                    remgroup(n[1], mounted_partitions, current_partition)
+                else:
+                    print("Error: You must be logged in as root to use this command")
+            elif n[0]=='mkfile':
+                if users != None:
+                    mkfile(n[1], mounted_partitions, current_partition, users)
+                else:
+                    print("Error: You must be logged in as root to use this command")
+            elif n[0]=='remove':
+                if users != None:
+                    remove(n[1], mounted_partitions, current_partition, users)
+                else:
+                    print("Error: You must be logged in to use this command")
+            elif n[0]=='rename':
+                if users != None:
+                    rename(n[1], mounted_partitions, current_partition, users)
+                else:
+                    print("Error: You must be logged in to use this command")
+                
+                
+                
                 
 
 # --- Tokenizer
@@ -305,9 +351,7 @@ lexer = lex()
 
 # Write functions for each grammar rule which is
 # specified in the docstring.
-mounted_partitions = []
-users=None
-current_partition = None
+
 
 def p_command_list(p):
     '''command_list : expression
@@ -933,6 +977,8 @@ def graph(file,inicio, index):
 
 
 
+                
+                
     
         
         
