@@ -3,7 +3,7 @@ import struct
 import os
 from MBR import MBR
 from prettytable import PrettyTable
-COLORS = {'Inode': 'lightblue', 'Superblock': '#E0E0E0', 'FolderBlock': '#FFCC00', 'FileBlock': 'green', 'PointerBlock': 'orange',  'Content': '#FFCC00'}
+COLORS = {'Inode': 'lightblue', 'Superblock': '#E0E0E0', 'FolderBlock': '#FFCC00', 'FileBlock': 'green', 'sb': 'orange',  'Content': '#FFCC00'}
 def imprimir(obj,index):
     object_type = type(obj).__name__
     if object_type == 'FileBlock':
@@ -295,7 +295,16 @@ def rep(params, mounted_partitions,mapa_de_bytes):
             codigo_para_graphviz = f'digraph G {{\n  uniconodo [shape=box, label="{formatted_journal_data}"];\n}}'
             with open('journal_graph.txt', 'w') as f:
                     f.write(f'{codigo_para_graphviz}')
-
+        elif name == 'sb':
+            table = PrettyTable(['Attribute', 'Value'])
+            attributes = vars(superblock)
+            lista = None
+            for attr, value in attributes.items():
+                table.add_row([attr, value])
+            print(table)
+            total,_= prettytable_to_html_string("sb", table, lista,inicio, inicio)
+            with open('supeblock_graph.txt', 'w') as f:
+                    f.write(f'digraph G {{\n{total}\n}}')
                 
             
             
