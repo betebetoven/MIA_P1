@@ -12,347 +12,179 @@ inodo_1 [shape=box,  label="mkusr{'user': 'user1', 'pass': 'usuario', 'grp': 'ro
 bloque_1 [shape=box,  label="mkusr{'user': 'user1', 'pass': 'usuario', 'grp': 'root'}
 1100000000\n0000000000\n0000000000\n0000000000\n0000000000\n0000000000\n0000000000\n0000000000\n0000000"];
 
-inodo_2 [shape=box,  label="mkusr{'user': 'user2', 'pass': 'usuario', 'grp': 'root'}
+inodo_2 [shape=box,  label="mkgrp{'name': 'usuarios'}
 110000\n000000\n000000\n000000\n00000"];
 
-bloque_2 [shape=box,  label="mkusr{'user': 'user2', 'pass': 'usuario', 'grp': 'root'}
+bloque_2 [shape=box,  label="mkgrp{'name': 'usuarios'}
+1100000000\n0000000000\n0000000000\n0000000000\n0000000000\n0000000000\n0000000000\n0000000000\n0000000"];
+
+inodo_3 [shape=box,  label="mkgrp{'name': 'usuarios2'}
+110000\n000000\n000000\n000000\n00000"];
+
+bloque_3 [shape=box,  label="mkgrp{'name': 'usuarios2'}
 1110000000\n0000000000\n0000000000\n0000000000\n0000000000\n0000000000\n0000000000\n0000000000\n0000000"];
 
-inodo_3 [shape=box,  label="mkusr{'user': 'user3', 'pass': 'usuario', 'grp': 'root'}
+inodo_4 [shape=box,  label="mkgrp{'name': 'usuarios3'}
 110000\n000000\n000000\n000000\n00000"];
 
-bloque_3 [shape=box,  label="mkusr{'user': 'user3', 'pass': 'usuario', 'grp': 'root'}
+bloque_4 [shape=box,  label="mkgrp{'name': 'usuarios3'}
 1110000000\n0000000000\n0000000000\n0000000000\n0000000000\n0000000000\n0000000000\n0000000000\n0000000"];
 
-inodo_4 [shape=box,  label="mkusr{'user': 'user4', 'pass': 'usuario', 'grp': 'root'}
+inodo_5 [shape=box,  label="mkgrp{'name': 'usuarios4'}
 110000\n000000\n000000\n000000\n00000"];
 
-bloque_4 [shape=box,  label="mkusr{'user': 'user4', 'pass': 'usuario', 'grp': 'root'}
+bloque_5 [shape=box,  label="mkgrp{'name': 'usuarios4'}
 1110000000\n0000000000\n0000000000\n0000000000\n0000000000\n0000000000\n0000000000\n0000000000\n0000000"];
 
-inodo_5 [shape=box,  label="mkusr{'user': 'user5', 'pass': 'usuario', 'grp': 'root'}
+inodo_6 [shape=box,  label="mkgrp{'name': 'usuarios4'}
 110000\n000000\n000000\n000000\n00000"];
 
-bloque_5 [shape=box,  label="mkusr{'user': 'user5', 'pass': 'usuario', 'grp': 'root'}
+bloque_6 [shape=box,  label="mkgrp{'name': 'usuarios4'}
+1110000000\n0000000000\n0000000000\n0000000000\n0000000000\n0000000000\n0000000000\n0000000000\n0000000"];
+
+inodo_7 [shape=box,  label="mkusr{'user': 'mamadas', 'pass': 'usuario', 'grp': 'usuarios4'}
+110000\n000000\n000000\n000000\n00000"];
+
+bloque_7 [shape=box,  label="mkusr{'user': 'mamadas', 'pass': 'usuario', 'grp': 'usuarios4'}
 1111000000\n0000000000\n0000000000\n0000000000\n0000000000\n0000000000\n0000000000\n0000000000\n0000000"];
 
-inodo_6 [shape=box,  label="mkgrp{'name': 'usuarios'}
+inodo_8 [shape=box,  label="rmgrp{'name': 'usuarios'}
 110000\n000000\n000000\n000000\n00000"];
 
-bloque_6 [shape=box,  label="mkgrp{'name': 'usuarios'}
+bloque_8 [shape=box,  label="rmgrp{'name': 'usuarios'}
 1111000000\n0000000000\n0000000000\n0000000000\n0000000000\n0000000000\n0000000000\n0000000000\n0000000"];
 
-inodo_7 [shape=box,  label="mkusr{'user': 'user6', 'pass': 'usuario', 'grp': 'root'}
+inodo_9 [shape=box,  label="rmusr{'user': 'user1'}
 110000\n000000\n000000\n000000\n00000"];
 
-bloque_7 [shape=box,  label="mkusr{'user': 'user6', 'pass': 'usuario', 'grp': 'root'}
+bloque_9 [shape=box,  label="rmusr{'user': 'user1'}
 1111000000\n0000000000\n0000000000\n0000000000\n0000000000\n0000000000\n0000000000\n0000000000\n0000000"];
 
-inodo_8 [shape=box,  label="mkusr{'user': 'user7', 'pass': 'usuario', 'grp': 'root'}
+inodo_10 [shape=box,  label="mkfile{'path': '/users.txt'}
 110000\n000000\n000000\n000000\n00000"];
 
-bloque_8 [shape=box,  label="mkusr{'user': 'user7', 'pass': 'usuario', 'grp': 'root'}
-1111100000\n0000000000\n0000000000\n0000000000\n0000000000\n0000000000\n0000000000\n0000000000\n0000000"];
+bloque_10 [shape=box,  label="mkfile{'path': '/users.txt'}
+1111000000\n0000000000\n0000000000\n0000000000\n0000000000\n0000000000\n0000000000\n0000000000\n0000000"];
 
-inodo_9 [shape=box,  label="mkusr{'user': 'user6', 'pass': 'usuario', 'grp': 'root'}
-110000\n000000\n000000\n000000\n00000"];
-
-bloque_9 [shape=box,  label="mkusr{'user': 'user6', 'pass': 'usuario', 'grp': 'root'}
-1111100000\n0000000000\n0000000000\n0000000000\n0000000000\n0000000000\n0000000000\n0000000000\n0000000"];
-
-inodo_10 [shape=box,  label="mkusr{'user': 'user8', 'pass': 'usuario', 'grp': 'root'}
-110000\n000000\n000000\n000000\n00000"];
-
-bloque_10 [shape=box,  label="mkusr{'user': 'user8', 'pass': 'usuario', 'grp': 'root'}
-1111100000\n0000000000\n0000000000\n0000000000\n0000000000\n0000000000\n0000000000\n0000000000\n0000000"];
-
-inodo_11 [shape=box,  label="mkusr{'user': 'user9', 'pass': 'usuario', 'grp': 'root'}
-110000\n000000\n000000\n000000\n00000"];
-
-bloque_11 [shape=box,  label="mkusr{'user': 'user9', 'pass': 'usuario', 'grp': 'root'}
-1111110000\n0000000000\n0000000000\n0000000000\n0000000000\n0000000000\n0000000000\n0000000000\n0000000"];
-
-inodo_12 [shape=box,  label="mkusr{'user': 'user10', 'pass': 'usuario', 'grp': 'root'}
-110000\n000000\n000000\n000000\n00000"];
-
-bloque_12 [shape=box,  label="mkusr{'user': 'user10', 'pass': 'usuario', 'grp': 'root'}
-1111110000\n0000000000\n0000000000\n0000000000\n0000000000\n0000000000\n0000000000\n0000000000\n0000000"];
-
-inodo_13 [shape=box,  label="mkgrp{'name': 'usuarios2'}
-110000\n000000\n000000\n000000\n00000"];
-
-bloque_13 [shape=box,  label="mkgrp{'name': 'usuarios2'}
-1111110000\n0000000000\n0000000000\n0000000000\n0000000000\n0000000000\n0000000000\n0000000000\n0000000"];
-
-inodo_14 [shape=box,  label="mkgrp{'name': 'usuarios3'}
-110000\n000000\n000000\n000000\n00000"];
-
-bloque_14 [shape=box,  label="mkgrp{'name': 'usuarios3'}
-1111111000\n0000000000\n0000000000\n0000000000\n0000000000\n0000000000\n0000000000\n0000000000\n0000000"];
-
-inodo_15 [shape=box,  label="mkgrp{'name': 'usuarios4'}
-110000\n000000\n000000\n000000\n00000"];
-
-bloque_15 [shape=box,  label="mkgrp{'name': 'usuarios4'}
-1111111000\n0000000000\n0000000000\n0000000000\n0000000000\n0000000000\n0000000000\n0000000000\n0000000"];
-
-inodo_16 [shape=box,  label="mkgrp{'name': 'usuarios4'}
-110000\n000000\n000000\n000000\n00000"];
-
-bloque_16 [shape=box,  label="mkgrp{'name': 'usuarios4'}
-1111111000\n0000000000\n0000000000\n0000000000\n0000000000\n0000000000\n0000000000\n0000000000\n0000000"];
-
-inodo_17 [shape=box,  label="mkusr{'user': 'mamadas', 'pass': 'usuario', 'grp': 'usuarios4'}
-110000\n000000\n000000\n000000\n00000"];
-
-bloque_17 [shape=box,  label="mkusr{'user': 'mamadas', 'pass': 'usuario', 'grp': 'usuarios4'}
-1111111000\n0000000000\n0000000000\n0000000000\n0000000000\n0000000000\n0000000000\n0000000000\n0000000"];
-
-inodo_18 [shape=box,  label="rmgrp{'name': 'usuarios'}
-110000\n000000\n000000\n000000\n00000"];
-
-bloque_18 [shape=box,  label="rmgrp{'name': 'usuarios'}
-1111111000\n0000000000\n0000000000\n0000000000\n0000000000\n0000000000\n0000000000\n0000000000\n0000000"];
-
-inodo_19 [shape=box,  label="rmusr{'user': 'user1'}
-110000\n000000\n000000\n000000\n00000"];
-
-bloque_19 [shape=box,  label="rmusr{'user': 'user1'}
-1111111000\n0000000000\n0000000000\n0000000000\n0000000000\n0000000000\n0000000000\n0000000000\n0000000"];
-
-inodo_20 [shape=box,  label="mkfile{'path': '/users.txt'}
-110000\n000000\n000000\n000000\n00000"];
-
-bloque_20 [shape=box,  label="mkfile{'path': '/users.txt'}
-1111111000\n0000000000\n0000000000\n0000000000\n0000000000\n0000000000\n0000000000\n0000000000\n0000000"];
-
-inodo_21 [shape=box,  label="mkfile{'path': '/home/documents/papers/archivos.txt', 'r': '-r', 'size': 10}
+inodo_11 [shape=box,  label="mkfile{'path': '/home/documents/papers/archivos.txt', 'r': '-r', 'size': 10}
 111111\n000000\n000000\n000000\n00000"];
 
-bloque_21 [shape=box,  label="mkfile{'path': '/home/documents/papers/archivos.txt', 'r': '-r', 'size': 10}
-1111111111\n0000000000\n0000000000\n0000000000\n0000000000\n0000000000\n0000000000\n0000000000\n0000000"];
+bloque_11 [shape=box,  label="mkfile{'path': '/home/documents/papers/archivos.txt', 'r': '-r', 'size': 10}
+1111111000\n0000000000\n0000000000\n0000000000\n0000000000\n0000000000\n0000000000\n0000000000\n0000000"];
 
-inodo_22 [shape=box,  label="mkfile{'path': '/home/documents/papers/mentos/kk', 'r': '-r'}
+inodo_12 [shape=box,  label="mkfile{'path': '/home/documents/papers/mentos/kk', 'r': '-r'}
 111111\n110000\n000000\n000000\n00000"];
 
-bloque_22 [shape=box,  label="mkfile{'path': '/home/documents/papers/mentos/kk', 'r': '-r'}
-1111111111\n1100000000\n0000000000\n0000000000\n0000000000\n0000000000\n0000000000\n0000000000\n0000000"];
+bloque_12 [shape=box,  label="mkfile{'path': '/home/documents/papers/mentos/kk', 'r': '-r'}
+1111111110\n0000000000\n0000000000\n0000000000\n0000000000\n0000000000\n0000000000\n0000000000\n0000000"];
 
-inodo_23 [shape=box,  label="mkfile{'path': '/home/documents/papers/mentos/kk1', 'r': '-r'}
+inodo_13 [shape=box,  label="mkfile{'path': '/home/documents/papers/mentos/kk1', 'r': '-r'}
 111111\n111000\n000000\n000000\n00000"];
 
-bloque_23 [shape=box,  label="mkfile{'path': '/home/documents/papers/mentos/kk1', 'r': '-r'}
-1111111111\n1110000000\n0000000000\n0000000000\n0000000000\n0000000000\n0000000000\n0000000000\n0000000"];
+bloque_13 [shape=box,  label="mkfile{'path': '/home/documents/papers/mentos/kk1', 'r': '-r'}
+1111111111\n0000000000\n0000000000\n0000000000\n0000000000\n0000000000\n0000000000\n0000000000\n0000000"];
 
-inodo_24 [shape=box,  label="mkfile{'path': '/home/documents/papers/mentos/kk2', 'r': '-r'}
+inodo_14 [shape=box,  label="mkfile{'path': '/home/documents/papers/mentos/kk2', 'r': '-r'}
 111111\n111100\n000000\n000000\n00000"];
 
-bloque_24 [shape=box,  label="mkfile{'path': '/home/documents/papers/mentos/kk2', 'r': '-r'}
-1111111111\n1111000000\n0000000000\n0000000000\n0000000000\n0000000000\n0000000000\n0000000000\n0000000"];
+bloque_14 [shape=box,  label="mkfile{'path': '/home/documents/papers/mentos/kk2', 'r': '-r'}
+1111111111\n1000000000\n0000000000\n0000000000\n0000000000\n0000000000\n0000000000\n0000000000\n0000000"];
 
-inodo_25 [shape=box,  label="mkfile{'path': '/home/documents/papers/mentos/kk3', 'r': '-r'}
+inodo_15 [shape=box,  label="mkfile{'path': '/home/documents/papers/mentos/kk3', 'r': '-r'}
 111111\n111110\n000000\n000000\n00000"];
 
-bloque_25 [shape=box,  label="mkfile{'path': '/home/documents/papers/mentos/kk3', 'r': '-r'}
-1111111111\n1111100000\n0000000000\n0000000000\n0000000000\n0000000000\n0000000000\n0000000000\n0000000"];
+bloque_15 [shape=box,  label="mkfile{'path': '/home/documents/papers/mentos/kk3', 'r': '-r'}
+1111111111\n1100000000\n0000000000\n0000000000\n0000000000\n0000000000\n0000000000\n0000000000\n0000000"];
 
-inodo_26 [shape=box,  label="mkfile{'path': '/home/documents/papers/mentos/mentos.txt', 'r': '-r', 'cont': '/contenido.txt'}
+inodo_16 [shape=box,  label="mkfile{'path': '/home/documents/papers/mentos/mentos.txt', 'r': '-r', 'cont': '/contenido.txt'}
 111111\n111111\n000000\n000000\n00000"];
 
-bloque_26 [shape=box,  label="mkfile{'path': '/home/documents/papers/mentos/mentos.txt', 'r': '-r', 'cont': '/contenido.txt'}
-1111111111\n1111111111\n0000000000\n0000000000\n0000000000\n0000000000\n0000000000\n0000000000\n0000000"];
+bloque_16 [shape=box,  label="mkfile{'path': '/home/documents/papers/mentos/mentos.txt', 'r': '-r', 'cont': '/contenido.txt'}
+1111111111\n1111111000\n0000000000\n0000000000\n0000000000\n0000000000\n0000000000\n0000000000\n0000000"];
 
-inodo_27 [shape=box,  label="mkfile{'path': '/home2/documents/papers/mentos/mentos2.txt', 'r': '-r', 'cont': '/contenido.txt'}
+inodo_17 [shape=box,  label="mkfile{'path': '/home2/documents/papers/mentos/mentos2.txt', 'r': '-r', 'cont': '/contenido.txt'}
 111111\n111111\n111110\n000000\n00000"];
 
-bloque_27 [shape=box,  label="mkfile{'path': '/home2/documents/papers/mentos/mentos2.txt', 'r': '-r', 'cont': '/contenido.txt'}
-1111111111\n1111111111\n1111111100\n0000000000\n0000000000\n0000000000\n0000000000\n0000000000\n0000000"];
+bloque_17 [shape=box,  label="mkfile{'path': '/home2/documents/papers/mentos/mentos2.txt', 'r': '-r', 'cont': '/contenido.txt'}
+1111111111\n1111111111\n1111100000\n0000000000\n0000000000\n0000000000\n0000000000\n0000000000\n0000000"];
 
-inodo_28 [shape=box,  label="remove{'path': '/home/documents/papers/mentos/mentos.txt'}
+inodo_18 [shape=box,  label="remove{'path': '/home/documents/papers/mentos/mentos.txt'}
 111111\n111110\n111110\n000000\n00000"];
 
-bloque_28 [shape=box,  label="remove{'path': '/home/documents/papers/mentos/mentos.txt'}
-1111111111\n1111110000\n1111111100\n0000000000\n0000000000\n0000000000\n0000000000\n0000000000\n0000000"];
+bloque_18 [shape=box,  label="remove{'path': '/home/documents/papers/mentos/mentos.txt'}
+1111111111\n1110000111\n1111100000\n0000000000\n0000000000\n0000000000\n0000000000\n0000000000\n0000000"];
 
-inodo_29 [shape=box,  label="mkfile{'path': '/home/documents/papers/mentos/mentos.txt', 'r': '-r', 'cont': '/contenido.txt'}
+inodo_19 [shape=box,  label="mkfile{'path': '/home/documents/papers/mentos/mentos.txt', 'r': '-r', 'cont': '/contenido.txt'}
 111111\n111111\n111110\n000000\n00000"];
 
-bloque_29 [shape=box,  label="mkfile{'path': '/home/documents/papers/mentos/mentos.txt', 'r': '-r', 'cont': '/contenido.txt'}
-1111111111\n1111111111\n1111111100\n0000000000\n0000000000\n0000000000\n0000000000\n0000000000\n0000000"];
+bloque_19 [shape=box,  label="mkfile{'path': '/home/documents/papers/mentos/mentos.txt', 'r': '-r', 'cont': '/contenido.txt'}
+1111111111\n1111111111\n1111100000\n0000000000\n0000000000\n0000000000\n0000000000\n0000000000\n0000000"];
 
-inodo_30 [shape=box,  label="mkfile{'path': '/casa', 'r': '-r'}
+inodo_20 [shape=box,  label="mkfile{'path': '/casa', 'r': '-r'}
 111111\n111111\n111111\n000000\n00000"];
 
-bloque_30 [shape=box,  label="mkfile{'path': '/casa', 'r': '-r'}
-1111111111\n1111111111\n1111111110\n0000000000\n0000000000\n0000000000\n0000000000\n0000000000\n0000000"];
+bloque_20 [shape=box,  label="mkfile{'path': '/casa', 'r': '-r'}
+1111111111\n1111111111\n1111110000\n0000000000\n0000000000\n0000000000\n0000000000\n0000000000\n0000000"];
 
-inodo_31 [shape=box,  label="mkfile{'path': '/carro', 'r': '-r'}
+inodo_21 [shape=box,  label="mkfile{'path': '/carro', 'r': '-r'}
 111111\n111111\n111111\n100000\n00000"];
 
-bloque_31 [shape=box,  label="mkfile{'path': '/carro', 'r': '-r'}
-1111111111\n1111111111\n1111111111\n1000000000\n0000000000\n0000000000\n0000000000\n0000000000\n0000000"];
+bloque_21 [shape=box,  label="mkfile{'path': '/carro', 'r': '-r'}
+1111111111\n1111111111\n1111111100\n0000000000\n0000000000\n0000000000\n0000000000\n0000000000\n0000000"];
 
-inodo_32 [shape=box,  label="rename{'path': '/carro', 'name': 'carrititito'}
+inodo_22 [shape=box,  label="rename{'path': '/carro', 'name': 'carrititito'}
 111111\n111111\n111111\n100000\n00000"];
 
-bloque_32 [shape=box,  label="rename{'path': '/carro', 'name': 'carrititito'}
-1111111111\n1111111111\n1111111111\n1000000000\n0000000000\n0000000000\n0000000000\n0000000000\n0000000"];
+bloque_22 [shape=box,  label="rename{'path': '/carro', 'name': 'carrititito'}
+1111111111\n1111111111\n1111111100\n0000000000\n0000000000\n0000000000\n0000000000\n0000000000\n0000000"];
 
-inodo_33 [shape=box,  label="edit{'path': '/home2/documents/papers/mentos/mentos2.txt', 'cont': '/contenido_editado.txt', 'r': '-r'}
+inodo_23 [shape=box,  label="edit{'path': '/home2/documents/papers/mentos/mentos2.txt', 'cont': '/contenido_editado.txt', 'r': '-r'}
 111111\n111111\n111111\n100000\n00000"];
 
-bloque_33 [shape=box,  label="edit{'path': '/home2/documents/papers/mentos/mentos2.txt', 'cont': '/contenido_editado.txt', 'r': '-r'}
-1111111111\n1111111111\n1111110011\n1000000000\n0000000000\n0000000000\n0000000000\n0000000000\n0000000"];
+bloque_23 [shape=box,  label="edit{'path': '/home2/documents/papers/mentos/mentos2.txt', 'cont': '/contenido_editado.txt', 'r': '-r'}
+1111111111\n1111111111\n1110011100\n0000000000\n0000000000\n0000000000\n0000000000\n0000000000\n0000000"];
 
-inodo_34 [shape=box,  label="mkfile{'path': '/home2/documents/llena2', 'r': '-r'}
+inodo_24 [shape=box,  label="mkfile{'path': '/home2/documents/llena2', 'r': '-r'}
 111111\n111111\n111111\n110000\n00000"];
 
-bloque_34 [shape=box,  label="mkfile{'path': '/home2/documents/llena2', 'r': '-r'}
-1111111111\n1111111111\n1111111011\n1000000000\n0000000000\n0000000000\n0000000000\n0000000000\n0000000"];
+bloque_24 [shape=box,  label="mkfile{'path': '/home2/documents/llena2', 'r': '-r'}
+1111111111\n1111111111\n1111011100\n0000000000\n0000000000\n0000000000\n0000000000\n0000000000\n0000000"];
 
-inodo_35 [shape=box,  label="mkfile{'path': '/home2/documents/llena3', 'r': '-r'}
+inodo_25 [shape=box,  label="mkfile{'path': '/home2/documents/llena3', 'r': '-r'}
 111111\n111111\n111111\n111000\n00000"];
 
-bloque_35 [shape=box,  label="mkfile{'path': '/home2/documents/llena3', 'r': '-r'}
-1111111111\n1111111111\n1111111111\n1000000000\n0000000000\n0000000000\n0000000000\n0000000000\n0000000"];
+bloque_25 [shape=box,  label="mkfile{'path': '/home2/documents/llena3', 'r': '-r'}
+1111111111\n1111111111\n1111111100\n0000000000\n0000000000\n0000000000\n0000000000\n0000000000\n0000000"];
 
-inodo_36 [shape=box,  label="mkfile{'path': '/home2/documents/llena4', 'r': '-r'}
+inodo_26 [shape=box,  label="mkfile{'path': '/home2/documents/llena4', 'r': '-r'}
 111111\n111111\n111111\n111100\n00000"];
 
-bloque_36 [shape=box,  label="mkfile{'path': '/home2/documents/llena4', 'r': '-r'}
+bloque_26 [shape=box,  label="mkfile{'path': '/home2/documents/llena4', 'r': '-r'}
+1111111111\n1111111111\n1111111110\n0000000000\n0000000000\n0000000000\n0000000000\n0000000000\n0000000"];
+
+inodo_27 [shape=box,  label="copy{'path': '/home2/documents/papers/mentos/mentos2.txt', 'destino': '/home2/documents'}
+111111\n111111\n111111\n111110\n00000"];
+
+bloque_27 [shape=box,  label="copy{'path': '/home2/documents/papers/mentos/mentos2.txt', 'destino': '/home2/documents'}
 1111111111\n1111111111\n1111111111\n1100000000\n0000000000\n0000000000\n0000000000\n0000000000\n0000000"];
 
-inodo_37 [shape=box,  label="copy{'path': '/home2/documents/papers/mentos/mentos2.txt', 'destino': '/home2/documents'}
+inodo_28 [shape=box,  label="move{'path': '/home2/documents/papers/mentos/mentos2.txt', 'destino': '/home'}
 111111\n111111\n111111\n111110\n00000"];
 
-bloque_37 [shape=box,  label="copy{'path': '/home2/documents/papers/mentos/mentos2.txt', 'destino': '/home2/documents'}
-1111111111\n1111111111\n1111111111\n1111100000\n0000000000\n0000000000\n0000000000\n0000000000\n0000000"];
+bloque_28 [shape=box,  label="move{'path': '/home2/documents/papers/mentos/mentos2.txt', 'destino': '/home'}
+1111111111\n1111111111\n1111111111\n1100000000\n0000000000\n0000000000\n0000000000\n0000000000\n0000000"];
 
-inodo_38 [shape=box,  label="move{'path': '/home2/documents/papers/mentos/mentos2.txt', 'destino': '/home'}
-111111\n111111\n111111\n111110\n00000"];
-
-bloque_38 [shape=box,  label="move{'path': '/home2/documents/papers/mentos/mentos2.txt', 'destino': '/home'}
-1111111111\n1111111111\n1111111111\n1111100000\n0000000000\n0000000000\n0000000000\n0000000000\n0000000"];
-
-inodo_39 [shape=box,  label="mkfile{'path': '/home/a.txt', 'r': '-r'}
+inodo_29 [shape=box,  label="mkfile{'path': '/home/a.txt', 'r': '-r'}
 111111\n111111\n111111\n111111\n00000"];
 
-bloque_39 [shape=box,  label="mkfile{'path': '/home/a.txt', 'r': '-r'}
-1111111111\n1111111111\n1111111111\n1111100000\n0000000000\n0000000000\n0000000000\n0000000000\n0000000"];
+bloque_29 [shape=box,  label="mkfile{'path': '/home/a.txt', 'r': '-r'}
+1111111111\n1111111111\n1111111111\n1100000000\n0000000000\n0000000000\n0000000000\n0000000000\n0000000"];
 
-inodo_40 [shape=box,  label="chgrp{'user': 'mamadas', 'grp': 'usuarios2'}
+inodo_30 [shape=box,  label="chgrp{'user': 'mamadas', 'grp': 'usuarios2'}
 111111\n111111\n111111\n111111\n00000"];
 
-bloque_40 [shape=box,  label="chgrp{'user': 'mamadas', 'grp': 'usuarios2'}
-1111111111\n1111111111\n1111111111\n1111100000\n0000000000\n0000000000\n0000000000\n0000000000\n0000000"];
-
-inodo_41 [shape=box,  label="mkfs{'type': 'full', 'id': '531Disco4', 'fs': 'ext3'}
-110000\n000000\n000000\n000000\n00000"];
-
-bloque_41 [shape=box,  label="mkfs{'type': 'full', 'id': '531Disco4', 'fs': 'ext3'}
-1100000000\n0000000000\n0000000000\n0000000000\n0000000000\n0000000000\n0000000000\n0000000000\n0000000"];
-
-inodo_42 [shape=box,  label="login{'user': 'root', 'pass': '123', 'id': '531Disco4'}
-110000\n000000\n000000\n000000\n00000"];
-
-bloque_42 [shape=box,  label="login{'user': 'root', 'pass': '123', 'id': '531Disco4'}
-1100000000\n0000000000\n0000000000\n0000000000\n0000000000\n0000000000\n0000000000\n0000000000\n0000000"];
-
-inodo_43 [shape=box,  label="mkusr{'user': 'user1', 'pass': 'usuario', 'grp': 'root'}
-110000\n000000\n000000\n000000\n00000"];
-
-bloque_43 [shape=box,  label="mkusr{'user': 'user1', 'pass': 'usuario', 'grp': 'root'}
-1100000000\n0000000000\n0000000000\n0000000000\n0000000000\n0000000000\n0000000000\n0000000000\n0000000"];
-
-inodo_44 [shape=box,  label="mkusr{'user': 'user2', 'pass': 'usuario', 'grp': 'root'}
-110000\n000000\n000000\n000000\n00000"];
-
-bloque_44 [shape=box,  label="mkusr{'user': 'user2', 'pass': 'usuario', 'grp': 'root'}
-1110000000\n0000000000\n0000000000\n0000000000\n0000000000\n0000000000\n0000000000\n0000000000\n0000000"];
-
-inodo_45 [shape=box,  label="mkusr{'user': 'user3', 'pass': 'usuario', 'grp': 'root'}
-110000\n000000\n000000\n000000\n00000"];
-
-bloque_45 [shape=box,  label="mkusr{'user': 'user3', 'pass': 'usuario', 'grp': 'root'}
-1110000000\n0000000000\n0000000000\n0000000000\n0000000000\n0000000000\n0000000000\n0000000000\n0000000"];
-
-inodo_46 [shape=box,  label="mkusr{'user': 'user4', 'pass': 'usuario', 'grp': 'root'}
-110000\n000000\n000000\n000000\n00000"];
-
-bloque_46 [shape=box,  label="mkusr{'user': 'user4', 'pass': 'usuario', 'grp': 'root'}
-1110000000\n0000000000\n0000000000\n0000000000\n0000000000\n0000000000\n0000000000\n0000000000\n0000000"];
-
-inodo_47 [shape=box,  label="mkusr{'user': 'user5', 'pass': 'usuario', 'grp': 'root'}
-110000\n000000\n000000\n000000\n00000"];
-
-bloque_47 [shape=box,  label="mkusr{'user': 'user5', 'pass': 'usuario', 'grp': 'root'}
-1111000000\n0000000000\n0000000000\n0000000000\n0000000000\n0000000000\n0000000000\n0000000000\n0000000"];
-
-inodo_48 [shape=box,  label="mkgrp{'name': 'usuarios'}
-110000\n000000\n000000\n000000\n00000"];
-
-bloque_48 [shape=box,  label="mkgrp{'name': 'usuarios'}
-1111000000\n0000000000\n0000000000\n0000000000\n0000000000\n0000000000\n0000000000\n0000000000\n0000000"];
-
-inodo_49 [shape=box,  label="mkusr{'user': 'user6', 'pass': 'usuario', 'grp': 'root'}
-110000\n000000\n000000\n000000\n00000"];
-
-bloque_49 [shape=box,  label="mkusr{'user': 'user6', 'pass': 'usuario', 'grp': 'root'}
-1111000000\n0000000000\n0000000000\n0000000000\n0000000000\n0000000000\n0000000000\n0000000000\n0000000"];
-
-inodo_50 [shape=box,  label="mkusr{'user': 'user7', 'pass': 'usuario', 'grp': 'root'}
-110000\n000000\n000000\n000000\n00000"];
-
-bloque_50 [shape=box,  label="mkusr{'user': 'user7', 'pass': 'usuario', 'grp': 'root'}
-1111100000\n0000000000\n0000000000\n0000000000\n0000000000\n0000000000\n0000000000\n0000000000\n0000000"];
-
-inodo_51 [shape=box,  label="mkusr{'user': 'user6', 'pass': 'usuario', 'grp': 'root'}
-110000\n000000\n000000\n000000\n00000"];
-
-bloque_51 [shape=box,  label="mkusr{'user': 'user6', 'pass': 'usuario', 'grp': 'root'}
-1111100000\n0000000000\n0000000000\n0000000000\n0000000000\n0000000000\n0000000000\n0000000000\n0000000"];
-
-inodo_52 [shape=box,  label="mkusr{'user': 'user8', 'pass': 'usuario', 'grp': 'root'}
-110000\n000000\n000000\n000000\n00000"];
-
-bloque_52 [shape=box,  label="mkusr{'user': 'user8', 'pass': 'usuario', 'grp': 'root'}
-1111100000\n0000000000\n0000000000\n0000000000\n0000000000\n0000000000\n0000000000\n0000000000\n0000000"];
-
-inodo_53 [shape=box,  label="mkusr{'user': 'user9', 'pass': 'usuario', 'grp': 'root'}
-110000\n000000\n000000\n000000\n00000"];
-
-bloque_53 [shape=box,  label="mkusr{'user': 'user9', 'pass': 'usuario', 'grp': 'root'}
-1111110000\n0000000000\n0000000000\n0000000000\n0000000000\n0000000000\n0000000000\n0000000000\n0000000"];
-
-inodo_54 [shape=box,  label="mkusr{'user': 'user10', 'pass': 'usuario', 'grp': 'root'}
-110000\n000000\n000000\n000000\n00000"];
-
-bloque_54 [shape=box,  label="mkusr{'user': 'user10', 'pass': 'usuario', 'grp': 'root'}
-1111110000\n0000000000\n0000000000\n0000000000\n0000000000\n0000000000\n0000000000\n0000000000\n0000000"];
-
-inodo_55 [shape=box,  label="mkgrp{'name': 'usuarios2'}
-110000\n000000\n000000\n000000\n00000"];
-
-bloque_55 [shape=box,  label="mkgrp{'name': 'usuarios2'}
-1111110000\n0000000000\n0000000000\n0000000000\n0000000000\n0000000000\n0000000000\n0000000000\n0000000"];
-
-inodo_56 [shape=box,  label="mkgrp{'name': 'usuarios3'}
-110000\n000000\n000000\n000000\n00000"];
-
-bloque_56 [shape=box,  label="mkgrp{'name': 'usuarios3'}
-1111111000\n0000000000\n0000000000\n0000000000\n0000000000\n0000000000\n0000000000\n0000000000\n0000000"];
-
-inodo_57 [shape=box,  label="mkgrp{'name': 'usuarios4'}
-110000\n000000\n000000\n000000\n00000"];
-
-bloque_57 [shape=box,  label="mkgrp{'name': 'usuarios4'}
-1111111000\n0000000000\n0000000000\n0000000000\n0000000000\n0000000000\n0000000000\n0000000000\n0000000"];
-
-inodo_58 [shape=box,  label="mkgrp{'name': 'usuarios4'}
-110000\n000000\n000000\n000000\n00000"];
-
-bloque_58 [shape=box,  label="mkgrp{'name': 'usuarios4'}
-1111111000\n0000000000\n0000000000\n0000000000\n0000000000\n0000000000\n0000000000\n0000000000\n0000000"];
+bloque_30 [shape=box,  label="chgrp{'user': 'mamadas', 'grp': 'usuarios2'}
+1110111111\n1111111111\n1111111111\n1100000000\n0000000000\n0000000000\n0000000000\n0000000000\n0000000"];
 
 inodo_0 -> inodo_1
 bloque_0 -> bloque_1
@@ -416,60 +248,4 @@ inodo_29 -> inodo_30
 bloque_29 -> bloque_30
 inodo_30 -> inodo_31
 bloque_30 -> bloque_31
-inodo_31 -> inodo_32
-bloque_31 -> bloque_32
-inodo_32 -> inodo_33
-bloque_32 -> bloque_33
-inodo_33 -> inodo_34
-bloque_33 -> bloque_34
-inodo_34 -> inodo_35
-bloque_34 -> bloque_35
-inodo_35 -> inodo_36
-bloque_35 -> bloque_36
-inodo_36 -> inodo_37
-bloque_36 -> bloque_37
-inodo_37 -> inodo_38
-bloque_37 -> bloque_38
-inodo_38 -> inodo_39
-bloque_38 -> bloque_39
-inodo_39 -> inodo_40
-bloque_39 -> bloque_40
-inodo_40 -> inodo_41
-bloque_40 -> bloque_41
-inodo_41 -> inodo_42
-bloque_41 -> bloque_42
-inodo_42 -> inodo_43
-bloque_42 -> bloque_43
-inodo_43 -> inodo_44
-bloque_43 -> bloque_44
-inodo_44 -> inodo_45
-bloque_44 -> bloque_45
-inodo_45 -> inodo_46
-bloque_45 -> bloque_46
-inodo_46 -> inodo_47
-bloque_46 -> bloque_47
-inodo_47 -> inodo_48
-bloque_47 -> bloque_48
-inodo_48 -> inodo_49
-bloque_48 -> bloque_49
-inodo_49 -> inodo_50
-bloque_49 -> bloque_50
-inodo_50 -> inodo_51
-bloque_50 -> bloque_51
-inodo_51 -> inodo_52
-bloque_51 -> bloque_52
-inodo_52 -> inodo_53
-bloque_52 -> bloque_53
-inodo_53 -> inodo_54
-bloque_53 -> bloque_54
-inodo_54 -> inodo_55
-bloque_54 -> bloque_55
-inodo_55 -> inodo_56
-bloque_55 -> bloque_56
-inodo_56 -> inodo_57
-bloque_56 -> bloque_57
-inodo_57 -> inodo_58
-bloque_57 -> bloque_58
-inodo_58 -> inodo_59
-bloque_58 -> bloque_59
 }

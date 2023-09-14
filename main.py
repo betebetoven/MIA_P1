@@ -159,7 +159,40 @@ def recuperar(params, mounted_partitions, usuario_actual_boluo):
                     rename(n[1], mounted_partitions, current_partition, users)
                 else:
                     print("Error: You must be logged in to use this command")
-                
+            elif n[0]=='edit':
+                if users != None:
+                    remove(n[1], mounted_partitions, current_partition, users)
+                    mkfile(n[1], mounted_partitions, current_partition, users)
+                else:
+                    print("Error: You must be logged in to use this command")
+            elif n[0]=='copy':
+                if users != None:
+                    copy(n[1], mounted_partitions, current_partition, users)
+                else:
+                    print("Error: You must be logged in to use this command")
+            elif n[0]=='move':
+                if users != None:
+                    move(n[1], mounted_partitions, current_partition, users)
+                    
+                else:
+                    print("Error: You must be logged in to use this command")
+            elif n[0]=='chown':
+                if users != None:
+                    chown(n[1], mounted_partitions, current_partition, users)
+                else:
+                    print("Error: You must be logged in to use this command")
+            elif n[0]=='chgrp':
+                if users != None and users['username']=='root' :
+                    chgrp(n[1], mounted_partitions, current_partition, users)
+                    
+                else:
+                    print("Error: You must be logged in as root to use this command")
+            elif n[0]=='chmod':
+                if users != None and users['username']=='root' :
+                    chmod(n[1], mounted_partitions, current_partition, users)
+                else:
+                    print("Error: You must be logged in to use this command")
+        ver_bitmaps("recuperar"+str(params), mounted_partitions, id)       
                 
                 
                 

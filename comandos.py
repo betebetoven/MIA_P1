@@ -19,17 +19,7 @@ mkdisk -size=10 -path="/home/mis discos/Disco4.dsk" -unit=M -fit=WF \n\
     login -user=root -pass=123 -id=531Disco4\n\
     \
                                                       mkusr -user=user1 -pass=usuario -grp=root\
-                                                          mkusr -user=user2 -pass=usuario -grp=root\
-                                                              mkusr -user=user3 -pass=usuario -grp=root\
-                                                                  mkusr -user=user4 -pass=usuario -grp=root\
-                                                                      mkusr -user=user5 -pass=usuario -grp=root\
                                                                           mkgrp -name=usuarios\
-                                                                          mkusr -user=user6 -pass=usuario -grp=root\
-                                                                              mkusr -user=user7 -pass=usuario -grp=root\
-                                                                                  mkusr -user=user6 -pass=usuario -grp=root\
-                                                                                      mkusr -user=user8 -pass=usuario -grp=root\
-                                                                                          mkusr -user=user9 -pass=usuario -grp=root\
-                                                                                              mkusr -user=user10 -pass=usuario -grp=root\
                                                                                                  mkgrp -name=usuarios2 \
                                                                                                      mkgrp -name=usuarios3 \
                                                                                                          mkgrp -name=usuarios4 \
@@ -78,7 +68,5 @@ chown -path=/home2/documents/mentos2.txt -user=mamadas  \
 chown -path=/home2/documents -r -user=mamadas   \
 chgrp -user=mamadas -grp=usuarios2  \
 chmod -path=/home2 -ugo=777 -r\n\
-    loss -id=531Disco4\
-        recovery -id=531Disco4\
                         '                               
 #unmount -id=533Disco4 \
