@@ -20,6 +20,20 @@ def imprimir(obj,index):
         else:
             lista = value
     return object_type, table, lista,index
+def imprimir_como_antes(obj,index):
+    object_type = type(obj).__name__
+    if object_type == 'FileBlock':
+        obj.b_content = obj.b_content.replace('\x00', '')
+    if object_type == 'FolderBlock':
+        for n in obj.b_content:
+            n.b_name = n.b_name.replace('\x00', '')
+    table = PrettyTable(['Attribute', 'Value'])
+    attributes = vars(obj)
+    lista = None
+    for attr, value in attributes.items():
+        table.add_row([attr, value])
+        
+    return object_type, table, lista,index
 current_id = 0
 
 def get_next_id():
@@ -46,6 +60,39 @@ def prettytable_to_html_string(object_type, pt, lista,index, object):
     html_string += "</TABLE>> shape=box];\n"
     #if list is not none achieve this format bloques [label="{<content0> Content: users.txt | <content1> Content: empty | <content2> Content: empty | <content3> Content: empty}"];
     bloques = f'\nnode [shape=record];\nbloques{current_id} [label='
+    if lista is not None:
+        bloques += '"{'
+        for i,n in enumerate(lista):
+            bloques += f"<content{i}> {n.__str__()} | "
+        bloques += '\n}"];'
+    if lista is None:
+        total = header_node + nodo_tabla + html_string + "}"
+    else:
+        total = header_node + nodo_tabla + html_string +  bloques + "}" 
+    if object_type=='FolderBlock':
+        total = header_node +  bloques + "}"
+
+    return total,current_id
+def prettytable_to_html_string_para_bloques(object_type, pt, lista,index, object):
+    global current_id
+    get_next_id()
+    header_node = f'subgraph cluster_{object_type}{index} {"{"} label = "{object_type}{index}" style = filled fillcolor = "{COLORS[object_type]}"'
+    nodo_tabla = f'\n{current_id} [label='
+    html_string = '''<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4">\n'''
+    html_string += "  <TR>\n"
+    for field in pt._field_names:
+        html_string += f"    <TD>{field}</TD>\n"
+    html_string += "  </TR>\n"
+    for row in pt._rows:
+        html_string += "  <TR>\n"
+        for cell in row:
+            cell = str(cell).replace("\n", "<BR/>")
+            html_string += f"    <TD>{cell}</TD>\n"
+        html_string += "  </TR>\n"
+
+    html_string += "</TABLE>> shape=box];\n"
+    #if list is not none achieve this format bloques [label="{<content0> Content: users.txt | <content1> Content: empty | <content2> Content: empty | <content3> Content: empty}"];
+    bloques = f'\nnode [shape=record];\n{current_id} [label='
     if lista is not None:
         bloques += '"{'
         for i,n in enumerate(lista):
@@ -108,6 +155,7 @@ def graph(file,inicio, index):
 
 def rep(params, mounted_partitions,mapa_de_bytes): 
     global codigo_para_graphviz 
+    global current_id
     #get params
     name = params.get('name', '')
     id = params.get('id', None)
@@ -138,6 +186,7 @@ def rep(params, mounted_partitions,mapa_de_bytes):
         superblock = Superblock.unpack(file.read(Superblock.SIZE))
         
         if name == 'tree':
+            current_id = 0
             
             codigo_para_graphviz= ''
             try:
@@ -177,4 +226,61 @@ def rep(params, mounted_partitions,mapa_de_bytes):
                 codigo_para_graphviz += f'\nbloque_{n} -> bloque_{n+1}' 
             with open('historial_bitmaps_bloques.txt', 'w') as f:
                     f.write(f'digraph G {{\n{codigo_para_graphviz}\n}}')
+        elif name == 'inode':
+            current_id = 0
+            lista_graphviz = []
+            cantidad_inodos = superblock.s_inodes_count
+            FORMAT = f'{cantidad_inodos}s'
+            SIZE = struct.calcsize(FORMAT)
+            file.seek(superblock.s_bm_inode_start)
+            bitmap_inodos = struct.unpack(FORMAT, file.read(SIZE))[0].decode('utf-8')
+            for i,n in enumerate(bitmap_inodos):
+                print(n)
+                if n == '1':
+                    inicio = superblock.s_inode_start + i*Inode.SIZE
+                    file.seek(inicio)
+                    object = Inode.unpack(file.read(Inode.SIZE))
+                    object_type, pt, lista,index = imprimir_como_antes(object,inicio)
+                    total, id = prettytable_to_html_string(object_type, pt, lista,inicio, object)
+                    #print(f'///////////EL ID ES {id} DEL OBJETO {object_type} CON EL INDICE {inicio}*-*-*-*-*-*-*-*-*-*-*-*-*-*')
+                    codigo_para_graphviz += f'\n///////////EL ID ES {id} DEL OBJETO {object_type} CON EL INDICE {inicio}*-*-*-*-*-*-*-*-*-*-*-*-*-*'
+                    #print(total)
+                    codigo_para_graphviz += "\n"+total
+            for n in range(current_id):
+                codigo_para_graphviz += f'\n{n} -> {n+1}'
+            with open('inodos_graph.txt', 'w') as f:
+                    f.write(f'digraph G {{\n{codigo_para_graphviz}\n}}')
+        elif name == 'block':
+            current_id = 0
+            lista_graphviz = []
+            cantidad_bloques = superblock.s_blocks_count
+            FORMAT = f'{cantidad_bloques}s'
+            SIZE = struct.calcsize(FORMAT)
+            file.seek(superblock.s_bm_block_start)
+            bitmap_bloques = struct.unpack(FORMAT, file.read(SIZE))[0].decode('utf-8')
+            for i,n in enumerate(bitmap_bloques):
+                print(n)
+                if n == '1':
+                    inicio = superblock.s_block_start + i*64
+                    file.seek(inicio)
+                    try:
+                        object = FolderBlock.unpack(file.read(FolderBlock.SIZE))
+                    except:
+                        pass
+                    try:
+                        object = FileBlock.unpack(file.read(FileBlock.SIZE))
+                    except:
+                        pass
+                    object_type, pt, lista,index = imprimir(object,inicio)
+                    total, id = prettytable_to_html_string_para_bloques(object_type, pt, lista,inicio, object)
+                    #print(f'///////////EL ID ES {id} DEL OBJETO {object_type} CON EL INDICE {inicio}*-*-*-*-*-*-*-*-*-*-*-*-*-*')
+                    codigo_para_graphviz += f'\n///////////EL ID ES {id} DEL OBJETO {object_type} CON EL INDICE {inicio}*-*-*-*-*-*-*-*-*-*-*-*-*-*'
+                    #print(total)
+                    codigo_para_graphviz += "\n"+total
+            for n in range(current_id):
+                codigo_para_graphviz += f'\n{n} -> {n+1}'
+            with open('bloques_graph.txt', 'w') as f:
+                    f.write(f'digraph G {{\n{codigo_para_graphviz}\n}}')
+                
+            
             
