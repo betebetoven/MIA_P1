@@ -259,7 +259,8 @@ tokens = ( 'MKDISK', 'SIZE', 'PATH', 'UNIT', 'FIT','ENCAJE',
           'FS',
           'LOSS',
           'RECOVERY',
-          'REP')
+          'REP',
+          'RUTA')
 
 # Ignored characters
 t_ignore = ' \t'
@@ -310,6 +311,7 @@ t_FS = r'-fs'
 t_SIZE = r'-size='
 t_UGO = r'-ugo='
 t_PATH = r'-path='
+t_RUTA = r'-Ruta='
 t_UNIT = r'-unit='
 t_FIT = r'-fit='
 t_TYPE = r'-type='
@@ -587,6 +589,16 @@ def p_path2(p):
     pathnt : PATH DIRECCIONFEA
     '''
     p[0] = ('path', p[2])
+def p_ruta(p):
+    '''
+    rutant : RUTA DIRECCION
+    '''
+    p[0] = ('ruta', p[2])
+def p_ruta2(p):
+    '''
+    rutant : RUTA DIRECCIONFEA
+    '''
+    p[0] = ('ruta', p[2])
 def p_destino(p):
     '''
     destint : DESTINO DIRECCION
@@ -641,6 +653,7 @@ def p_param(p):
           | destint
           | ugont
           | fsnt
+          | rutant
             
           
             

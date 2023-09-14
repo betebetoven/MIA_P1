@@ -41,7 +41,7 @@ class Partition:
         
 
     def __str__(self):
-        return f"Partition: name={self.name}, size={self.actual_size} bytes,  unit={self.unit}"
+        return f"Partition: name={self.name}, size={self.actual_size} bytes,  unit={self.unit}, type={self.type}, status={self.status}, fit={self.fit}, byte_inicio={self.byte_inicio}"
 
     def pack(self):
         fit_char = self.fit[0].encode() 

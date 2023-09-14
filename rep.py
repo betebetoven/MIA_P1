@@ -3,6 +3,7 @@ import struct
 import os
 from MBR import MBR
 from prettytable import PrettyTable
+from mkfile import busca
 COLORS = {'Inode': 'lightblue', 'Superblock': '#E0E0E0', 'FolderBlock': '#FFCC00', 'FileBlock': 'green', 'sb': 'orange',  'Content': '#FFCC00','mbr': 'orange',}
 def imprimir(obj,index):
     object_type = type(obj).__name__
@@ -327,4 +328,41 @@ def rep(params, mounted_partitions,mapa_de_bytes):
                 print(str(n))
             with open('mbr_graph.txt', 'w') as f:
                     f.write(f'digraph G {{\n{total}\n}}')
-            
+        elif name == 'file':
+            file.seek(inicio)
+            superblock = Superblock.unpack(file.read(Superblock.SIZE))
+            insidepath = params.get('ruta', '')
+            lista_direcciones = insidepath.split('/')[1:]
+            ##########################################################
+            PI = superblock.s_inode_start
+            newI = -1
+            for i,n in enumerate(lista_direcciones):
+                esta,v = busca(file,PI,0,n)
+                if esta:
+                    PI = v
+                else:
+                    print(f'archivo {insidepath} no existe')
+                    newI = i
+                    return
+            if newI == -1:
+                print("#############################################")
+                print(f'archivo {insidepath} ya existe')
+                print(f'byte del inodo {PI}')
+                file.seek(PI)
+                inodo = Inode.unpack(file.read(Inode.SIZE))
+                print(inodo)
+                #print(inodo.i_block)
+                print("#############################################")
+                texto = ''
+                for n in inodo.i_block:
+                    if n == -1:
+                        continue
+                    file.seek(n)
+                    bloque = FileBlock.unpack(file.read(FileBlock.SIZE))
+                    texto +=bloque.b_content.strip('\x00')
+                print(texto)
+                print("#############################################")
+                with open('REPORTE_FILE.txt', 'w') as f:
+                    f.write(f'{texto}')
+                    
+                    

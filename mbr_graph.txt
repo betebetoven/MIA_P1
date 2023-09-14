@@ -11,11 +11,11 @@ subgraph cluster_mbr0 { label = "mbr0" style = filled fillcolor = "orange"
   </TR>
   <TR>
     <TD>mbr_fecha_creacion</TD>
-    <TD>1694723757.61991</TD>
+    <TD>1694726480.0329537</TD>
   </TR>
   <TR>
     <TD>mbr_dsk_signature</TD>
-    <TD>291226</TD>
+    <TD>671525</TD>
   </TR>
   <TR>
     <TD>fit</TD>
@@ -24,6 +24,6 @@ subgraph cluster_mbr0 { label = "mbr0" style = filled fillcolor = "orange"
 </TABLE>> shape=box];
 
 node [shape=record];
-bloques1 [label="{<content0> Partition: name=laprimera, size=153600 bytes,  unit=K | <content1> Partition: name=lasegunda, size=102400 bytes,  unit=K | <content2> Partition: name=latercera, size=10240 bytes,  unit=K | <content3> Partition: name=lacuarta, size=307200 bytes,  unit=K | 
+bloques1 [label="{<content0> Partition: name=laprimera, size=153600 bytes,  unit=K, type=P, status=1, fit=FF, byte_inicio=165 | <content1> Partition: name=lasegunda, size=102400 bytes,  unit=K, type=E, status=1, fit=BF, byte_inicio=153765 | <content2> Partition: name=latercera, size=10240 bytes,  unit=K, type=P, status=1, fit=WF, byte_inicio=256165 | <content3> Partition: name=lacuarta, size=307200 bytes,  unit=K, type=P, status=1, fit=FF, byte_inicio=266405 | 
 }"];}
 }
