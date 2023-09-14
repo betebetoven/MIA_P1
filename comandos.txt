@@ -70,5 +70,4 @@ chgrp -user=mamadas -grp=usuarios2
 chmod -path=/home2 -ugo=777 -r
 loss -id=531Disco4
 recovery -id=531Disco4
-mkdir -path="/home/buenosdias" -r
-cat -file1=/home/a.txt
+

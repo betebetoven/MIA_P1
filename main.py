@@ -1064,20 +1064,13 @@ with open(r'C:\Users\alber\OneDrive\Escritorio\cys\MIA\proyecto1\discos_test\hom
     file.seek(mbr.particiones[0].byte_inicio)
     superblock = Superblock.unpack(file.read(Superblock.SIZE))
     codigo_para_graphviz= ''
-    try:
-        primero = graph(file,superblock.s_inode_start,0)
-        print(f"home -> {primero}")
-        codigo_para_graphviz += f"\nhome -> {primero}"
-        with open('graphvizcode.txt', 'w') as f:
-            f.write(f'digraph G {{\n{codigo_para_graphviz}\n}}')
-    except:
-        file.seek(superblock.s_inode_start)
-        inodo = Inode.unpack(file.read(Inode.SIZE))
-        siguiente = inodo.i_block[0]
-        file.seek(siguiente)
-        folderblock = FolderBlock.unpack(file.read(FolderBlock.SIZE))
-        siguiente = folderblock.b_content[1].b_inodo
-        file.seek(siguiente)
+
+    primero = graph(file,superblock.s_inode_start,0)
+    print(f"home -> {primero}")
+    codigo_para_graphviz += f"\nhome -> {primero}"
+    with open('graphvizcode.txt', 'w') as f:
+        f.write(f'digraph G {{\n{codigo_para_graphviz}\n}}')
+    
     
     
     
