@@ -9,6 +9,7 @@ from FORMATEO.ext2.ext2 import Superblock, Inode, FolderBlock, FileBlock, Pointe
 from mkfile import mkfile, cat, remove, rename, copy, move, find
 from permisos import chown, chgrp,chmod
 from journal import add_to_journal, ver_journal_actual, loss
+from rep import rep
 import struct
 import os
 mapa_de_bytes = []
@@ -257,7 +258,8 @@ tokens = ( 'MKDISK', 'SIZE', 'PATH', 'UNIT', 'FIT','ENCAJE',
           'CHMOD',
           'FS',
           'LOSS',
-          'RECOVERY')
+          'RECOVERY',
+          'REP')
 
 # Ignored characters
 t_ignore = ' \t'
@@ -290,6 +292,7 @@ t_CHGRP = r'chgrp'
 t_CHMOD = r'chmod'
 t_LOSS = r'loss'
 t_RECOVERY = r'recovery'
+t_REP = r'rep'
 
 t_USER = r'-user'
 t_PASSWORD = r'-pass'
@@ -433,6 +436,7 @@ def p_expression(p):
                 | chmod
                 | loss
                 | recovery
+                | rep
     '''
 
     p[0] = ('binop', p[1])
@@ -897,6 +901,15 @@ def p_recovery(p):
     '''
     recuperar(p[2], mounted_partitions, current_partition)
     p[0] = ('recovery', p[2])
+def p_rep(p):
+    '''
+    rep : REP params
+    '''
+    if users != None:
+        rep(p[2], mounted_partitions)
+    else:
+        print("Error: You must be logged in to use this command")
+    p[0] = ('tree', p[2])
 def p_error(p):
     print(f'Syntax error at {p.value!r}')
 
