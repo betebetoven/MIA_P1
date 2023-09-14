@@ -138,11 +138,15 @@ def rep(params, mounted_partitions):
         superblock = Superblock.unpack(file.read(Superblock.SIZE))
         
         if name == 'tree':
+            
             codigo_para_graphviz= ''
-
-            primero = graph(file,superblock.s_inode_start,0)
-            print(f"home -> {primero}")
-            codigo_para_graphviz += f"\nhome -> {primero}"
-            #print(codigo_para_graphviz)
-            with open('graphvizcode.txt', 'w') as f:
-                f.write(f'digraph G {{\n{codigo_para_graphviz}\n}}')
+            try:
+                primero = graph(file,superblock.s_inode_start,0)
+                print(f"home -> {primero}")
+                codigo_para_graphviz += f"\nhome -> {primero}"
+                #print(codigo_para_graphviz)
+                with open('graphvizcode.txt', 'w') as f:
+                    f.write(f'digraph G {{\n{codigo_para_graphviz}\n}}')
+            except:
+                print("Error: The tree does not exist. because there was a loss")
+                return

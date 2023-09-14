@@ -1078,11 +1078,11 @@ with open(r'C:\Users\alber\OneDrive\Escritorio\cys\MIA\proyecto1\discos_test\hom
     superblock = Superblock.unpack(file.read(Superblock.SIZE))
     codigo_para_graphviz= ''
 
-    primero = graph(file,superblock.s_inode_start,0)
-    print(f"home -> {primero}")
-    codigo_para_graphviz += f"\nhome -> {primero}"
-    with open('graphvizcode.txt', 'w') as f:
-        f.write(f'digraph G {{\n{codigo_para_graphviz}\n}}')
+    #primero = graph(file,superblock.s_inode_start,0)
+    #print(f"home -> {primero}")
+    #codigo_para_graphviz += f"\nhome -> {primero}"
+    #with open('graphvizcode.txt', 'w') as f:
+        #f.write(f'digraph G {{\n{codigo_para_graphviz}\n}}')
     
     
     
