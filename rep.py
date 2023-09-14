@@ -3,7 +3,7 @@ import struct
 import os
 from MBR import MBR
 from prettytable import PrettyTable
-COLORS = {'Inode': 'lightblue', 'Superblock': '#E0E0E0', 'FolderBlock': '#FFCC00', 'FileBlock': 'green', 'sb': 'orange',  'Content': '#FFCC00'}
+COLORS = {'Inode': 'lightblue', 'Superblock': '#E0E0E0', 'FolderBlock': '#FFCC00', 'FileBlock': 'green', 'sb': 'orange',  'Content': '#FFCC00','mbr': 'orange',}
 def imprimir(obj,index):
     object_type = type(obj).__name__
     if object_type == 'FileBlock':
@@ -182,10 +182,11 @@ def rep(params, mounted_partitions,mapa_de_bytes):
         print(f"Error: The file {full_path} does not exist.")
         return
     with open(full_path, "rb+") as file:
-        file.seek(inicio)
-        superblock = Superblock.unpack(file.read(Superblock.SIZE))
+        
         
         if name == 'tree':
+            file.seek(inicio)
+            superblock = Superblock.unpack(file.read(Superblock.SIZE))
             current_id = 0
             
             codigo_para_graphviz= ''
@@ -200,6 +201,8 @@ def rep(params, mounted_partitions,mapa_de_bytes):
                 print("Error: The tree does not exist. because there was a loss")
                 return
         elif name == 'bm':
+            file.seek(inicio)
+            superblock = Superblock.unpack(file.read(Superblock.SIZE))
             codigo_para_graphviz = ''
             for n in mapa_de_bytes:
                 codigo_para_graphviz += f'\n{n[0]}\n{n[1]}'
@@ -211,6 +214,8 @@ def rep(params, mounted_partitions,mapa_de_bytes):
             with open('historial_bitmaps.txt', 'w') as f:
                     f.write(f'digraph G {{\n{codigo_para_graphviz}\n}}')
         elif name == 'bm_inode':
+            file.seek(inicio)
+            superblock = Superblock.unpack(file.read(Superblock.SIZE))
             codigo_para_graphviz = ''
             for n in mapa_de_bytes:
                 codigo_para_graphviz += f'\n{n[0]}'
@@ -219,6 +224,8 @@ def rep(params, mounted_partitions,mapa_de_bytes):
             with open('historial_bitmaps_inodos.txt', 'w') as f:
                     f.write(f'digraph G {{\n{codigo_para_graphviz}\n}}')
         elif name == 'bm_bloc':
+            file.seek(inicio)
+            superblock = Superblock.unpack(file.read(Superblock.SIZE))
             codigo_para_graphviz = ''
             for n in mapa_de_bytes:
                 codigo_para_graphviz += f'\n{n[1]}'
@@ -282,6 +289,8 @@ def rep(params, mounted_partitions,mapa_de_bytes):
             with open('bloques_graph.txt', 'w') as f:
                     f.write(f'digraph G {{\n{codigo_para_graphviz}\n}}')
         elif name == 'journal':
+            file.seek(inicio)
+            superblock = Superblock.unpack(file.read(Superblock.SIZE))
             file.seek(inicio+superblock.SIZE)
             try: 
                 journal = Journal.unpack(file.read(Journal.SIZE))
@@ -296,6 +305,8 @@ def rep(params, mounted_partitions,mapa_de_bytes):
             with open('journal_graph.txt', 'w') as f:
                     f.write(f'{codigo_para_graphviz}')
         elif name == 'sb':
+            file.seek(inicio)
+            superblock = Superblock.unpack(file.read(Superblock.SIZE))
             table = PrettyTable(['Attribute', 'Value'])
             attributes = vars(superblock)
             lista = None
@@ -306,5 +317,14 @@ def rep(params, mounted_partitions,mapa_de_bytes):
             with open('supeblock_graph.txt', 'w') as f:
                     f.write(f'digraph G {{\n{total}\n}}')
                 
-            
+        elif name == 'mbr':
+            file.seek(0)
+            mbr = MBR.unpack(file.read(MBR.SIZE))
+            object_type, pt, lista,index = imprimir(mbr,0)
+            total, id = prettytable_to_html_string('mbr', pt, lista,0, inicio)
+            print(pt)
+            for n in lista:
+                print(str(n))
+            with open('mbr_graph.txt', 'w') as f:
+                    f.write(f'digraph G {{\n{total}\n}}')
             
