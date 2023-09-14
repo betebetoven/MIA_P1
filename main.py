@@ -112,8 +112,12 @@ def recuperar(params, mounted_partitions, usuario_actual_boluo):
         print(f"Error: The file {full_path} does not exist.")
         return
     with open(full_path, "rb+") as file:
-        file.seek(inicio+Superblock.SIZE)
-        journal = Journal.unpack(file.read(Journal.SIZE))
+        try: 
+            file.seek(inicio+Superblock.SIZE)
+            journal = Journal.unpack(file.read(Journal.SIZE))
+        except:
+            print("Error: The journal does not exist we are on a ext2")
+            return
         content = journal.journal_data
         commands = [ast.literal_eval(line) for line in content.split("\n") if line.strip()]
         print(commands)

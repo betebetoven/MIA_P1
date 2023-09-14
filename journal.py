@@ -115,6 +115,12 @@ def loss(params, mounted_partitions, users):
         print(f"Error: The file {full_path} does not exist.")
         return
     with open(full_path, "rb+") as file:
+        try:
+            file.seek(inicio+ Superblock.SIZE)
+            minijournal = Journal.unpack(file.read(Journal.SIZE))
+        except:
+            print("Error: The journal does not exist we are on a ext2")
+            return
         file.seek(inicio)
         superblock = Superblock.unpack(file.read(Superblock.SIZE))
         file.seek(superblock.s_bm_inode_start)
