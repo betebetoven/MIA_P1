@@ -281,6 +281,21 @@ def rep(params, mounted_partitions,mapa_de_bytes):
                 codigo_para_graphviz += f'\n{n} -> {n+1}'
             with open('bloques_graph.txt', 'w') as f:
                     f.write(f'digraph G {{\n{codigo_para_graphviz}\n}}')
+        elif name == 'journal':
+            file.seek(inicio+superblock.SIZE)
+            try: 
+                journal = Journal.unpack(file.read(Journal.SIZE))
+            except:
+                print("Error: The journal does not exist.")
+                return
+            codigo_para_graphviz = ''
+            codigo_para_graphviz += f'digraph G {{\n{journal.journal_data}\n}}'
+            print(f"journal_data: {journal.journal_data}")
+            formatted_journal_data = journal.journal_data.replace("\n", "\\n")
+            codigo_para_graphviz = f'digraph G {{\n  uniconodo [shape=box, label="{formatted_journal_data}"];\n}}'
+            with open('journal_graph.txt', 'w') as f:
+                    f.write(f'{codigo_para_graphviz}')
+
                 
             
             
