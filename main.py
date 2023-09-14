@@ -1093,13 +1093,13 @@ with open(r'C:\Users\alber\OneDrive\Escritorio\cys\MIA\proyecto1\discos_test\hom
 print(users)
 print(current_partition)
 
-codigo_para_graphviz = ''
-for n in mapa_de_bytes:
-    codigo_para_graphviz += f'\n{n[0]}\n{n[1]}'
-for n in range(len(mapa_de_bytes)):
-    codigo_para_graphviz += f'\ninodo_{n} -> inodo_{n+1}'
-    codigo_para_graphviz += f'\nbloque_{n} -> bloque_{n+1}'
+#codigo_para_graphviz = ''
+#for n in mapa_de_bytes:
+#    codigo_para_graphviz += f'\n{n[0]}\n{n[1]}'
+#for n in range(len(mapa_de_bytes)):
+#    codigo_para_graphviz += f'\ninodo_{n} -> inodo_{n+1}'
+#    codigo_para_graphviz += f'\nbloque_{n} -> bloque_{n+1}'
     
     
-with open('historial_bitmaps.txt', 'w') as f:
-        f.write(f'digraph G {{\n{codigo_para_graphviz}\n}}')
+#with open('historial_bitmaps.txt', 'w') as f:
+#        f.write(f'digraph G {{\n{codigo_para_graphviz}\n}}')

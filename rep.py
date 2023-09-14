@@ -161,4 +161,20 @@ def rep(params, mounted_partitions,mapa_de_bytes):
                 
             with open('historial_bitmaps.txt', 'w') as f:
                     f.write(f'digraph G {{\n{codigo_para_graphviz}\n}}')
+        elif name == 'bm_inode':
+            codigo_para_graphviz = ''
+            for n in mapa_de_bytes:
+                codigo_para_graphviz += f'\n{n[0]}'
+            for n in range(len(mapa_de_bytes)):
+                codigo_para_graphviz += f'\ninodo_{n} -> inodo_{n+1}'     
+            with open('historial_bitmaps_inodos.txt', 'w') as f:
+                    f.write(f'digraph G {{\n{codigo_para_graphviz}\n}}')
+        elif name == 'bm_bloc':
+            codigo_para_graphviz = ''
+            for n in mapa_de_bytes:
+                codigo_para_graphviz += f'\n{n[1]}'
+            for n in range(len(mapa_de_bytes)):
+                codigo_para_graphviz += f'\nbloque_{n} -> bloque_{n+1}' 
+            with open('historial_bitmaps_bloques.txt', 'w') as f:
+                    f.write(f'digraph G {{\n{codigo_para_graphviz}\n}}')
             
