@@ -906,7 +906,7 @@ def p_rep(p):
     rep : REP params
     '''
     if users != None:
-        rep(p[2], mounted_partitions)
+        rep(p[2], mounted_partitions,mapa_de_bytes)
     else:
         print("Error: You must be logged in to use this command")
     p[0] = ('tree', p[2])

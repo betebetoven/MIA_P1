@@ -106,7 +106,7 @@ def graph(file,inicio, index):
     return id
 
 
-def rep(params, mounted_partitions): 
+def rep(params, mounted_partitions,mapa_de_bytes): 
     global codigo_para_graphviz 
     #get params
     name = params.get('name', '')
@@ -150,3 +150,15 @@ def rep(params, mounted_partitions):
             except:
                 print("Error: The tree does not exist. because there was a loss")
                 return
+        elif name == 'bm':
+            codigo_para_graphviz = ''
+            for n in mapa_de_bytes:
+                codigo_para_graphviz += f'\n{n[0]}\n{n[1]}'
+            for n in range(len(mapa_de_bytes)):
+                codigo_para_graphviz += f'\ninodo_{n} -> inodo_{n+1}'
+                codigo_para_graphviz += f'\nbloque_{n} -> bloque_{n+1}'
+                
+                
+            with open('historial_bitmaps.txt', 'w') as f:
+                    f.write(f'digraph G {{\n{codigo_para_graphviz}\n}}')
+            
