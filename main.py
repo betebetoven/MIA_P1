@@ -904,7 +904,25 @@ def p_error(p):
 parser = yacc()
 
 # Parse an expression
-ast = parser.parse(comandos)
+#ast = parser.parse(comandos)
+
+while True:
+    s = input('>> ')
+    if s == 'exit':
+        break
+    elif s.startswith('execute'):
+        nuevo = s.split('=')
+        print(nuevo)
+        contenido = ''
+        with open(nuevo[1], 'r') as file:
+            s = file.read()
+            contenido = s
+        result = parser.parse(contenido)
+    else:
+        result = parser.parse(s)
+        print(result)
+
+
 
 #read C:\Users\alber\OneDrive\Escritorio\cys\MIA\proyecto1\discos_test\home\mis discos\Disco4.dsk from the byte 0 an unpack it with MBR and print it
 from MBR import MBR
@@ -1053,12 +1071,19 @@ with open(r'C:\Users\alber\OneDrive\Escritorio\cys\MIA\proyecto1\discos_test\hom
         with open('graphvizcode.txt', 'w') as f:
             f.write(f'digraph G {{\n{codigo_para_graphviz}\n}}')
     except:
-        print("no hay nada pq se hizo el loss")
+        file.seek(superblock.s_inode_start)
+        inodo = Inode.unpack(file.read(Inode.SIZE))
+        siguiente = inodo.i_block[0]
+        file.seek(siguiente)
+        folderblock = FolderBlock.unpack(file.read(FolderBlock.SIZE))
+        siguiente = folderblock.b_content[1].b_inodo
+        file.seek(siguiente)
+    
     
     
 
-for n in ast:
-    print(n[1])
+#for n in ast:
+   # print(n[1])
 print(users)
 print(current_partition)
 

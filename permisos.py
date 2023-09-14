@@ -58,7 +58,7 @@ def cambiar_permiso_inodos_recursivamente(file,byte, tipo, permiso):
         for n in bloque.b_content:
             if n.b_inodo != -1:
                 cambiar_permiso_inodos_recursivamente(file,n.b_inodo,0,permiso)
-def change_group_user(text, new_id,new_group_name, name):
+def change_group_user(text, new_id, new_group_name, name):
     # Splitting the text into lines
     lines = text.strip().split('\n')
     
@@ -74,6 +74,7 @@ def change_group_user(text, new_id,new_group_name, name):
     # Then, we reorder the text
     groups = {}
     users = {}
+    disabled_users = []  # Users with ID 0
     
     for line in lines:
         parts = line.split(',')
@@ -81,9 +82,12 @@ def change_group_user(text, new_id,new_group_name, name):
             groups[parts[0]] = line
             users[parts[0]] = []
         elif parts[1] == 'U':
-            if parts[0] not in users:
-                users[parts[0]] = []
-            users[parts[0]].append(line)
+            if parts[0] == '0':
+                disabled_users.append(line)
+            else:
+                if parts[0] not in users:
+                    users[parts[0]] = []
+                users[parts[0]].append(line)
     
     # Reconstructing the text
     sorted_lines = []
@@ -91,7 +95,11 @@ def change_group_user(text, new_id,new_group_name, name):
         sorted_lines.append(group)
         sorted_lines.extend(users.get(gid, []))
     
+    # Append disabled users at the end
+    sorted_lines.extend(disabled_users)
+    
     return '\n'.join(sorted_lines)
+
         
 def count_occupied_blocks_in_inode(inodo):
     count = 0
@@ -230,7 +238,7 @@ def chgrp(params, mounted_partitions,id, usuario_actual):
         if group_id == None:
             print(f'🚷🚷__El grupo {group} no existe')
             return
-        new_texto = change_group_user(texto_usuarios, group_id,group , user)
+        new_texto = change_group_user(texto_usuarios, group_id,group , user) + '\n'
         cantidad_bloques_utilizados = count_occupied_blocks_in_inode(inodo_archivo)
         cantitda_bloques_por_utilizat = count_bloques_for_a_text(new_texto)
         bitmap_bloques_inicio = superblock.s_bm_block_start
@@ -243,6 +251,12 @@ def chgrp(params, mounted_partitions,id, usuario_actual):
         primerbloque = inodo_archivo.i_block[0]
         indice_a_borrar = (primerbloque-superblock.s_block_start)//64
         if cantitda_bloques_por_utilizat<=12:
+            print(f'cantidad de bloques utilizados {cantidad_bloques_utilizados}')
+            print(f'cantidad de bloques por utilizar {cantitda_bloques_por_utilizat}')
+            print(f'{new_texto} sigue')
+            tupu = new_texto[-1]=="\n"
+            print(f'{tupu}')
+            input('viendo chgrp')
             bitmap = bitmap[:indice_a_borrar] + '0'*cantidad_bloques_utilizados + bitmap[indice_a_borrar+cantidad_bloques_utilizados:]
             index = bitmap.find('0'*cantitda_bloques_por_utilizat)
             a = bitmap[:index] + '1'*cantitda_bloques_por_utilizat + bitmap[index+cantitda_bloques_por_utilizat:]
