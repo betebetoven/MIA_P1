@@ -2,6 +2,7 @@ from FORMATEO.ext2.ext2 import Superblock, Inode, FolderBlock, FileBlock, Pointe
 import struct
 import os
 from MBR import MBR
+from EBR import EBR
 from prettytable import PrettyTable
 from mkfile import busca
 COLORS = {'Inode': 'lightblue', 'Superblock': '#E0E0E0', 'FolderBlock': '#FFCC00', 'FileBlock': 'green', 'sb': 'orange',  'Content': '#FFCC00','mbr': 'orange',}
@@ -364,5 +365,45 @@ def rep(params, mounted_partitions,mapa_de_bytes):
                 print("#############################################")
                 with open('REPORTE_FILE.txt', 'w') as f:
                     f.write(f'{texto}')
-                    
+        elif name == 'disk':
+            rows = []
+            file.seek(0)
+            mbr = MBR.unpack(file.read(MBR.SIZE))
+            rows.append('\n<TD>MBR</TD>')
+            partitions = mbr.particiones
+            for partition in partitions:
+                print(str(partition))
+                if partition.type == 'P' and partition.status == 1:
+                    rows.append(f'\n<TD>primaria: {partition.name}</TD>')
+                elif partition.type == 'E' and partition.status == 1:
+                    extended_rows = []
+                    next = partition.byte_inicio
+                    while next != -1:
+                        file.seek(next)
+                        ebr = EBR.unpack(file.read(EBR.SIZE))
+                        extended_rows.append(f'\n   <TD>ebr: {ebr.name}</TD>')
+                        if ebr.next != -1:
+                            extended_rows.append(f'\n   <TD>logica: {ebr.name}</TD>')
+                        if ebr.next != -1 and ebr.next < (next + EBR.SIZE+ebr.actual_size):
+                            extended_rows.append(f'\n   <TD>LIBRE</TD>')
+                        next = ebr.next
+                    extended_content = "".join(extended_rows)
+                    rows.append(f'\n<TD><TABLE BORDER="2"><TR><TD colspan="10">extendida</TD></TR><TR>{extended_content}</TR></TABLE></TD>')
+                elif partition.status == 0:
+                    rows.append(f'\n<TD>LIBRE</TD>')
+            graphviz_code = f'''digraph G {{
+node [shape=none];
+disk [label=<
+<TABLE BORDER="1" CELLBORDER="1" CELLSPACING="0">
+<TR><TD colspan="5">{id}</TD></TR>
+<TR>{"".join(rows)}</TR>
+</TABLE>
+>];
+}}
+                            '''
+            
+            with open('REPORTE_DISK.txt', 'w') as f:
+                    f.write(f'{graphviz_code}')
+                        
+                        
                     
