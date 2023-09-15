@@ -5,7 +5,7 @@ from MBR import MBR
 from EBR import EBR
 from prettytable import PrettyTable
 from mkfile import busca
-COLORS = {'Inode': 'lightblue', 'Superblock': '#E0E0E0', 'FolderBlock': '#FFCC00', 'FileBlock': 'green', 'sb': 'orange',  'Content': '#FFCC00','mbr': 'orange',}
+COLORS = {'Inode': 'lightblue', 'Superblock': '#E0E0E0', 'FolderBlock': '#FFCC00', 'FileBlock': 'green', 'sb': 'orange',  'Content': '#FFCC00','mbr': 'orange','ebr': 'orange'}
 def imprimir(obj,index):
     object_type = type(obj).__name__
     if object_type == 'FileBlock':
@@ -405,5 +405,24 @@ disk [label=<
             with open('REPORTE_DISK.txt', 'w') as f:
                     f.write(f'{graphviz_code}')
                         
-                        
+        elif name=='ebr':
+            graphviz_code = ''
+            current_id = 0
+            nodes = []
+            file.seek(0)
+            mbr = MBR.unpack(file.read(MBR.SIZE))
+            particiones = mbr.particiones
+            for partition in particiones:
+                if partition.type == 'E' and partition.status == 1:
+                    next = partition.byte_inicio
+                    while next != -1:
+                        file.seek(next)
+                        ebr = EBR.unpack(file.read(EBR.SIZE))
+                        object_type, pt, lista,index = imprimir(ebr,next)
+                        total, id = prettytable_to_html_string('ebr', pt, lista,next, inicio)
+                        graphviz_code+="\n"+total
+                        next = ebr.next
+            with open('EBR_graph.txt', 'w') as f:
+                    f.write(f'digraph G {{\n{graphviz_code}\n}}')
+                            
                     
