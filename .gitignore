@@ -10,5 +10,3 @@ __pycache__/
 *.idea/
 
 # Custom ignores for your project
-discos_test/
-graphvizcode.txt
