@@ -1,7 +1,7 @@
 digraph G {
 
-///////////EL ID ES 1 DEL OBJETO Inode CON EL INDICE 1361*-*-*-*-*-*-*-*-*-*-*-*-*-*
-subgraph cluster_Inode1361 { label = "Inode1361" style = filled fillcolor = "lightblue"
+///////////EL ID ES 1 DEL OBJETO Inode CON EL INDICE 749*-*-*-*-*-*-*-*-*-*-*-*-*-*
+subgraph cluster_Inode749 { label = "Inode749" style = filled fillcolor = "lightblue"
 1 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4">
   <TR>
     <TD>Attribute</TD>
@@ -21,15 +21,15 @@ subgraph cluster_Inode1361 { label = "Inode1361" style = filled fillcolor = "lig
   </TR>
   <TR>
     <TD>i_atime</TD>
-    <TD>1694754440.9990845</TD>
+    <TD>1694754722.4225345</TD>
   </TR>
   <TR>
     <TD>i_ctime</TD>
-    <TD>1694754440.9990845</TD>
+    <TD>1694754722.4225345</TD>
   </TR>
   <TR>
     <TD>i_mtime</TD>
-    <TD>1694754440.9990845</TD>
+    <TD>1694754722.4225345</TD>
   </TR>
   <TR>
     <TD>i_type</TD>
@@ -42,19 +42,19 @@ subgraph cluster_Inode1361 { label = "Inode1361" style = filled fillcolor = "lig
 </TABLE>> shape=box];
 
 node [shape=record];
-bloques1 [label="{<content0> 4493 | <content1> 6157 | <content2> -1 | <content3> -1 | <content4> -1 | <content5> -1 | <content6> -1 | <content7> -1 | <content8> -1 | <content9> -1 | <content10> -1 | <content11> -1 | <content12> -1 | <content13> -1 | <content14> -1 | 
+bloques1 [label="{<content0> 14357 | <content1> 16021 | <content2> -1 | <content3> -1 | <content4> -1 | <content5> -1 | <content6> -1 | <content7> -1 | <content8> -1 | <content9> -1 | <content10> -1 | <content11> -1 | <content12> -1 | <content13> -1 | <content14> -1 | 
 }"];}
-///////////EL ID ES 2 DEL OBJETO FolderBlock CON EL INDICE 4493*-*-*-*-*-*-*-*-*-*-*-*-*-*
-subgraph cluster_FolderBlock4493 { label = "FolderBlock4493" style = filled fillcolor = "#FFCC00"
+///////////EL ID ES 2 DEL OBJETO FolderBlock CON EL INDICE 14357*-*-*-*-*-*-*-*-*-*-*-*-*-*
+subgraph cluster_FolderBlock14357 { label = "FolderBlock14357" style = filled fillcolor = "#FFCC00"
 node [shape=record];
 bloques2 [label="{<content0> Name: users.txt
- Inode: 1469 | <content1> Name: home
- Inode: 1577 | <content2> Name: home2
- Inode: 2657 | <content3> Name: casa
- Inode: 3197 | 
+ Inode: 857 | <content1> Name: home
+ Inode: 965 | <content2> Name: home2
+ Inode: 2045 | <content3> Name: casa
+ Inode: 2585 | 
 }"];}
-///////////EL ID ES 3 DEL OBJETO Inode CON EL INDICE 1469*-*-*-*-*-*-*-*-*-*-*-*-*-*
-subgraph cluster_Inode1469 { label = "Inode1469" style = filled fillcolor = "lightblue"
+///////////EL ID ES 3 DEL OBJETO Inode CON EL INDICE 857*-*-*-*-*-*-*-*-*-*-*-*-*-*
+subgraph cluster_Inode857 { label = "Inode857" style = filled fillcolor = "lightblue"
 3 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4">
   <TR>
     <TD>Attribute</TD>
@@ -74,15 +74,15 @@ subgraph cluster_Inode1469 { label = "Inode1469" style = filled fillcolor = "lig
   </TR>
   <TR>
     <TD>i_atime</TD>
-    <TD>1694754440.9990845</TD>
+    <TD>1694754722.4225345</TD>
   </TR>
   <TR>
     <TD>i_ctime</TD>
-    <TD>1694754440.9990845</TD>
+    <TD>1694754722.4225345</TD>
   </TR>
   <TR>
     <TD>i_mtime</TD>
-    <TD>1694754440.9990845</TD>
+    <TD>1694754722.4225345</TD>
   </TR>
   <TR>
     <TD>i_type</TD>
@@ -95,10 +95,10 @@ subgraph cluster_Inode1469 { label = "Inode1469" style = filled fillcolor = "lig
 </TABLE>> shape=box];
 
 node [shape=record];
-bloques3 [label="{<content0> 4557 | <content1> 4621 | <content2> 4685 | <content3> -1 | <content4> -1 | <content5> -1 | <content6> -1 | <content7> -1 | <content8> -1 | <content9> -1 | <content10> -1 | <content11> -1 | <content12> -1 | <content13> -1 | <content14> -1 | 
+bloques3 [label="{<content0> 14421 | <content1> 14485 | <content2> 14549 | <content3> -1 | <content4> -1 | <content5> -1 | <content6> -1 | <content7> -1 | <content8> -1 | <content9> -1 | <content10> -1 | <content11> -1 | <content12> -1 | <content13> -1 | <content14> -1 | 
 }"];}
-///////////EL ID ES 4 DEL OBJETO FileBlock CON EL INDICE 4557*-*-*-*-*-*-*-*-*-*-*-*-*-*
-subgraph cluster_FileBlock4557 { label = "FileBlock4557" style = filled fillcolor = "green"
+///////////EL ID ES 4 DEL OBJETO FileBlock CON EL INDICE 14421*-*-*-*-*-*-*-*-*-*-*-*-*-*
+subgraph cluster_FileBlock14421 { label = "FileBlock14421" style = filled fillcolor = "green"
 4 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4">
   <TR>
     <TD>Attribute</TD>
@@ -111,8 +111,8 @@ subgraph cluster_FileBlock4557 { label = "FileBlock4557" style = filled fillcolo
 </TABLE>> shape=box];
 }
 bloques3:<content0> -> 4
-///////////EL ID ES 5 DEL OBJETO FileBlock CON EL INDICE 4621*-*-*-*-*-*-*-*-*-*-*-*-*-*
-subgraph cluster_FileBlock4621 { label = "FileBlock4621" style = filled fillcolor = "green"
+///////////EL ID ES 5 DEL OBJETO FileBlock CON EL INDICE 14485*-*-*-*-*-*-*-*-*-*-*-*-*-*
+subgraph cluster_FileBlock14485 { label = "FileBlock14485" style = filled fillcolor = "green"
 5 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4">
   <TR>
     <TD>Attribute</TD>
@@ -125,8 +125,8 @@ subgraph cluster_FileBlock4621 { label = "FileBlock4621" style = filled fillcolo
 </TABLE>> shape=box];
 }
 bloques3:<content1> -> 5
-///////////EL ID ES 6 DEL OBJETO FileBlock CON EL INDICE 4685*-*-*-*-*-*-*-*-*-*-*-*-*-*
-subgraph cluster_FileBlock4685 { label = "FileBlock4685" style = filled fillcolor = "green"
+///////////EL ID ES 6 DEL OBJETO FileBlock CON EL INDICE 14549*-*-*-*-*-*-*-*-*-*-*-*-*-*
+subgraph cluster_FileBlock14549 { label = "FileBlock14549" style = filled fillcolor = "green"
 6 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4">
   <TR>
     <TD>Attribute</TD>
@@ -140,8 +140,8 @@ subgraph cluster_FileBlock4685 { label = "FileBlock4685" style = filled fillcolo
 }
 bloques3:<content2> -> 6
 bloques2:<content0> -> 3
-///////////EL ID ES 7 DEL OBJETO Inode CON EL INDICE 1577*-*-*-*-*-*-*-*-*-*-*-*-*-*
-subgraph cluster_Inode1577 { label = "Inode1577" style = filled fillcolor = "lightblue"
+///////////EL ID ES 7 DEL OBJETO Inode CON EL INDICE 965*-*-*-*-*-*-*-*-*-*-*-*-*-*
+subgraph cluster_Inode965 { label = "Inode965" style = filled fillcolor = "lightblue"
 7 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4">
   <TR>
     <TD>Attribute</TD>
@@ -161,15 +161,15 @@ subgraph cluster_Inode1577 { label = "Inode1577" style = filled fillcolor = "lig
   </TR>
   <TR>
     <TD>i_atime</TD>
-    <TD>1694754441.0314941</TD>
+    <TD>1694754722.4482293</TD>
   </TR>
   <TR>
     <TD>i_ctime</TD>
-    <TD>1694754441.0314941</TD>
+    <TD>1694754722.4482293</TD>
   </TR>
   <TR>
     <TD>i_mtime</TD>
-    <TD>1694754441.0314941</TD>
+    <TD>1694754722.4482293</TD>
   </TR>
   <TR>
     <TD>i_type</TD>
@@ -182,19 +182,19 @@ subgraph cluster_Inode1577 { label = "Inode1577" style = filled fillcolor = "lig
 </TABLE>> shape=box];
 
 node [shape=record];
-bloques7 [label="{<content0> 4749 | <content1> -1 | <content2> -1 | <content3> -1 | <content4> -1 | <content5> -1 | <content6> -1 | <content7> -1 | <content8> -1 | <content9> -1 | <content10> -1 | <content11> -1 | <content12> -1 | <content13> -1 | <content14> -1 | 
+bloques7 [label="{<content0> 14613 | <content1> -1 | <content2> -1 | <content3> -1 | <content4> -1 | <content5> -1 | <content6> -1 | <content7> -1 | <content8> -1 | <content9> -1 | <content10> -1 | <content11> -1 | <content12> -1 | <content13> -1 | <content14> -1 | 
 }"];}
-///////////EL ID ES 8 DEL OBJETO FolderBlock CON EL INDICE 4749*-*-*-*-*-*-*-*-*-*-*-*-*-*
-subgraph cluster_FolderBlock4749 { label = "FolderBlock4749" style = filled fillcolor = "#FFCC00"
+///////////EL ID ES 8 DEL OBJETO FolderBlock CON EL INDICE 14613*-*-*-*-*-*-*-*-*-*-*-*-*-*
+subgraph cluster_FolderBlock14613 { label = "FolderBlock14613" style = filled fillcolor = "#FFCC00"
 node [shape=record];
 bloques8 [label="{<content0> Name: documents
- Inode: 1685 | <content1> Name: mentos2.txt
- Inode: 3089 | <content2> Name: a.txt
- Inode: 3845 | <content3> Name: empty
+ Inode: 1073 | <content1> Name: mentos2.txt
+ Inode: 2477 | <content2> Name: a.txt
+ Inode: 3233 | <content3> Name: empty
  Inode: -1 | 
 }"];}
-///////////EL ID ES 9 DEL OBJETO Inode CON EL INDICE 1685*-*-*-*-*-*-*-*-*-*-*-*-*-*
-subgraph cluster_Inode1685 { label = "Inode1685" style = filled fillcolor = "lightblue"
+///////////EL ID ES 9 DEL OBJETO Inode CON EL INDICE 1073*-*-*-*-*-*-*-*-*-*-*-*-*-*
+subgraph cluster_Inode1073 { label = "Inode1073" style = filled fillcolor = "lightblue"
 9 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4">
   <TR>
     <TD>Attribute</TD>
@@ -214,15 +214,15 @@ subgraph cluster_Inode1685 { label = "Inode1685" style = filled fillcolor = "lig
   </TR>
   <TR>
     <TD>i_atime</TD>
-    <TD>1694754441.0314941</TD>
+    <TD>1694754722.4493814</TD>
   </TR>
   <TR>
     <TD>i_ctime</TD>
-    <TD>1694754441.0314941</TD>
+    <TD>1694754722.4493814</TD>
   </TR>
   <TR>
     <TD>i_mtime</TD>
-    <TD>1694754441.0314941</TD>
+    <TD>1694754722.4493814</TD>
   </TR>
   <TR>
     <TD>i_type</TD>
@@ -235,19 +235,19 @@ subgraph cluster_Inode1685 { label = "Inode1685" style = filled fillcolor = "lig
 </TABLE>> shape=box];
 
 node [shape=record];
-bloques9 [label="{<content0> 4813 | <content1> -1 | <content2> -1 | <content3> -1 | <content4> -1 | <content5> -1 | <content6> -1 | <content7> -1 | <content8> -1 | <content9> -1 | <content10> -1 | <content11> -1 | <content12> -1 | <content13> -1 | <content14> -1 | 
+bloques9 [label="{<content0> 14677 | <content1> -1 | <content2> -1 | <content3> -1 | <content4> -1 | <content5> -1 | <content6> -1 | <content7> -1 | <content8> -1 | <content9> -1 | <content10> -1 | <content11> -1 | <content12> -1 | <content13> -1 | <content14> -1 | 
 }"];}
-///////////EL ID ES 10 DEL OBJETO FolderBlock CON EL INDICE 4813*-*-*-*-*-*-*-*-*-*-*-*-*-*
-subgraph cluster_FolderBlock4813 { label = "FolderBlock4813" style = filled fillcolor = "#FFCC00"
+///////////EL ID ES 10 DEL OBJETO FolderBlock CON EL INDICE 14677*-*-*-*-*-*-*-*-*-*-*-*-*-*
+subgraph cluster_FolderBlock14677 { label = "FolderBlock14677" style = filled fillcolor = "#FFCC00"
 node [shape=record];
 bloques10 [label="{<content0> Name: papers
- Inode: 1793 | <content1> Name: empty
+ Inode: 1181 | <content1> Name: empty
  Inode: -1 | <content2> Name: empty
  Inode: -1 | <content3> Name: empty
  Inode: -1 | 
 }"];}
-///////////EL ID ES 11 DEL OBJETO Inode CON EL INDICE 1793*-*-*-*-*-*-*-*-*-*-*-*-*-*
-subgraph cluster_Inode1793 { label = "Inode1793" style = filled fillcolor = "lightblue"
+///////////EL ID ES 11 DEL OBJETO Inode CON EL INDICE 1181*-*-*-*-*-*-*-*-*-*-*-*-*-*
+subgraph cluster_Inode1181 { label = "Inode1181" style = filled fillcolor = "lightblue"
 11 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4">
   <TR>
     <TD>Attribute</TD>
@@ -267,15 +267,15 @@ subgraph cluster_Inode1793 { label = "Inode1793" style = filled fillcolor = "lig
   </TR>
   <TR>
     <TD>i_atime</TD>
-    <TD>1694754441.0326946</TD>
+    <TD>1694754722.4505692</TD>
   </TR>
   <TR>
     <TD>i_ctime</TD>
-    <TD>1694754441.0326946</TD>
+    <TD>1694754722.4505692</TD>
   </TR>
   <TR>
     <TD>i_mtime</TD>
-    <TD>1694754441.0326946</TD>
+    <TD>1694754722.4505692</TD>
   </TR>
   <TR>
     <TD>i_type</TD>
@@ -288,19 +288,19 @@ subgraph cluster_Inode1793 { label = "Inode1793" style = filled fillcolor = "lig
 </TABLE>> shape=box];
 
 node [shape=record];
-bloques11 [label="{<content0> 4877 | <content1> -1 | <content2> -1 | <content3> -1 | <content4> -1 | <content5> -1 | <content6> -1 | <content7> -1 | <content8> -1 | <content9> -1 | <content10> -1 | <content11> -1 | <content12> -1 | <content13> -1 | <content14> -1 | 
+bloques11 [label="{<content0> 14741 | <content1> -1 | <content2> -1 | <content3> -1 | <content4> -1 | <content5> -1 | <content6> -1 | <content7> -1 | <content8> -1 | <content9> -1 | <content10> -1 | <content11> -1 | <content12> -1 | <content13> -1 | <content14> -1 | 
 }"];}
-///////////EL ID ES 12 DEL OBJETO FolderBlock CON EL INDICE 4877*-*-*-*-*-*-*-*-*-*-*-*-*-*
-subgraph cluster_FolderBlock4877 { label = "FolderBlock4877" style = filled fillcolor = "#FFCC00"
+///////////EL ID ES 12 DEL OBJETO FolderBlock CON EL INDICE 14741*-*-*-*-*-*-*-*-*-*-*-*-*-*
+subgraph cluster_FolderBlock14741 { label = "FolderBlock14741" style = filled fillcolor = "#FFCC00"
 node [shape=record];
 bloques12 [label="{<content0> Name: archivos.txt
- Inode: 1901 | <content1> Name: mentos
- Inode: 2009 | <content2> Name: empty
+ Inode: 1289 | <content1> Name: mentos
+ Inode: 1397 | <content2> Name: empty
  Inode: -1 | <content3> Name: empty
  Inode: -1 | 
 }"];}
-///////////EL ID ES 13 DEL OBJETO Inode CON EL INDICE 1901*-*-*-*-*-*-*-*-*-*-*-*-*-*
-subgraph cluster_Inode1901 { label = "Inode1901" style = filled fillcolor = "lightblue"
+///////////EL ID ES 13 DEL OBJETO Inode CON EL INDICE 1289*-*-*-*-*-*-*-*-*-*-*-*-*-*
+subgraph cluster_Inode1289 { label = "Inode1289" style = filled fillcolor = "lightblue"
 13 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4">
   <TR>
     <TD>Attribute</TD>
@@ -320,15 +320,15 @@ subgraph cluster_Inode1901 { label = "Inode1901" style = filled fillcolor = "lig
   </TR>
   <TR>
     <TD>i_atime</TD>
-    <TD>1694754441.0336974</TD>
+    <TD>1694754722.4515915</TD>
   </TR>
   <TR>
     <TD>i_ctime</TD>
-    <TD>1694754441.0336974</TD>
+    <TD>1694754722.4515915</TD>
   </TR>
   <TR>
     <TD>i_mtime</TD>
-    <TD>1694754441.0336974</TD>
+    <TD>1694754722.4515915</TD>
   </TR>
   <TR>
     <TD>i_type</TD>
@@ -344,8 +344,8 @@ node [shape=record];
 bloques13 [label="{<content0> -1 | <content1> -1 | <content2> -1 | <content3> -1 | <content4> -1 | <content5> -1 | <content6> -1 | <content7> -1 | <content8> -1 | <content9> -1 | <content10> -1 | <content11> -1 | <content12> -1 | <content13> -1 | <content14> -1 | 
 }"];}
 bloques12:<content0> -> 13
-///////////EL ID ES 14 DEL OBJETO Inode CON EL INDICE 2009*-*-*-*-*-*-*-*-*-*-*-*-*-*
-subgraph cluster_Inode2009 { label = "Inode2009" style = filled fillcolor = "lightblue"
+///////////EL ID ES 14 DEL OBJETO Inode CON EL INDICE 1397*-*-*-*-*-*-*-*-*-*-*-*-*-*
+subgraph cluster_Inode1397 { label = "Inode1397" style = filled fillcolor = "lightblue"
 14 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4">
   <TR>
     <TD>Attribute</TD>
@@ -365,15 +365,15 @@ subgraph cluster_Inode2009 { label = "Inode2009" style = filled fillcolor = "lig
   </TR>
   <TR>
     <TD>i_atime</TD>
-    <TD>1694754441.0402815</TD>
+    <TD>1694754722.4571533</TD>
   </TR>
   <TR>
     <TD>i_ctime</TD>
-    <TD>1694754441.0402815</TD>
+    <TD>1694754722.4571533</TD>
   </TR>
   <TR>
     <TD>i_mtime</TD>
-    <TD>1694754441.0402815</TD>
+    <TD>1694754722.4571533</TD>
   </TR>
   <TR>
     <TD>i_type</TD>
@@ -386,19 +386,19 @@ subgraph cluster_Inode2009 { label = "Inode2009" style = filled fillcolor = "lig
 </TABLE>> shape=box];
 
 node [shape=record];
-bloques14 [label="{<content0> 4941 | <content1> 5261 | <content2> -1 | <content3> -1 | <content4> -1 | <content5> -1 | <content6> -1 | <content7> -1 | <content8> -1 | <content9> -1 | <content10> -1 | <content11> -1 | <content12> -1 | <content13> -1 | <content14> -1 | 
+bloques14 [label="{<content0> 14805 | <content1> 15125 | <content2> -1 | <content3> -1 | <content4> -1 | <content5> -1 | <content6> -1 | <content7> -1 | <content8> -1 | <content9> -1 | <content10> -1 | <content11> -1 | <content12> -1 | <content13> -1 | <content14> -1 | 
 }"];}
-///////////EL ID ES 15 DEL OBJETO FolderBlock CON EL INDICE 4941*-*-*-*-*-*-*-*-*-*-*-*-*-*
-subgraph cluster_FolderBlock4941 { label = "FolderBlock4941" style = filled fillcolor = "#FFCC00"
+///////////EL ID ES 15 DEL OBJETO FolderBlock CON EL INDICE 14805*-*-*-*-*-*-*-*-*-*-*-*-*-*
+subgraph cluster_FolderBlock14805 { label = "FolderBlock14805" style = filled fillcolor = "#FFCC00"
 node [shape=record];
 bloques15 [label="{<content0> Name: kk
- Inode: 2117 | <content1> Name: kk1
- Inode: 2225 | <content2> Name: kk2
- Inode: 2333 | <content3> Name: kk3
- Inode: 2441 | 
+ Inode: 1505 | <content1> Name: kk1
+ Inode: 1613 | <content2> Name: kk2
+ Inode: 1721 | <content3> Name: kk3
+ Inode: 1829 | 
 }"];}
-///////////EL ID ES 16 DEL OBJETO Inode CON EL INDICE 2117*-*-*-*-*-*-*-*-*-*-*-*-*-*
-subgraph cluster_Inode2117 { label = "Inode2117" style = filled fillcolor = "lightblue"
+///////////EL ID ES 16 DEL OBJETO Inode CON EL INDICE 1505*-*-*-*-*-*-*-*-*-*-*-*-*-*
+subgraph cluster_Inode1505 { label = "Inode1505" style = filled fillcolor = "lightblue"
 16 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4">
   <TR>
     <TD>Attribute</TD>
@@ -418,15 +418,15 @@ subgraph cluster_Inode2117 { label = "Inode2117" style = filled fillcolor = "lig
   </TR>
   <TR>
     <TD>i_atime</TD>
-    <TD>1694754441.0413015</TD>
+    <TD>1694754722.4583414</TD>
   </TR>
   <TR>
     <TD>i_ctime</TD>
-    <TD>1694754441.0413015</TD>
+    <TD>1694754722.4583414</TD>
   </TR>
   <TR>
     <TD>i_mtime</TD>
-    <TD>1694754441.0413015</TD>
+    <TD>1694754722.4583414</TD>
   </TR>
   <TR>
     <TD>i_type</TD>
@@ -439,10 +439,10 @@ subgraph cluster_Inode2117 { label = "Inode2117" style = filled fillcolor = "lig
 </TABLE>> shape=box];
 
 node [shape=record];
-bloques16 [label="{<content0> 5005 | <content1> -1 | <content2> -1 | <content3> -1 | <content4> -1 | <content5> -1 | <content6> -1 | <content7> -1 | <content8> -1 | <content9> -1 | <content10> -1 | <content11> -1 | <content12> -1 | <content13> -1 | <content14> -1 | 
+bloques16 [label="{<content0> 14869 | <content1> -1 | <content2> -1 | <content3> -1 | <content4> -1 | <content5> -1 | <content6> -1 | <content7> -1 | <content8> -1 | <content9> -1 | <content10> -1 | <content11> -1 | <content12> -1 | <content13> -1 | <content14> -1 | 
 }"];}
-///////////EL ID ES 17 DEL OBJETO FolderBlock CON EL INDICE 5005*-*-*-*-*-*-*-*-*-*-*-*-*-*
-subgraph cluster_FolderBlock5005 { label = "FolderBlock5005" style = filled fillcolor = "#FFCC00"
+///////////EL ID ES 17 DEL OBJETO FolderBlock CON EL INDICE 14869*-*-*-*-*-*-*-*-*-*-*-*-*-*
+subgraph cluster_FolderBlock14869 { label = "FolderBlock14869" style = filled fillcolor = "#FFCC00"
 node [shape=record];
 bloques17 [label="{<content0> Name: empty
  Inode: -1 | <content1> Name: empty
@@ -452,8 +452,8 @@ bloques17 [label="{<content0> Name: empty
 }"];}
 bloques16:<content0> -> bloques17
 bloques15:<content0> -> 16
-///////////EL ID ES 18 DEL OBJETO Inode CON EL INDICE 2225*-*-*-*-*-*-*-*-*-*-*-*-*-*
-subgraph cluster_Inode2225 { label = "Inode2225" style = filled fillcolor = "lightblue"
+///////////EL ID ES 18 DEL OBJETO Inode CON EL INDICE 1613*-*-*-*-*-*-*-*-*-*-*-*-*-*
+subgraph cluster_Inode1613 { label = "Inode1613" style = filled fillcolor = "lightblue"
 18 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4">
   <TR>
     <TD>Attribute</TD>
@@ -473,15 +473,15 @@ subgraph cluster_Inode2225 { label = "Inode2225" style = filled fillcolor = "lig
   </TR>
   <TR>
     <TD>i_atime</TD>
-    <TD>1694754441.0432985</TD>
+    <TD>1694754722.4613633</TD>
   </TR>
   <TR>
     <TD>i_ctime</TD>
-    <TD>1694754441.0432985</TD>
+    <TD>1694754722.4613633</TD>
   </TR>
   <TR>
     <TD>i_mtime</TD>
-    <TD>1694754441.0432985</TD>
+    <TD>1694754722.4613633</TD>
   </TR>
   <TR>
     <TD>i_type</TD>
@@ -494,10 +494,10 @@ subgraph cluster_Inode2225 { label = "Inode2225" style = filled fillcolor = "lig
 </TABLE>> shape=box];
 
 node [shape=record];
-bloques18 [label="{<content0> 5069 | <content1> -1 | <content2> -1 | <content3> -1 | <content4> -1 | <content5> -1 | <content6> -1 | <content7> -1 | <content8> -1 | <content9> -1 | <content10> -1 | <content11> -1 | <content12> -1 | <content13> -1 | <content14> -1 | 
+bloques18 [label="{<content0> 14933 | <content1> -1 | <content2> -1 | <content3> -1 | <content4> -1 | <content5> -1 | <content6> -1 | <content7> -1 | <content8> -1 | <content9> -1 | <content10> -1 | <content11> -1 | <content12> -1 | <content13> -1 | <content14> -1 | 
 }"];}
-///////////EL ID ES 19 DEL OBJETO FolderBlock CON EL INDICE 5069*-*-*-*-*-*-*-*-*-*-*-*-*-*
-subgraph cluster_FolderBlock5069 { label = "FolderBlock5069" style = filled fillcolor = "#FFCC00"
+///////////EL ID ES 19 DEL OBJETO FolderBlock CON EL INDICE 14933*-*-*-*-*-*-*-*-*-*-*-*-*-*
+subgraph cluster_FolderBlock14933 { label = "FolderBlock14933" style = filled fillcolor = "#FFCC00"
 node [shape=record];
 bloques19 [label="{<content0> Name: empty
  Inode: -1 | <content1> Name: empty
@@ -507,8 +507,8 @@ bloques19 [label="{<content0> Name: empty
 }"];}
 bloques18:<content0> -> bloques19
 bloques15:<content1> -> 18
-///////////EL ID ES 20 DEL OBJETO Inode CON EL INDICE 2333*-*-*-*-*-*-*-*-*-*-*-*-*-*
-subgraph cluster_Inode2333 { label = "Inode2333" style = filled fillcolor = "lightblue"
+///////////EL ID ES 20 DEL OBJETO Inode CON EL INDICE 1721*-*-*-*-*-*-*-*-*-*-*-*-*-*
+subgraph cluster_Inode1721 { label = "Inode1721" style = filled fillcolor = "lightblue"
 20 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4">
   <TR>
     <TD>Attribute</TD>
@@ -528,15 +528,15 @@ subgraph cluster_Inode2333 { label = "Inode2333" style = filled fillcolor = "lig
   </TR>
   <TR>
     <TD>i_atime</TD>
-    <TD>1694754441.046565</TD>
+    <TD>1694754722.4634562</TD>
   </TR>
   <TR>
     <TD>i_ctime</TD>
-    <TD>1694754441.046565</TD>
+    <TD>1694754722.4634562</TD>
   </TR>
   <TR>
     <TD>i_mtime</TD>
-    <TD>1694754441.046565</TD>
+    <TD>1694754722.4634562</TD>
   </TR>
   <TR>
     <TD>i_type</TD>
@@ -549,10 +549,10 @@ subgraph cluster_Inode2333 { label = "Inode2333" style = filled fillcolor = "lig
 </TABLE>> shape=box];
 
 node [shape=record];
-bloques20 [label="{<content0> 5133 | <content1> -1 | <content2> -1 | <content3> -1 | <content4> -1 | <content5> -1 | <content6> -1 | <content7> -1 | <content8> -1 | <content9> -1 | <content10> -1 | <content11> -1 | <content12> -1 | <content13> -1 | <content14> -1 | 
+bloques20 [label="{<content0> 14997 | <content1> -1 | <content2> -1 | <content3> -1 | <content4> -1 | <content5> -1 | <content6> -1 | <content7> -1 | <content8> -1 | <content9> -1 | <content10> -1 | <content11> -1 | <content12> -1 | <content13> -1 | <content14> -1 | 
 }"];}
-///////////EL ID ES 21 DEL OBJETO FolderBlock CON EL INDICE 5133*-*-*-*-*-*-*-*-*-*-*-*-*-*
-subgraph cluster_FolderBlock5133 { label = "FolderBlock5133" style = filled fillcolor = "#FFCC00"
+///////////EL ID ES 21 DEL OBJETO FolderBlock CON EL INDICE 14997*-*-*-*-*-*-*-*-*-*-*-*-*-*
+subgraph cluster_FolderBlock14997 { label = "FolderBlock14997" style = filled fillcolor = "#FFCC00"
 node [shape=record];
 bloques21 [label="{<content0> Name: empty
  Inode: -1 | <content1> Name: empty
@@ -562,8 +562,8 @@ bloques21 [label="{<content0> Name: empty
 }"];}
 bloques20:<content0> -> bloques21
 bloques15:<content2> -> 20
-///////////EL ID ES 22 DEL OBJETO Inode CON EL INDICE 2441*-*-*-*-*-*-*-*-*-*-*-*-*-*
-subgraph cluster_Inode2441 { label = "Inode2441" style = filled fillcolor = "lightblue"
+///////////EL ID ES 22 DEL OBJETO Inode CON EL INDICE 1829*-*-*-*-*-*-*-*-*-*-*-*-*-*
+subgraph cluster_Inode1829 { label = "Inode1829" style = filled fillcolor = "lightblue"
 22 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4">
   <TR>
     <TD>Attribute</TD>
@@ -583,15 +583,15 @@ subgraph cluster_Inode2441 { label = "Inode2441" style = filled fillcolor = "lig
   </TR>
   <TR>
     <TD>i_atime</TD>
-    <TD>1694754441.0488882</TD>
+    <TD>1694754722.4670467</TD>
   </TR>
   <TR>
     <TD>i_ctime</TD>
-    <TD>1694754441.0488882</TD>
+    <TD>1694754722.4670467</TD>
   </TR>
   <TR>
     <TD>i_mtime</TD>
-    <TD>1694754441.0488882</TD>
+    <TD>1694754722.4670467</TD>
   </TR>
   <TR>
     <TD>i_type</TD>
@@ -604,10 +604,10 @@ subgraph cluster_Inode2441 { label = "Inode2441" style = filled fillcolor = "lig
 </TABLE>> shape=box];
 
 node [shape=record];
-bloques22 [label="{<content0> 5197 | <content1> -1 | <content2> -1 | <content3> -1 | <content4> -1 | <content5> -1 | <content6> -1 | <content7> -1 | <content8> -1 | <content9> -1 | <content10> -1 | <content11> -1 | <content12> -1 | <content13> -1 | <content14> -1 | 
+bloques22 [label="{<content0> 15061 | <content1> -1 | <content2> -1 | <content3> -1 | <content4> -1 | <content5> -1 | <content6> -1 | <content7> -1 | <content8> -1 | <content9> -1 | <content10> -1 | <content11> -1 | <content12> -1 | <content13> -1 | <content14> -1 | 
 }"];}
-///////////EL ID ES 23 DEL OBJETO FolderBlock CON EL INDICE 5197*-*-*-*-*-*-*-*-*-*-*-*-*-*
-subgraph cluster_FolderBlock5197 { label = "FolderBlock5197" style = filled fillcolor = "#FFCC00"
+///////////EL ID ES 23 DEL OBJETO FolderBlock CON EL INDICE 15061*-*-*-*-*-*-*-*-*-*-*-*-*-*
+subgraph cluster_FolderBlock15061 { label = "FolderBlock15061" style = filled fillcolor = "#FFCC00"
 node [shape=record];
 bloques23 [label="{<content0> Name: empty
  Inode: -1 | <content1> Name: empty
@@ -618,17 +618,17 @@ bloques23 [label="{<content0> Name: empty
 bloques22:<content0> -> bloques23
 bloques15:<content3> -> 22
 bloques14:<content0> -> bloques15
-///////////EL ID ES 24 DEL OBJETO FolderBlock CON EL INDICE 5261*-*-*-*-*-*-*-*-*-*-*-*-*-*
-subgraph cluster_FolderBlock5261 { label = "FolderBlock5261" style = filled fillcolor = "#FFCC00"
+///////////EL ID ES 24 DEL OBJETO FolderBlock CON EL INDICE 15125*-*-*-*-*-*-*-*-*-*-*-*-*-*
+subgraph cluster_FolderBlock15125 { label = "FolderBlock15125" style = filled fillcolor = "#FFCC00"
 node [shape=record];
 bloques24 [label="{<content0> Name: mentos.txt
- Inode: 2549 | <content1> Name: empty
+ Inode: 1937 | <content1> Name: empty
  Inode: -1 | <content2> Name: empty
  Inode: -1 | <content3> Name: empty
  Inode: -1 | 
 }"];}
-///////////EL ID ES 25 DEL OBJETO Inode CON EL INDICE 2549*-*-*-*-*-*-*-*-*-*-*-*-*-*
-subgraph cluster_Inode2549 { label = "Inode2549" style = filled fillcolor = "lightblue"
+///////////EL ID ES 25 DEL OBJETO Inode CON EL INDICE 1937*-*-*-*-*-*-*-*-*-*-*-*-*-*
+subgraph cluster_Inode1937 { label = "Inode1937" style = filled fillcolor = "lightblue"
 25 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4">
   <TR>
     <TD>Attribute</TD>
@@ -648,15 +648,15 @@ subgraph cluster_Inode2549 { label = "Inode2549" style = filled fillcolor = "lig
   </TR>
   <TR>
     <TD>i_atime</TD>
-    <TD>1694754441.0646486</TD>
+    <TD>1694754722.4832752</TD>
   </TR>
   <TR>
     <TD>i_ctime</TD>
-    <TD>1694754441.0646486</TD>
+    <TD>1694754722.4832752</TD>
   </TR>
   <TR>
     <TD>i_mtime</TD>
-    <TD>1694754441.0646486</TD>
+    <TD>1694754722.4832752</TD>
   </TR>
   <TR>
     <TD>i_type</TD>
@@ -669,10 +669,10 @@ subgraph cluster_Inode2549 { label = "Inode2549" style = filled fillcolor = "lig
 </TABLE>> shape=box];
 
 node [shape=record];
-bloques25 [label="{<content0> 5325 | <content1> 5389 | <content2> 5453 | <content3> 5517 | <content4> -1 | <content5> -1 | <content6> -1 | <content7> -1 | <content8> -1 | <content9> -1 | <content10> -1 | <content11> -1 | <content12> -1 | <content13> -1 | <content14> -1 | 
+bloques25 [label="{<content0> 15189 | <content1> 15253 | <content2> 15317 | <content3> 15381 | <content4> -1 | <content5> -1 | <content6> -1 | <content7> -1 | <content8> -1 | <content9> -1 | <content10> -1 | <content11> -1 | <content12> -1 | <content13> -1 | <content14> -1 | 
 }"];}
-///////////EL ID ES 26 DEL OBJETO FileBlock CON EL INDICE 5325*-*-*-*-*-*-*-*-*-*-*-*-*-*
-subgraph cluster_FileBlock5325 { label = "FileBlock5325" style = filled fillcolor = "green"
+///////////EL ID ES 26 DEL OBJETO FileBlock CON EL INDICE 15189*-*-*-*-*-*-*-*-*-*-*-*-*-*
+subgraph cluster_FileBlock15189 { label = "FileBlock15189" style = filled fillcolor = "green"
 26 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4">
   <TR>
     <TD>Attribute</TD>
@@ -685,8 +685,8 @@ subgraph cluster_FileBlock5325 { label = "FileBlock5325" style = filled fillcolo
 </TABLE>> shape=box];
 }
 bloques25:<content0> -> 26
-///////////EL ID ES 27 DEL OBJETO FileBlock CON EL INDICE 5389*-*-*-*-*-*-*-*-*-*-*-*-*-*
-subgraph cluster_FileBlock5389 { label = "FileBlock5389" style = filled fillcolor = "green"
+///////////EL ID ES 27 DEL OBJETO FileBlock CON EL INDICE 15253*-*-*-*-*-*-*-*-*-*-*-*-*-*
+subgraph cluster_FileBlock15253 { label = "FileBlock15253" style = filled fillcolor = "green"
 27 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4">
   <TR>
     <TD>Attribute</TD>
@@ -699,8 +699,8 @@ subgraph cluster_FileBlock5389 { label = "FileBlock5389" style = filled fillcolo
 </TABLE>> shape=box];
 }
 bloques25:<content1> -> 27
-///////////EL ID ES 28 DEL OBJETO FileBlock CON EL INDICE 5453*-*-*-*-*-*-*-*-*-*-*-*-*-*
-subgraph cluster_FileBlock5453 { label = "FileBlock5453" style = filled fillcolor = "green"
+///////////EL ID ES 28 DEL OBJETO FileBlock CON EL INDICE 15317*-*-*-*-*-*-*-*-*-*-*-*-*-*
+subgraph cluster_FileBlock15317 { label = "FileBlock15317" style = filled fillcolor = "green"
 28 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4">
   <TR>
     <TD>Attribute</TD>
@@ -713,8 +713,8 @@ subgraph cluster_FileBlock5453 { label = "FileBlock5453" style = filled fillcolo
 </TABLE>> shape=box];
 }
 bloques25:<content2> -> 28
-///////////EL ID ES 29 DEL OBJETO FileBlock CON EL INDICE 5517*-*-*-*-*-*-*-*-*-*-*-*-*-*
-subgraph cluster_FileBlock5517 { label = "FileBlock5517" style = filled fillcolor = "green"
+///////////EL ID ES 29 DEL OBJETO FileBlock CON EL INDICE 15381*-*-*-*-*-*-*-*-*-*-*-*-*-*
+subgraph cluster_FileBlock15381 { label = "FileBlock15381" style = filled fillcolor = "green"
 29 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4">
   <TR>
     <TD>Attribute</TD>
@@ -734,8 +734,8 @@ bloques11:<content0> -> bloques12
 bloques10:<content0> -> 11
 bloques9:<content0> -> bloques10
 bloques8:<content0> -> 9
-///////////EL ID ES 30 DEL OBJETO Inode CON EL INDICE 3089*-*-*-*-*-*-*-*-*-*-*-*-*-*
-subgraph cluster_Inode3089 { label = "Inode3089" style = filled fillcolor = "lightblue"
+///////////EL ID ES 30 DEL OBJETO Inode CON EL INDICE 2477*-*-*-*-*-*-*-*-*-*-*-*-*-*
+subgraph cluster_Inode2477 { label = "Inode2477" style = filled fillcolor = "lightblue"
 30 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4">
   <TR>
     <TD>Attribute</TD>
@@ -755,15 +755,15 @@ subgraph cluster_Inode3089 { label = "Inode3089" style = filled fillcolor = "lig
   </TR>
   <TR>
     <TD>i_atime</TD>
-    <TD>1694754441.0766485</TD>
+    <TD>1694754722.4963524</TD>
   </TR>
   <TR>
     <TD>i_ctime</TD>
-    <TD>1694754441.0766485</TD>
+    <TD>1694754722.4963524</TD>
   </TR>
   <TR>
     <TD>i_mtime</TD>
-    <TD>1694754441.0766485</TD>
+    <TD>1694754722.4963524</TD>
   </TR>
   <TR>
     <TD>i_type</TD>
@@ -776,10 +776,10 @@ subgraph cluster_Inode3089 { label = "Inode3089" style = filled fillcolor = "lig
 </TABLE>> shape=box];
 
 node [shape=record];
-bloques30 [label="{<content0> 5837 | <content1> 5901 | <content2> -1 | <content3> -1 | <content4> -1 | <content5> -1 | <content6> -1 | <content7> -1 | <content8> -1 | <content9> -1 | <content10> -1 | <content11> -1 | <content12> -1 | <content13> -1 | <content14> -1 | 
+bloques30 [label="{<content0> 15701 | <content1> 15765 | <content2> -1 | <content3> -1 | <content4> -1 | <content5> -1 | <content6> -1 | <content7> -1 | <content8> -1 | <content9> -1 | <content10> -1 | <content11> -1 | <content12> -1 | <content13> -1 | <content14> -1 | 
 }"];}
-///////////EL ID ES 31 DEL OBJETO FileBlock CON EL INDICE 5837*-*-*-*-*-*-*-*-*-*-*-*-*-*
-subgraph cluster_FileBlock5837 { label = "FileBlock5837" style = filled fillcolor = "green"
+///////////EL ID ES 31 DEL OBJETO FileBlock CON EL INDICE 15701*-*-*-*-*-*-*-*-*-*-*-*-*-*
+subgraph cluster_FileBlock15701 { label = "FileBlock15701" style = filled fillcolor = "green"
 31 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4">
   <TR>
     <TD>Attribute</TD>
@@ -792,8 +792,8 @@ subgraph cluster_FileBlock5837 { label = "FileBlock5837" style = filled fillcolo
 </TABLE>> shape=box];
 }
 bloques30:<content0> -> 31
-///////////EL ID ES 32 DEL OBJETO FileBlock CON EL INDICE 5901*-*-*-*-*-*-*-*-*-*-*-*-*-*
-subgraph cluster_FileBlock5901 { label = "FileBlock5901" style = filled fillcolor = "green"
+///////////EL ID ES 32 DEL OBJETO FileBlock CON EL INDICE 15765*-*-*-*-*-*-*-*-*-*-*-*-*-*
+subgraph cluster_FileBlock15765 { label = "FileBlock15765" style = filled fillcolor = "green"
 32 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4">
   <TR>
     <TD>Attribute</TD>
@@ -807,8 +807,8 @@ subgraph cluster_FileBlock5901 { label = "FileBlock5901" style = filled fillcolo
 }
 bloques30:<content1> -> 32
 bloques8:<content1> -> 30
-///////////EL ID ES 33 DEL OBJETO Inode CON EL INDICE 3845*-*-*-*-*-*-*-*-*-*-*-*-*-*
-subgraph cluster_Inode3845 { label = "Inode3845" style = filled fillcolor = "lightblue"
+///////////EL ID ES 33 DEL OBJETO Inode CON EL INDICE 3233*-*-*-*-*-*-*-*-*-*-*-*-*-*
+subgraph cluster_Inode3233 { label = "Inode3233" style = filled fillcolor = "lightblue"
 33 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4">
   <TR>
     <TD>Attribute</TD>
@@ -828,15 +828,15 @@ subgraph cluster_Inode3845 { label = "Inode3845" style = filled fillcolor = "lig
   </TR>
   <TR>
     <TD>i_atime</TD>
-    <TD>1694754441.0904746</TD>
+    <TD>1694754722.5160098</TD>
   </TR>
   <TR>
     <TD>i_ctime</TD>
-    <TD>1694754441.0904746</TD>
+    <TD>1694754722.5160098</TD>
   </TR>
   <TR>
     <TD>i_mtime</TD>
-    <TD>1694754441.0904746</TD>
+    <TD>1694754722.5160098</TD>
   </TR>
   <TR>
     <TD>i_type</TD>
@@ -854,8 +854,8 @@ bloques33 [label="{<content0> -1 | <content1> -1 | <content2> -1 | <content3> -1
 bloques8:<content2> -> 33
 bloques7:<content0> -> bloques8
 bloques2:<content1> -> 7
-///////////EL ID ES 34 DEL OBJETO Inode CON EL INDICE 2657*-*-*-*-*-*-*-*-*-*-*-*-*-*
-subgraph cluster_Inode2657 { label = "Inode2657" style = filled fillcolor = "lightblue"
+///////////EL ID ES 34 DEL OBJETO Inode CON EL INDICE 2045*-*-*-*-*-*-*-*-*-*-*-*-*-*
+subgraph cluster_Inode2045 { label = "Inode2045" style = filled fillcolor = "lightblue"
 34 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4">
   <TR>
     <TD>Attribute</TD>
@@ -875,15 +875,15 @@ subgraph cluster_Inode2657 { label = "Inode2657" style = filled fillcolor = "lig
   </TR>
   <TR>
     <TD>i_atime</TD>
-    <TD>1694754441.0553896</TD>
+    <TD>1694754722.4744065</TD>
   </TR>
   <TR>
     <TD>i_ctime</TD>
-    <TD>1694754441.0553896</TD>
+    <TD>1694754722.4744065</TD>
   </TR>
   <TR>
     <TD>i_mtime</TD>
-    <TD>1694754441.0553896</TD>
+    <TD>1694754722.4744065</TD>
   </TR>
   <TR>
     <TD>i_type</TD>
@@ -896,19 +896,19 @@ subgraph cluster_Inode2657 { label = "Inode2657" style = filled fillcolor = "lig
 </TABLE>> shape=box];
 
 node [shape=record];
-bloques34 [label="{<content0> 5581 | <content1> -1 | <content2> -1 | <content3> -1 | <content4> -1 | <content5> -1 | <content6> -1 | <content7> -1 | <content8> -1 | <content9> -1 | <content10> -1 | <content11> -1 | <content12> -1 | <content13> -1 | <content14> -1 | 
+bloques34 [label="{<content0> 15445 | <content1> -1 | <content2> -1 | <content3> -1 | <content4> -1 | <content5> -1 | <content6> -1 | <content7> -1 | <content8> -1 | <content9> -1 | <content10> -1 | <content11> -1 | <content12> -1 | <content13> -1 | <content14> -1 | 
 }"];}
-///////////EL ID ES 35 DEL OBJETO FolderBlock CON EL INDICE 5581*-*-*-*-*-*-*-*-*-*-*-*-*-*
-subgraph cluster_FolderBlock5581 { label = "FolderBlock5581" style = filled fillcolor = "#FFCC00"
+///////////EL ID ES 35 DEL OBJETO FolderBlock CON EL INDICE 15445*-*-*-*-*-*-*-*-*-*-*-*-*-*
+subgraph cluster_FolderBlock15445 { label = "FolderBlock15445" style = filled fillcolor = "#FFCC00"
 node [shape=record];
 bloques35 [label="{<content0> Name: documents
- Inode: 2765 | <content1> Name: empty
+ Inode: 2153 | <content1> Name: empty
  Inode: -1 | <content2> Name: empty
  Inode: -1 | <content3> Name: empty
  Inode: -1 | 
 }"];}
-///////////EL ID ES 36 DEL OBJETO Inode CON EL INDICE 2765*-*-*-*-*-*-*-*-*-*-*-*-*-*
-subgraph cluster_Inode2765 { label = "Inode2765" style = filled fillcolor = "lightblue"
+///////////EL ID ES 36 DEL OBJETO Inode CON EL INDICE 2153*-*-*-*-*-*-*-*-*-*-*-*-*-*
+subgraph cluster_Inode2153 { label = "Inode2153" style = filled fillcolor = "lightblue"
 36 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4">
   <TR>
     <TD>Attribute</TD>
@@ -928,15 +928,15 @@ subgraph cluster_Inode2765 { label = "Inode2765" style = filled fillcolor = "lig
   </TR>
   <TR>
     <TD>i_atime</TD>
-    <TD>1694754441.0568683</TD>
+    <TD>1694754722.475418</TD>
   </TR>
   <TR>
     <TD>i_ctime</TD>
-    <TD>1694754441.0568683</TD>
+    <TD>1694754722.475418</TD>
   </TR>
   <TR>
     <TD>i_mtime</TD>
-    <TD>1694754441.0568683</TD>
+    <TD>1694754722.475418</TD>
   </TR>
   <TR>
     <TD>i_type</TD>
@@ -949,19 +949,19 @@ subgraph cluster_Inode2765 { label = "Inode2765" style = filled fillcolor = "lig
 </TABLE>> shape=box];
 
 node [shape=record];
-bloques36 [label="{<content0> 5645 | <content1> 6477 | <content2> -1 | <content3> -1 | <content4> -1 | <content5> -1 | <content6> -1 | <content7> -1 | <content8> -1 | <content9> -1 | <content10> -1 | <content11> -1 | <content12> -1 | <content13> -1 | <content14> -1 | 
+bloques36 [label="{<content0> 15509 | <content1> 16341 | <content2> -1 | <content3> -1 | <content4> -1 | <content5> -1 | <content6> -1 | <content7> -1 | <content8> -1 | <content9> -1 | <content10> -1 | <content11> -1 | <content12> -1 | <content13> -1 | <content14> -1 | 
 }"];}
-///////////EL ID ES 37 DEL OBJETO FolderBlock CON EL INDICE 5645*-*-*-*-*-*-*-*-*-*-*-*-*-*
-subgraph cluster_FolderBlock5645 { label = "FolderBlock5645" style = filled fillcolor = "#FFCC00"
+///////////EL ID ES 37 DEL OBJETO FolderBlock CON EL INDICE 15509*-*-*-*-*-*-*-*-*-*-*-*-*-*
+subgraph cluster_FolderBlock15509 { label = "FolderBlock15509" style = filled fillcolor = "#FFCC00"
 node [shape=record];
 bloques37 [label="{<content0> Name: papers
- Inode: 2873 | <content1> Name: llena2
- Inode: 3413 | <content2> Name: llena3
- Inode: 3521 | <content3> Name: llena4
- Inode: 3629 | 
+ Inode: 2261 | <content1> Name: llena2
+ Inode: 2801 | <content2> Name: llena3
+ Inode: 2909 | <content3> Name: llena4
+ Inode: 3017 | 
 }"];}
-///////////EL ID ES 38 DEL OBJETO Inode CON EL INDICE 2873*-*-*-*-*-*-*-*-*-*-*-*-*-*
-subgraph cluster_Inode2873 { label = "Inode2873" style = filled fillcolor = "lightblue"
+///////////EL ID ES 38 DEL OBJETO Inode CON EL INDICE 2261*-*-*-*-*-*-*-*-*-*-*-*-*-*
+subgraph cluster_Inode2261 { label = "Inode2261" style = filled fillcolor = "lightblue"
 38 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4">
   <TR>
     <TD>Attribute</TD>
@@ -981,15 +981,15 @@ subgraph cluster_Inode2873 { label = "Inode2873" style = filled fillcolor = "lig
   </TR>
   <TR>
     <TD>i_atime</TD>
-    <TD>1694754441.0580025</TD>
+    <TD>1694754722.4764187</TD>
   </TR>
   <TR>
     <TD>i_ctime</TD>
-    <TD>1694754441.0580025</TD>
+    <TD>1694754722.4764187</TD>
   </TR>
   <TR>
     <TD>i_mtime</TD>
-    <TD>1694754441.0580025</TD>
+    <TD>1694754722.4764187</TD>
   </TR>
   <TR>
     <TD>i_type</TD>
@@ -1002,19 +1002,19 @@ subgraph cluster_Inode2873 { label = "Inode2873" style = filled fillcolor = "lig
 </TABLE>> shape=box];
 
 node [shape=record];
-bloques38 [label="{<content0> 5709 | <content1> -1 | <content2> -1 | <content3> -1 | <content4> -1 | <content5> -1 | <content6> -1 | <content7> -1 | <content8> -1 | <content9> -1 | <content10> -1 | <content11> -1 | <content12> -1 | <content13> -1 | <content14> -1 | 
+bloques38 [label="{<content0> 15573 | <content1> -1 | <content2> -1 | <content3> -1 | <content4> -1 | <content5> -1 | <content6> -1 | <content7> -1 | <content8> -1 | <content9> -1 | <content10> -1 | <content11> -1 | <content12> -1 | <content13> -1 | <content14> -1 | 
 }"];}
-///////////EL ID ES 39 DEL OBJETO FolderBlock CON EL INDICE 5709*-*-*-*-*-*-*-*-*-*-*-*-*-*
-subgraph cluster_FolderBlock5709 { label = "FolderBlock5709" style = filled fillcolor = "#FFCC00"
+///////////EL ID ES 39 DEL OBJETO FolderBlock CON EL INDICE 15573*-*-*-*-*-*-*-*-*-*-*-*-*-*
+subgraph cluster_FolderBlock15573 { label = "FolderBlock15573" style = filled fillcolor = "#FFCC00"
 node [shape=record];
 bloques39 [label="{<content0> Name: mentos
- Inode: 2981 | <content1> Name: empty
+ Inode: 2369 | <content1> Name: empty
  Inode: -1 | <content2> Name: empty
  Inode: -1 | <content3> Name: empty
  Inode: -1 | 
 }"];}
-///////////EL ID ES 40 DEL OBJETO Inode CON EL INDICE 2981*-*-*-*-*-*-*-*-*-*-*-*-*-*
-subgraph cluster_Inode2981 { label = "Inode2981" style = filled fillcolor = "lightblue"
+///////////EL ID ES 40 DEL OBJETO Inode CON EL INDICE 2369*-*-*-*-*-*-*-*-*-*-*-*-*-*
+subgraph cluster_Inode2369 { label = "Inode2369" style = filled fillcolor = "lightblue"
 40 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4">
   <TR>
     <TD>Attribute</TD>
@@ -1034,15 +1034,15 @@ subgraph cluster_Inode2981 { label = "Inode2981" style = filled fillcolor = "lig
   </TR>
   <TR>
     <TD>i_atime</TD>
-    <TD>1694754441.0590117</TD>
+    <TD>1694754722.4774168</TD>
   </TR>
   <TR>
     <TD>i_ctime</TD>
-    <TD>1694754441.0590117</TD>
+    <TD>1694754722.4774168</TD>
   </TR>
   <TR>
     <TD>i_mtime</TD>
-    <TD>1694754441.0590117</TD>
+    <TD>1694754722.4774168</TD>
   </TR>
   <TR>
     <TD>i_type</TD>
@@ -1055,10 +1055,10 @@ subgraph cluster_Inode2981 { label = "Inode2981" style = filled fillcolor = "lig
 </TABLE>> shape=box];
 
 node [shape=record];
-bloques40 [label="{<content0> 5773 | <content1> -1 | <content2> -1 | <content3> -1 | <content4> -1 | <content5> -1 | <content6> -1 | <content7> -1 | <content8> -1 | <content9> -1 | <content10> -1 | <content11> -1 | <content12> -1 | <content13> -1 | <content14> -1 | 
+bloques40 [label="{<content0> 15637 | <content1> -1 | <content2> -1 | <content3> -1 | <content4> -1 | <content5> -1 | <content6> -1 | <content7> -1 | <content8> -1 | <content9> -1 | <content10> -1 | <content11> -1 | <content12> -1 | <content13> -1 | <content14> -1 | 
 }"];}
-///////////EL ID ES 41 DEL OBJETO FolderBlock CON EL INDICE 5773*-*-*-*-*-*-*-*-*-*-*-*-*-*
-subgraph cluster_FolderBlock5773 { label = "FolderBlock5773" style = filled fillcolor = "#FFCC00"
+///////////EL ID ES 41 DEL OBJETO FolderBlock CON EL INDICE 15637*-*-*-*-*-*-*-*-*-*-*-*-*-*
+subgraph cluster_FolderBlock15637 { label = "FolderBlock15637" style = filled fillcolor = "#FFCC00"
 node [shape=record];
 bloques41 [label="{<content0> Name: empty
  Inode: -1 | <content1> Name: empty
@@ -1070,8 +1070,8 @@ bloques40:<content0> -> bloques41
 bloques39:<content0> -> 40
 bloques38:<content0> -> bloques39
 bloques37:<content0> -> 38
-///////////EL ID ES 42 DEL OBJETO Inode CON EL INDICE 3413*-*-*-*-*-*-*-*-*-*-*-*-*-*
-subgraph cluster_Inode3413 { label = "Inode3413" style = filled fillcolor = "lightblue"
+///////////EL ID ES 42 DEL OBJETO Inode CON EL INDICE 2801*-*-*-*-*-*-*-*-*-*-*-*-*-*
+subgraph cluster_Inode2801 { label = "Inode2801" style = filled fillcolor = "lightblue"
 42 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4">
   <TR>
     <TD>Attribute</TD>
@@ -1091,15 +1091,15 @@ subgraph cluster_Inode3413 { label = "Inode3413" style = filled fillcolor = "lig
   </TR>
   <TR>
     <TD>i_atime</TD>
-    <TD>1694754441.0776498</TD>
+    <TD>1694754722.499805</TD>
   </TR>
   <TR>
     <TD>i_ctime</TD>
-    <TD>1694754441.0776498</TD>
+    <TD>1694754722.499805</TD>
   </TR>
   <TR>
     <TD>i_mtime</TD>
-    <TD>1694754441.0776498</TD>
+    <TD>1694754722.499805</TD>
   </TR>
   <TR>
     <TD>i_type</TD>
@@ -1112,10 +1112,10 @@ subgraph cluster_Inode3413 { label = "Inode3413" style = filled fillcolor = "lig
 </TABLE>> shape=box];
 
 node [shape=record];
-bloques42 [label="{<content0> 5965 | <content1> -1 | <content2> -1 | <content3> -1 | <content4> -1 | <content5> -1 | <content6> -1 | <content7> -1 | <content8> -1 | <content9> -1 | <content10> -1 | <content11> -1 | <content12> -1 | <content13> -1 | <content14> -1 | 
+bloques42 [label="{<content0> 15829 | <content1> -1 | <content2> -1 | <content3> -1 | <content4> -1 | <content5> -1 | <content6> -1 | <content7> -1 | <content8> -1 | <content9> -1 | <content10> -1 | <content11> -1 | <content12> -1 | <content13> -1 | <content14> -1 | 
 }"];}
-///////////EL ID ES 43 DEL OBJETO FolderBlock CON EL INDICE 5965*-*-*-*-*-*-*-*-*-*-*-*-*-*
-subgraph cluster_FolderBlock5965 { label = "FolderBlock5965" style = filled fillcolor = "#FFCC00"
+///////////EL ID ES 43 DEL OBJETO FolderBlock CON EL INDICE 15829*-*-*-*-*-*-*-*-*-*-*-*-*-*
+subgraph cluster_FolderBlock15829 { label = "FolderBlock15829" style = filled fillcolor = "#FFCC00"
 node [shape=record];
 bloques43 [label="{<content0> Name: empty
  Inode: -1 | <content1> Name: empty
@@ -1125,8 +1125,8 @@ bloques43 [label="{<content0> Name: empty
 }"];}
 bloques42:<content0> -> bloques43
 bloques37:<content1> -> 42
-///////////EL ID ES 44 DEL OBJETO Inode CON EL INDICE 3521*-*-*-*-*-*-*-*-*-*-*-*-*-*
-subgraph cluster_Inode3521 { label = "Inode3521" style = filled fillcolor = "lightblue"
+///////////EL ID ES 44 DEL OBJETO Inode CON EL INDICE 2909*-*-*-*-*-*-*-*-*-*-*-*-*-*
+subgraph cluster_Inode2909 { label = "Inode2909" style = filled fillcolor = "lightblue"
 44 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4">
   <TR>
     <TD>Attribute</TD>
@@ -1146,15 +1146,15 @@ subgraph cluster_Inode3521 { label = "Inode3521" style = filled fillcolor = "lig
   </TR>
   <TR>
     <TD>i_atime</TD>
-    <TD>1694754441.080964</TD>
+    <TD>1694754722.5039332</TD>
   </TR>
   <TR>
     <TD>i_ctime</TD>
-    <TD>1694754441.080964</TD>
+    <TD>1694754722.5039332</TD>
   </TR>
   <TR>
     <TD>i_mtime</TD>
-    <TD>1694754441.080964</TD>
+    <TD>1694754722.5039332</TD>
   </TR>
   <TR>
     <TD>i_type</TD>
@@ -1167,10 +1167,10 @@ subgraph cluster_Inode3521 { label = "Inode3521" style = filled fillcolor = "lig
 </TABLE>> shape=box];
 
 node [shape=record];
-bloques44 [label="{<content0> 6029 | <content1> -1 | <content2> -1 | <content3> -1 | <content4> -1 | <content5> -1 | <content6> -1 | <content7> -1 | <content8> -1 | <content9> -1 | <content10> -1 | <content11> -1 | <content12> -1 | <content13> -1 | <content14> -1 | 
+bloques44 [label="{<content0> 15893 | <content1> -1 | <content2> -1 | <content3> -1 | <content4> -1 | <content5> -1 | <content6> -1 | <content7> -1 | <content8> -1 | <content9> -1 | <content10> -1 | <content11> -1 | <content12> -1 | <content13> -1 | <content14> -1 | 
 }"];}
-///////////EL ID ES 45 DEL OBJETO FolderBlock CON EL INDICE 6029*-*-*-*-*-*-*-*-*-*-*-*-*-*
-subgraph cluster_FolderBlock6029 { label = "FolderBlock6029" style = filled fillcolor = "#FFCC00"
+///////////EL ID ES 45 DEL OBJETO FolderBlock CON EL INDICE 15893*-*-*-*-*-*-*-*-*-*-*-*-*-*
+subgraph cluster_FolderBlock15893 { label = "FolderBlock15893" style = filled fillcolor = "#FFCC00"
 node [shape=record];
 bloques45 [label="{<content0> Name: empty
  Inode: -1 | <content1> Name: empty
@@ -1180,8 +1180,8 @@ bloques45 [label="{<content0> Name: empty
 }"];}
 bloques44:<content0> -> bloques45
 bloques37:<content2> -> 44
-///////////EL ID ES 46 DEL OBJETO Inode CON EL INDICE 3629*-*-*-*-*-*-*-*-*-*-*-*-*-*
-subgraph cluster_Inode3629 { label = "Inode3629" style = filled fillcolor = "lightblue"
+///////////EL ID ES 46 DEL OBJETO Inode CON EL INDICE 3017*-*-*-*-*-*-*-*-*-*-*-*-*-*
+subgraph cluster_Inode3017 { label = "Inode3017" style = filled fillcolor = "lightblue"
 46 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4">
   <TR>
     <TD>Attribute</TD>
@@ -1201,15 +1201,15 @@ subgraph cluster_Inode3629 { label = "Inode3629" style = filled fillcolor = "lig
   </TR>
   <TR>
     <TD>i_atime</TD>
-    <TD>1694754441.0830412</TD>
+    <TD>1694754722.5083747</TD>
   </TR>
   <TR>
     <TD>i_ctime</TD>
-    <TD>1694754441.0830412</TD>
+    <TD>1694754722.5083747</TD>
   </TR>
   <TR>
     <TD>i_mtime</TD>
-    <TD>1694754441.0830412</TD>
+    <TD>1694754722.5083747</TD>
   </TR>
   <TR>
     <TD>i_type</TD>
@@ -1222,10 +1222,10 @@ subgraph cluster_Inode3629 { label = "Inode3629" style = filled fillcolor = "lig
 </TABLE>> shape=box];
 
 node [shape=record];
-bloques46 [label="{<content0> 6285 | <content1> -1 | <content2> -1 | <content3> -1 | <content4> -1 | <content5> -1 | <content6> -1 | <content7> -1 | <content8> -1 | <content9> -1 | <content10> -1 | <content11> -1 | <content12> -1 | <content13> -1 | <content14> -1 | 
+bloques46 [label="{<content0> 16149 | <content1> -1 | <content2> -1 | <content3> -1 | <content4> -1 | <content5> -1 | <content6> -1 | <content7> -1 | <content8> -1 | <content9> -1 | <content10> -1 | <content11> -1 | <content12> -1 | <content13> -1 | <content14> -1 | 
 }"];}
-///////////EL ID ES 47 DEL OBJETO FolderBlock CON EL INDICE 6285*-*-*-*-*-*-*-*-*-*-*-*-*-*
-subgraph cluster_FolderBlock6285 { label = "FolderBlock6285" style = filled fillcolor = "#FFCC00"
+///////////EL ID ES 47 DEL OBJETO FolderBlock CON EL INDICE 16149*-*-*-*-*-*-*-*-*-*-*-*-*-*
+subgraph cluster_FolderBlock16149 { label = "FolderBlock16149" style = filled fillcolor = "#FFCC00"
 node [shape=record];
 bloques47 [label="{<content0> Name: empty
  Inode: -1 | <content1> Name: empty
@@ -1236,17 +1236,17 @@ bloques47 [label="{<content0> Name: empty
 bloques46:<content0> -> bloques47
 bloques37:<content3> -> 46
 bloques36:<content0> -> bloques37
-///////////EL ID ES 48 DEL OBJETO FolderBlock CON EL INDICE 6477*-*-*-*-*-*-*-*-*-*-*-*-*-*
-subgraph cluster_FolderBlock6477 { label = "FolderBlock6477" style = filled fillcolor = "#FFCC00"
+///////////EL ID ES 48 DEL OBJETO FolderBlock CON EL INDICE 16341*-*-*-*-*-*-*-*-*-*-*-*-*-*
+subgraph cluster_FolderBlock16341 { label = "FolderBlock16341" style = filled fillcolor = "#FFCC00"
 node [shape=record];
 bloques48 [label="{<content0> Name: mentos2.txt
- Inode: 3737 | <content1> Name: empty
+ Inode: 3125 | <content1> Name: empty
  Inode: -1 | <content2> Name: empty
  Inode: -1 | <content3> Name: empty
  Inode: -1 | 
 }"];}
-///////////EL ID ES 49 DEL OBJETO Inode CON EL INDICE 3737*-*-*-*-*-*-*-*-*-*-*-*-*-*
-subgraph cluster_Inode3737 { label = "Inode3737" style = filled fillcolor = "lightblue"
+///////////EL ID ES 49 DEL OBJETO Inode CON EL INDICE 3125*-*-*-*-*-*-*-*-*-*-*-*-*-*
+subgraph cluster_Inode3125 { label = "Inode3125" style = filled fillcolor = "lightblue"
 49 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4">
   <TR>
     <TD>Attribute</TD>
@@ -1266,15 +1266,15 @@ subgraph cluster_Inode3737 { label = "Inode3737" style = filled fillcolor = "lig
   </TR>
   <TR>
     <TD>i_atime</TD>
-    <TD>1694754441.0766485</TD>
+    <TD>1694754722.4963524</TD>
   </TR>
   <TR>
     <TD>i_ctime</TD>
-    <TD>1694754441.0766485</TD>
+    <TD>1694754722.4963524</TD>
   </TR>
   <TR>
     <TD>i_mtime</TD>
-    <TD>1694754441.0766485</TD>
+    <TD>1694754722.4963524</TD>
   </TR>
   <TR>
     <TD>i_type</TD>
@@ -1287,10 +1287,10 @@ subgraph cluster_Inode3737 { label = "Inode3737" style = filled fillcolor = "lig
 </TABLE>> shape=box];
 
 node [shape=record];
-bloques49 [label="{<content0> 6349 | <content1> 6413 | <content2> -1 | <content3> -1 | <content4> -1 | <content5> -1 | <content6> -1 | <content7> -1 | <content8> -1 | <content9> -1 | <content10> -1 | <content11> -1 | <content12> -1 | <content13> -1 | <content14> -1 | 
+bloques49 [label="{<content0> 16213 | <content1> 16277 | <content2> -1 | <content3> -1 | <content4> -1 | <content5> -1 | <content6> -1 | <content7> -1 | <content8> -1 | <content9> -1 | <content10> -1 | <content11> -1 | <content12> -1 | <content13> -1 | <content14> -1 | 
 }"];}
-///////////EL ID ES 50 DEL OBJETO FileBlock CON EL INDICE 6349*-*-*-*-*-*-*-*-*-*-*-*-*-*
-subgraph cluster_FileBlock6349 { label = "FileBlock6349" style = filled fillcolor = "green"
+///////////EL ID ES 50 DEL OBJETO FileBlock CON EL INDICE 16213*-*-*-*-*-*-*-*-*-*-*-*-*-*
+subgraph cluster_FileBlock16213 { label = "FileBlock16213" style = filled fillcolor = "green"
 50 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4">
   <TR>
     <TD>Attribute</TD>
@@ -1303,8 +1303,8 @@ subgraph cluster_FileBlock6349 { label = "FileBlock6349" style = filled fillcolo
 </TABLE>> shape=box];
 }
 bloques49:<content0> -> 50
-///////////EL ID ES 51 DEL OBJETO FileBlock CON EL INDICE 6413*-*-*-*-*-*-*-*-*-*-*-*-*-*
-subgraph cluster_FileBlock6413 { label = "FileBlock6413" style = filled fillcolor = "green"
+///////////EL ID ES 51 DEL OBJETO FileBlock CON EL INDICE 16277*-*-*-*-*-*-*-*-*-*-*-*-*-*
+subgraph cluster_FileBlock16277 { label = "FileBlock16277" style = filled fillcolor = "green"
 51 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4">
   <TR>
     <TD>Attribute</TD>
@@ -1322,8 +1322,8 @@ bloques36:<content1> -> bloques48
 bloques35:<content0> -> 36
 bloques34:<content0> -> bloques35
 bloques2:<content2> -> 34
-///////////EL ID ES 52 DEL OBJETO Inode CON EL INDICE 3197*-*-*-*-*-*-*-*-*-*-*-*-*-*
-subgraph cluster_Inode3197 { label = "Inode3197" style = filled fillcolor = "lightblue"
+///////////EL ID ES 52 DEL OBJETO Inode CON EL INDICE 2585*-*-*-*-*-*-*-*-*-*-*-*-*-*
+subgraph cluster_Inode2585 { label = "Inode2585" style = filled fillcolor = "lightblue"
 52 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4">
   <TR>
     <TD>Attribute</TD>
@@ -1343,15 +1343,15 @@ subgraph cluster_Inode3197 { label = "Inode3197" style = filled fillcolor = "lig
   </TR>
   <TR>
     <TD>i_atime</TD>
-    <TD>1694754441.0666485</TD>
+    <TD>1694754722.4866796</TD>
   </TR>
   <TR>
     <TD>i_ctime</TD>
-    <TD>1694754441.0666485</TD>
+    <TD>1694754722.4866796</TD>
   </TR>
   <TR>
     <TD>i_mtime</TD>
-    <TD>1694754441.0666485</TD>
+    <TD>1694754722.4866796</TD>
   </TR>
   <TR>
     <TD>i_type</TD>
@@ -1364,10 +1364,10 @@ subgraph cluster_Inode3197 { label = "Inode3197" style = filled fillcolor = "lig
 </TABLE>> shape=box];
 
 node [shape=record];
-bloques52 [label="{<content0> 6093 | <content1> -1 | <content2> -1 | <content3> -1 | <content4> -1 | <content5> -1 | <content6> -1 | <content7> -1 | <content8> -1 | <content9> -1 | <content10> -1 | <content11> -1 | <content12> -1 | <content13> -1 | <content14> -1 | 
+bloques52 [label="{<content0> 15957 | <content1> -1 | <content2> -1 | <content3> -1 | <content4> -1 | <content5> -1 | <content6> -1 | <content7> -1 | <content8> -1 | <content9> -1 | <content10> -1 | <content11> -1 | <content12> -1 | <content13> -1 | <content14> -1 | 
 }"];}
-///////////EL ID ES 53 DEL OBJETO FolderBlock CON EL INDICE 6093*-*-*-*-*-*-*-*-*-*-*-*-*-*
-subgraph cluster_FolderBlock6093 { label = "FolderBlock6093" style = filled fillcolor = "#FFCC00"
+///////////EL ID ES 53 DEL OBJETO FolderBlock CON EL INDICE 15957*-*-*-*-*-*-*-*-*-*-*-*-*-*
+subgraph cluster_FolderBlock15957 { label = "FolderBlock15957" style = filled fillcolor = "#FFCC00"
 node [shape=record];
 bloques53 [label="{<content0> Name: empty
  Inode: -1 | <content1> Name: empty
@@ -1378,17 +1378,17 @@ bloques53 [label="{<content0> Name: empty
 bloques52:<content0> -> bloques53
 bloques2:<content3> -> 52
 bloques1:<content0> -> bloques2
-///////////EL ID ES 54 DEL OBJETO FolderBlock CON EL INDICE 6157*-*-*-*-*-*-*-*-*-*-*-*-*-*
-subgraph cluster_FolderBlock6157 { label = "FolderBlock6157" style = filled fillcolor = "#FFCC00"
+///////////EL ID ES 54 DEL OBJETO FolderBlock CON EL INDICE 16021*-*-*-*-*-*-*-*-*-*-*-*-*-*
+subgraph cluster_FolderBlock16021 { label = "FolderBlock16021" style = filled fillcolor = "#FFCC00"
 node [shape=record];
 bloques54 [label="{<content0> Name: carrititito
- Inode: 3305 | <content1> Name: empty
+ Inode: 2693 | <content1> Name: empty
  Inode: -1 | <content2> Name: empty
  Inode: -1 | <content3> Name: empty
  Inode: -1 | 
 }"];}
-///////////EL ID ES 55 DEL OBJETO Inode CON EL INDICE 3305*-*-*-*-*-*-*-*-*-*-*-*-*-*
-subgraph cluster_Inode3305 { label = "Inode3305" style = filled fillcolor = "lightblue"
+///////////EL ID ES 55 DEL OBJETO Inode CON EL INDICE 2693*-*-*-*-*-*-*-*-*-*-*-*-*-*
+subgraph cluster_Inode2693 { label = "Inode2693" style = filled fillcolor = "lightblue"
 55 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4">
   <TR>
     <TD>Attribute</TD>
@@ -1408,15 +1408,15 @@ subgraph cluster_Inode3305 { label = "Inode3305" style = filled fillcolor = "lig
   </TR>
   <TR>
     <TD>i_atime</TD>
-    <TD>1694754441.0696528</TD>
+    <TD>1694754722.4896715</TD>
   </TR>
   <TR>
     <TD>i_ctime</TD>
-    <TD>1694754441.0696528</TD>
+    <TD>1694754722.4896715</TD>
   </TR>
   <TR>
     <TD>i_mtime</TD>
-    <TD>1694754441.0696528</TD>
+    <TD>1694754722.4896715</TD>
   </TR>
   <TR>
     <TD>i_type</TD>
@@ -1429,10 +1429,10 @@ subgraph cluster_Inode3305 { label = "Inode3305" style = filled fillcolor = "lig
 </TABLE>> shape=box];
 
 node [shape=record];
-bloques55 [label="{<content0> 6221 | <content1> -1 | <content2> -1 | <content3> -1 | <content4> -1 | <content5> -1 | <content6> -1 | <content7> -1 | <content8> -1 | <content9> -1 | <content10> -1 | <content11> -1 | <content12> -1 | <content13> -1 | <content14> -1 | 
+bloques55 [label="{<content0> 16085 | <content1> -1 | <content2> -1 | <content3> -1 | <content4> -1 | <content5> -1 | <content6> -1 | <content7> -1 | <content8> -1 | <content9> -1 | <content10> -1 | <content11> -1 | <content12> -1 | <content13> -1 | <content14> -1 | 
 }"];}
-///////////EL ID ES 56 DEL OBJETO FolderBlock CON EL INDICE 6221*-*-*-*-*-*-*-*-*-*-*-*-*-*
-subgraph cluster_FolderBlock6221 { label = "FolderBlock6221" style = filled fillcolor = "#FFCC00"
+///////////EL ID ES 56 DEL OBJETO FolderBlock CON EL INDICE 16085*-*-*-*-*-*-*-*-*-*-*-*-*-*
+subgraph cluster_FolderBlock16085 { label = "FolderBlock16085" style = filled fillcolor = "#FFCC00"
 node [shape=record];
 bloques56 [label="{<content0> Name: empty
  Inode: -1 | <content1> Name: empty
