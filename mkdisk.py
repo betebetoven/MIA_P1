@@ -228,7 +228,7 @@ def fdisk(params):
             sale = space+1
             indice = -1
             for i,n in enumerate(partitions):
-                print("i ",i)
+                #print("i ",i)
                 if (n.status == 0 and n.name == "empty") and (i==0 or partitions[i-1].status == 1):
                     if i == 0:
                         anterior = MBR.SIZE
@@ -241,7 +241,7 @@ def fdisk(params):
                     if i == 3 and n.status == 0:
                         siguiente = disk_size
                     for j, n2 in enumerate(partitions2[(i+1):]):
-                        print("j ",j)
+                        #print("j ",j)
                         if n2.status == 1:
                             siguiente = n2.byte_inicio
                             break

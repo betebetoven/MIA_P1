@@ -89,6 +89,7 @@ mounted_partitions = []
 users=None
 current_partition = None
 def recuperar(params, mounted_partitions, usuario_actual_boluo):
+    print(f'🚑 <<RUNNING RECOVERY {params} _ _ _ _ _ _ _ _ _ ')
     global users
     global current_partition
     id = params.get('id', None)
@@ -878,6 +879,7 @@ def p_pause(p):
     '''
     pause : PAUSE
     '''
+    print(f'\n⏸️   <<RUNNING PAUSE_ _ _ _ _ _ _ _ _ ')
     input("Press Enter to continue...")
     p[0] = ('pause', p[1])
 def p_chown(p):

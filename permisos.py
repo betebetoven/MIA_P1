@@ -115,7 +115,7 @@ def count_bloques_for_a_text(text):
     return fileblocks
         
 def chown(params, mounted_partitions,id, usuario_actual):  
-    print(f'<<RUNNING CHOWN {params}_ _ _ _ _ _ _ _ _ ')
+    print(f'🤝<<RUNNING CHOWN {params}_ _ _ _ _ _ _ _ _ ')
     if id == None:
         print("Error: The id is required.")
         return
@@ -187,7 +187,7 @@ def chown(params, mounted_partitions,id, usuario_actual):
                 cambiar_id_inodos_recursivamente(file,PI,0,inodo.i_uid)
             
 def chgrp(params, mounted_partitions,id, usuario_actual):  
-    print(f'<<- - - - - - -CHGRP {params}')
+    print(f'👷<<- - - - - - -CHGRP {params}')
     if id == None:
         print("Error: The id is required.")
         return
@@ -277,7 +277,7 @@ def chgrp(params, mounted_partitions,id, usuario_actual):
         
         
 def chmod(params, mounted_partitions,id, usuario_actual):  
-    print(f'<<RUNNING CHMOD {params}_ _ _ _ _ _ _ _ _ ')
+    print(f'🔨<<RUNNING CHMOD {params}_ _ _ _ _ _ _ _ _ ')
     if id == None:
         print("Error: The id is required.")
         return

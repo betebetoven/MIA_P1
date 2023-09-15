@@ -25,7 +25,7 @@ mkgrp -name=usuarios2
 mkgrp -name=usuarios3 
 mkgrp -name=usuarios4 
 mkgrp -name=usuarios4 
-mkusr -user=mamadas -pass=usuario -grp=usuarios4
+mkusr -user=mmds -pass=usuario -grp=usuarios4
 rmgrp -name=usuarios
 rmusr -user=user1
 mkfile -path=/users.txt
@@ -65,9 +65,9 @@ pause
 find -path="/home" -name=*  
 pause   
 find -path="/home2" -name=* 
-chown -path=/home2/documents/mentos2.txt -user=mamadas  
-chown -path=/home2/documents -r -user=mamadas   
-chgrp -user=mamadas -grp=usuarios2  
+chown -path=/home2/documents/mentos2.txt -user=mmds  
+chown -path=/home2/documents -r -user=mmds   
+chgrp -user=mmds -grp=usuarios2  
 #esto es un comentario no deberia hacerlo
 chmod -path=/home2 -ugo=777 -r
 #esto es un comentario no deberia hacerlo

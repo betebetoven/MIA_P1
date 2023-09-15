@@ -5,7 +5,7 @@ import time
 import random
 from mountingusers import load_users_from_content, parse_users, get_user_if_authenticated, get_id_by_group, extract_active_groups,get_group_id
 def mkfs(params, mounted_partitions, users):
-    print(f'<<RUNNING MKFS {params}_ _ _ _ _ _ _ _ _ ')
+    print(f'⚙️<<RUNNING MKFS {params}_ _ _ _ _ _ _ _ _ ')
     tipo = params.get('type', 'full').lower()
     id = params.get('id', None)
     fsext = params.get('fs', 'ext2')

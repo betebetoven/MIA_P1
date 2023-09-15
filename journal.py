@@ -91,6 +91,7 @@ def ver_journal_actual(mounted_partitions,id):
             return
 #LOSS
 def loss(params, mounted_partitions, users):
+    print(f'⚰️ <<RUNNING LOSS {params} _ _ _ _ _ _ _ _ _ ')
     id = params.get('id', None)
     # Check if the id exists in mounted_partitions.
     partition = None
