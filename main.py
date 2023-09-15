@@ -260,7 +260,8 @@ tokens = ( 'MKDISK', 'SIZE', 'PATH', 'UNIT', 'FIT','ENCAJE',
           'LOSS',
           'RECOVERY',
           'REP',
-          'RUTA')
+          'RUTA',
+          'COMENTARIO',)
 
 # Ignored characters
 t_ignore = ' \t'
@@ -323,6 +324,10 @@ t_ADD = r'-add='
 
 # A function can be used if there is an associated action.
 # Write the matching regex in the docstring.
+def t_COMENTARIO(t):
+    r'\#.*[\n]'
+    pass
+
 def t_NUMERO(t):
     r'-?\d+'
     t.value = int(t.value)
@@ -439,6 +444,7 @@ def p_expression(p):
                 | loss
                 | recovery
                 | rep
+                
     '''
 
     p[0] = ('binop', p[1])

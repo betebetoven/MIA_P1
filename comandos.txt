@@ -17,7 +17,7 @@ mount -path="/home/mis discos/Disco4.dsk" -name=laprimera
 mkfs -type=full -id=531Disco4 -fs=ext3
 logout 
 login -user=root -pass=123 -id=531Disco4
-    
+#esto es un comentario no deberia hacerlo    
 mkusr -user=user1 -pass=usuario -grp=root
 mkgrp -name=usuarios
 mkgrp -name=usuarios2 
@@ -67,6 +67,7 @@ find -path="/home2" -name=*
 chown -path=/home2/documents/mentos2.txt -user=mamadas  
 chown -path=/home2/documents -r -user=mamadas   
 chgrp -user=mamadas -grp=usuarios2  
+#esto es un comentario no deberia hacerlo
 chmod -path=/home2 -ugo=777 -r
-
+#esto es un comentario no deberia hacerlo
 
