@@ -71,3 +71,4 @@ chgrp -user=mamadas -grp=usuarios2
 chmod -path=/home2 -ugo=777 -r
 #esto es un comentario no deberia hacerlo
 
+

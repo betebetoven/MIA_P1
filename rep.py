@@ -424,5 +424,56 @@ disk [label=<
                         next = ebr.next
             with open('EBR_graph.txt', 'w') as f:
                     f.write(f'digraph G {{\n{graphviz_code}\n}}')
-                            
-                    
+        elif name =='ls':
+            insidepath = params.get('ruta', '')
+            file.seek(inicio)
+            superblock = Superblock.unpack(file.read(Superblock.SIZE))
+            
+            lista_direcciones = insidepath.split('/')[1:]
+            PI = superblock.s_inode_start
+            for i,n in enumerate(lista_direcciones):
+                esta,v = busca(file,PI,0,n)
+                if esta:
+                    PI = v
+                else:
+                    print(f'archivo {insidepath} no existe')
+                    return
+            file.seek(PI)
+            inodo = Inode.unpack(file.read(Inode.SIZE))
+            tipo = {'0':'carpeta','1':'archivo'}
+            rows = []
+            for n in inodo.i_block:
+                if n == -1:
+                    continue
+                file.seek(n)
+                bloque = FolderBlock.unpack(file.read(FolderBlock.SIZE))
+                for i,m in enumerate(bloque.b_content):
+                    if m.b_inodo == -1:
+                        continue
+                    file.seek(m.b_inodo)
+                    inodito = Inode.unpack(file.read(Inode.SIZE))
+                    print(""+str(i))
+                    print(m.b_inodo)
+                    print(m.b_name.rstrip('\x00'))
+                    print(inodito.i_uid)
+                    print(inodito.I_gid)
+                    print(inodito.i_s)
+                    print(inodito.i_perm)
+                    print(tipo[inodito.i_type])
+                    print(inodito.i_atime)
+                    texto = "\n<TR><TD>"+str(i)+"</TD><TD>"+str(m.b_inodo)+"</TD><TD>"+m.b_name.rstrip('\x00') +"</TD><TD>"+str(inodito.i_uid)+"</TD><TD>"+str(inodito.I_gid)+"</TD><TD>"+str(inodito.i_s)+"</TD><TD>"+str(inodito.i_perm)+"</TD><TD>"+tipo[inodito.i_type]+"</TD><TD>"+str(inodito.i_atime)+"</TD></TR>"
+                    rows.append(texto)
+                    print("")
+                    graphviz_code = f'''digraph G {{
+node [shape=none];
+disk [label=<
+<TABLE BORDER="1" CELLBORDER="1" CELLSPACING="0">
+<TR><TD colspan="9">{id} {insidepath}</TD></TR>
+<TR><TD>INDICE</TD><TD>INODO</TD><TD>NOMBRE</TD><TD>OWNER</TD><TD>GROPU</TD><TD>SIZE</TD><TD>PERM</TD><TD>TIPO</TD><TD>ATIME</TD></TR>
+{"".join(rows)}
+</TABLE>
+>];
+}}'''            
+                    #print(graphviz_code)
+                    with open('LS_graph.txt', 'w') as f:
+                        f.write(f'{graphviz_code}')

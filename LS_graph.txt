@@ -1,0 +1,15 @@
+digraph G {
+node [shape=none];
+disk [label=<
+<TABLE BORDER="1" CELLBORDER="1" CELLSPACING="0">
+<TR><TD colspan="9">531Disco4 /home2/documents</TD></TR>
+<TR><TD>INDICE</TD><TD>INODO</TD><TD>NOMBRE</TD><TD>OWNER</TD><TD>GROPU</TD><TD>SIZE</TD><TD>PERM</TD><TD>TIPO</TD><TD>ATIME</TD></TR>
+
+<TR><TD>0</TD><TD>2873</TD><TD>papers</TD><TD>5</TD><TD>5</TD><TD>0</TD><TD>777</TD><TD>carpeta</TD><TD>1694743606.0770361</TD></TR>
+<TR><TD>1</TD><TD>3413</TD><TD>llena2</TD><TD>5</TD><TD>5</TD><TD>0</TD><TD>777</TD><TD>carpeta</TD><TD>1694743606.0979881</TD></TR>
+<TR><TD>2</TD><TD>3521</TD><TD>llena3</TD><TD>5</TD><TD>5</TD><TD>0</TD><TD>777</TD><TD>carpeta</TD><TD>1694743606.0999994</TD></TR>
+<TR><TD>3</TD><TD>3629</TD><TD>llena4</TD><TD>5</TD><TD>5</TD><TD>0</TD><TD>777</TD><TD>carpeta</TD><TD>1694743606.1025176</TD></TR>
+<TR><TD>0</TD><TD>3737</TD><TD>mentos2.txt</TD><TD>5</TD><TD>5</TD><TD>128</TD><TD>777</TD><TD>archivo</TD><TD>1694743606.0957704</TD></TR>
+</TABLE>
+>];
+}

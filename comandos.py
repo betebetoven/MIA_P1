@@ -66,7 +66,7 @@ pause   \
 find -path="/home2" -name=* \
 chown -path=/home2/documents/mentos2.txt -user=mamadas  \
 chown -path=/home2/documents -r -user=mamadas   \
-chgrp -user=mamadas -grp=usuarios2  \
+#chgrp -user=mamadas -grp=usuarios2  \
 chmod -path=/home2 -ugo=777 -r\n\
     loss -id=531Disco4\
         recovery -id=531Disco4\
