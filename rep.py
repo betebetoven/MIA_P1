@@ -156,6 +156,7 @@ def graph(file,inicio, index):
 
 
 def rep(params, mounted_partitions,mapa_de_bytes): 
+    print(f'<<RUNNING REP {params}')
     global codigo_para_graphviz 
     global current_id
     #get params

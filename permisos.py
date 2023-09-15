@@ -115,7 +115,7 @@ def count_bloques_for_a_text(text):
     return fileblocks
         
 def chown(params, mounted_partitions,id, usuario_actual):  
-    print(f'CHOWN {params}')
+    print(f'<<RUNNING CHOWN {params}_ _ _ _ _ _ _ _ _ ')
     if id == None:
         print("Error: The id is required.")
         return
@@ -187,7 +187,7 @@ def chown(params, mounted_partitions,id, usuario_actual):
                 cambiar_id_inodos_recursivamente(file,PI,0,inodo.i_uid)
             
 def chgrp(params, mounted_partitions,id, usuario_actual):  
-    print(f'- - - - - - -CHGRP {params}')
+    print(f'<<- - - - - - -CHGRP {params}')
     if id == None:
         print("Error: The id is required.")
         return
@@ -253,10 +253,10 @@ def chgrp(params, mounted_partitions,id, usuario_actual):
         if cantitda_bloques_por_utilizat<=12:
             print(f'cantidad de bloques utilizados {cantidad_bloques_utilizados}')
             print(f'cantidad de bloques por utilizar {cantitda_bloques_por_utilizat}')
-            print(f'{new_texto} sigue')
+            #print(f'{new_texto} sigue')
             tupu = new_texto[-1]=="\n"
             print(f'{tupu}')
-            input('viendo chgrp')
+            input('__verificar chgrp_')
             bitmap = bitmap[:indice_a_borrar] + '0'*cantidad_bloques_utilizados + bitmap[indice_a_borrar+cantidad_bloques_utilizados:]
             index = bitmap.find('0'*cantitda_bloques_por_utilizat)
             a = bitmap[:index] + '1'*cantitda_bloques_por_utilizat + bitmap[index+cantitda_bloques_por_utilizat:]
@@ -277,7 +277,7 @@ def chgrp(params, mounted_partitions,id, usuario_actual):
         
         
 def chmod(params, mounted_partitions,id, usuario_actual):  
-    print(f'CHOWN {params}')
+    print(f'<<RUNNING CHMOD {params}_ _ _ _ _ _ _ _ _ ')
     if id == None:
         print("Error: The id is required.")
         return

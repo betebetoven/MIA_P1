@@ -27,13 +27,13 @@ class MBR:
         #create list of 4 partitions
         self.particiones = [Partition(ex), Partition(ex), Partition(ex), Partition(ex)]
         
-        print("\n_____________________MBR CREADO__________________________________________________")
-        from prettytable import PrettyTable
-        table = PrettyTable()
-        table.field_names = ["Size", "Date", "Sig.", "Fit"]
-        table.add_row([self.mbr_tamano, self.mbr_fecha_creacion, self.mbr_dsk_signature, self.fit])
-        print(table)
-        print("___________________________________________________________________________________\n")
+        #print("\n_____________________MBR CREADO__________________________________________________")
+        #from prettytable import PrettyTable
+        #table = PrettyTable()
+        #table.field_names = ["Size", "Date", "Sig.", "Fit"]
+        #table.add_row([self.mbr_tamano, self.mbr_fecha_creacion, self.mbr_dsk_signature, self.fit])
+        #print(table)
+        #print("___________________________________________________________________________________\n")
 
         if self.fit not in ['BF', 'FF', 'WF']:
             raise ValueError(f"Invalid fit type: {self.fit}")

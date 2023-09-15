@@ -5,6 +5,7 @@ import random
 from MBR import MBR
 from PARTICION import Partition
 def mount(params, mounted_partitions):
+    print(f'<<RUNNING MOUNT {params}_ _ _ _ _ _ _ _ _ ')
     filename = params.get('path')
     current_directory = os.getcwd()
     full_path= f'{current_directory}/discos_test{filename}'
@@ -42,9 +43,10 @@ def mount(params, mounted_partitions):
                                     'id': id,
                                     'inicio': partitions[index].byte_inicio,
                                     'size': partitions[index].actual_size,}})
-    
+    print(f"Partition {name} was mounted successfully as {id}.")
 #make unmount, it will receive params and you have to get id, and then delete the dictionary with that id from the list
 def unmount(params, mounted_partitions):
+    print(f'<<RUNNING UN-MOUNT {params}_ _ _ _ _ _ _ _ _ ')
     id_to_unmount = params.get('id')
     
     for index, partition_dict in enumerate(mounted_partitions):
