@@ -12,6 +12,8 @@ from journal import add_to_journal, ver_journal_actual, loss
 from rep import rep
 import struct
 import os
+from MBR import MBR
+from prettytable import PrettyTable
 mapa_de_bytes = []
 contador_historial_mapa_de_bytes= 0
 def ver_bitmaps(instruccion, mounted_partitions, id):
@@ -937,8 +939,34 @@ parser = yacc()
 
 # Parse an expression
 #ast = parser.parse(comandos)
+def display_table(mounted_partitions):
+    # Create a PrettyTable object
+    table = PrettyTable()
+    
+    # Set the column headers
+    table.field_names = ["ID", "Path", "Name", "Index", "Inicio", "Size"]
+    
+    # Add rows to the table
+    for partition_dict in mounted_partitions:
+        for id_key, partition_info in partition_dict.items():
+            row = [
+                id_key,  # This is the ID!
+                partition_info['path'],
+                partition_info['name'],
+                partition_info['index'],
+                partition_info['inicio'],
+                partition_info['size']
+            ]
+            table.add_row(row)
+    
+    # Print the table
+    print(table)
 
 while True:
+    print(f'\n\ncurrent user: {users}')
+    
+    display_table(mounted_partitions)
+    
     s = input('>> ')
     if s == 'exit':
         break
@@ -957,7 +985,7 @@ while True:
 
 
 #read C:\Users\alber\OneDrive\Escritorio\cys\MIA\proyecto1\discos_test\home\mis discos\Disco4.dsk from the byte 0 an unpack it with MBR and print it
-from MBR import MBR
+
 COLORS = {'Inode': 'lightblue', 'Superblock': '#E0E0E0', 'FolderBlock': '#FFCC00', 'FileBlock': 'green', 'PointerBlock': 'orange',  'Content': '#FFCC00'}
 def imprimir(obj,index):
     object_type = type(obj).__name__
@@ -1071,31 +1099,31 @@ def graph(file,inicio, index):
         
         
         
-with open(r'C:\Users\alber\OneDrive\Escritorio\cys\MIA\proyecto1\discos_test\home\mis discos\Disco4.dsk', "rb") as file:
-    file.seek(0)
-    data = file.read(MBR.SIZE)
-    mbr = MBR.unpack(data[:MBR.SIZE])
+#with open(r'C:\Users\alber\OneDrive\Escritorio\cys\MIA\proyecto1\discos_test\home\mis discos\Disco4.dsk', "rb") as file:
+    #file.seek(0)
+    #data = file.read(MBR.SIZE)
+   # mbr = MBR.unpack(data[:MBR.SIZE])
     #print("este es el mbr____")
     #print(mbr)
 
-    from prettytable import PrettyTable
-    table = PrettyTable()
-    table.field_names = ["Size", "Date", "Sig.", "Fit"]
-    table.add_row([mbr.mbr_tamano, mbr.mbr_fecha_creacion, mbr.mbr_dsk_signature, mbr.fit])
+    #
+    #table = PrettyTable()
+    #table.field_names = ["Size", "Date", "Sig.", "Fit"]
+    #table.add_row([mbr.mbr_tamano, mbr.mbr_fecha_creacion, mbr.mbr_dsk_signature, mbr.fit])
     
-    table2 = PrettyTable()
-    table2.field_names = ["size", "name", "unit", "type", "status","fit","inicio"]
-    for n in mbr.particiones:
-        table2.add_row([n.actual_size, n.name, n.unit, n.type, n.status, n.fit, n.byte_inicio])
+   # table2 = PrettyTable()
+   # table2.field_names = ["size", "name", "unit", "type", "status","fit","inicio"]
+   # for n in mbr.particiones:
+    #    table2.add_row([n.actual_size, n.name, n.unit, n.type, n.status, n.fit, n.byte_inicio])
         
     
-    print("👮🏼‍♂️_____________________MBR LEIDO__________________________________________________")
-    print(table)
-    print(table2)
-    print("res")
-    file.seek(mbr.particiones[0].byte_inicio)
-    superblock = Superblock.unpack(file.read(Superblock.SIZE))
-    codigo_para_graphviz= ''
+    #print("👮🏼‍♂️_____________________MBR LEIDO__________________________________________________")
+    #print(table)
+    #print(table2)
+    #print("res")
+    #file.seek(mbr.particiones[0].byte_inicio)
+    #superblock = Superblock.unpack(file.read(Superblock.SIZE))
+    #codigo_para_graphviz= ''
 
     #primero = graph(file,superblock.s_inode_start,0)
     #print(f"home -> {primero}")
@@ -1109,8 +1137,7 @@ with open(r'C:\Users\alber\OneDrive\Escritorio\cys\MIA\proyecto1\discos_test\hom
 
 #for n in ast:
    # print(n[1])
-print(users)
-print(current_partition)
+
 
 #codigo_para_graphviz = ''
 #for n in mapa_de_bytes:

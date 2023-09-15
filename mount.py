@@ -33,7 +33,7 @@ def mount(params, mounted_partitions):
     diskname = filename.split('/')[-1]
     diskname = diskname.split('.')[0]
     #id is defined *Últimos dos dígitos del Carnet + Número Partición + NombreDisco Ejemplo:por ejemplo para el carnet -> 201404106 Id´s -> 061Disco1, 062Disco1, 061Disco2, 062Disco2
-    id = f'{mycarne}{(index+1)}{diskname}'
+    id = f'{mycarne}{(len(mounted_partitions)+1)}{diskname}'
     # append the new dictionary to the list
     mounted_partitions.append({id: {'path':filename , 
                                     'partition': partitions[index],
