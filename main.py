@@ -737,6 +737,7 @@ def p_logout(p):
     global users
     exited_user = {}
     if users is not None:
+        print(f'🚶<<RUNNING LOGOUT _ _ _ _ _ _ _ _ _ ')
         exited_user = users
         users = None
     else:

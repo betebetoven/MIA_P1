@@ -5,6 +5,7 @@ import time
 import random
 from mountingusers import load_users_from_content, parse_users, get_user_if_authenticated, get_id_by_group, extract_active_groups,get_group_id
 def mkfs(params, mounted_partitions, users):
+    print(f'<<RUNNING MKFS {params}_ _ _ _ _ _ _ _ _ ')
     tipo = params.get('type', 'full').lower()
     id = params.get('id', None)
     fsext = params.get('fs', 'ext2')
@@ -109,8 +110,7 @@ def mkfs(params, mounted_partitions, users):
 from FORMATEO.ext2.ext2 import Superblock, Inode, FolderBlock, FileBlock, PointerBlock, block, Content
 import struct
 def login(params, mounted_partitions):
-    print("ESTE ES EL LOGIN*************************************************")
-    print(params)
+    print(f'🧍<<RUNNING LOGIN {params}_ _ _ _ _ _ _ _ _ ')
 #user, password need to come in params, if not, return error
     try:
         user = params['user']
@@ -171,7 +171,7 @@ def login(params, mounted_partitions):
         return users,id
         
 def makeuser(params, mounted_partitions,id):
-    print("ESTE ES EL MAKEUSER*************************************************")
+    print(f'🙋 <<RUNNING MAKE-USER {params} _ _ _ _ _ _ _ _ _ ')
     #print(params)
     if id == None:
         print("Error: The id is required.")
@@ -303,6 +303,7 @@ def makeuser(params, mounted_partitions,id):
                         
 #write a storu about                     
 def makegroup(params, mounted_partitions,id):
+    print(f'👩‍👨‍👧‍👧 <<RUNNING MAKE-GROUP {params} _ _ _ _ _ _ _ _ _ ')
     if id == None:
         print("Error: The id is required.")
         return
@@ -366,16 +367,16 @@ def makegroup(params, mounted_partitions,id):
             print(f"Error: The group {group} already exist.")
             return
 
-        print("ESTE ES EL GRUPO QUE SE VA A CREAR")
-        print(group)
-        print(grupos)
+        #print("ESTE ES EL GRUPO QUE SE VA A CREAR")
+        #print(group)
+        #print(grupos)
         max_id = max(g['id'] for g in grupos)
         
         # The next available ID will be max_id + 1
         next_id = max_id + 1
-        print(next_id)
+        #print(next_id)
         texto += f'{next_id},G,{group}\n'
-        print(texto)
+        #print(texto)
         length = len(texto)
         fileblocks = length//64
         if length%64 != 0:
@@ -408,12 +409,13 @@ def makegroup(params, mounted_partitions,id):
             #rewrite bitmap
             file.seek(bitmap_bloques_inicio)
             file.write(a.encode('utf-8'))
+            print(f"Group {group} was created successfully.")
             return
         
         
         
 def remgroup(params, mounted_partitions,id):
-    print("ESTE ES EL REMGROUP*************************************************")
+    print(f'🙅‍♂️ <<RUNNING REMOVE-GROUP {params} _ _ _ _ _ _ _ _ _ ')
     if id == None:
         print("Error: The id is required.")
         return
@@ -525,7 +527,7 @@ def remgroup(params, mounted_partitions,id):
             return
 
 def remuser(params, mounted_partitions,id):   
-    print("ESTE ES EL MAKEUSER*************************************************")
+    print(f'🙅‍♂️ <<RUNNING REMOVE-USER {params} _ _ _ _ _ _ _ _ _ ')
     #print(params)
     if id == None:
         print("Error: The id is required.")
@@ -636,4 +638,5 @@ def remuser(params, mounted_partitions,id):
             file.seek(bitmap_bloques_inicio)
             file.write(a.encode('utf-8'))
             #print(a)
+            print(f"User {user} was removed successfully.")
             return

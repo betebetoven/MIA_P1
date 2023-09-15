@@ -353,8 +353,7 @@ def get_file_content(partial_path):
 def mkfile(params, mounted_partitions,id, usuario_actual):
     UID = usuario_actual['id']
     GID = UID
-    print("ESTE ES EL MAKEFILE*************************************************")
-    print(params)
+    print(f'📜 <<RUNNING MAKE-FILE {params} _ _ _ _ _ _ _ _ _ ')
     if id == None:
         print("Error: The id is required.")
         return
@@ -650,7 +649,7 @@ def mkfile(params, mounted_partitions,id, usuario_actual):
                 
                 
 def cat(params, mounted_partitions,id, usuario_actual):  
-    
+    print(f'🐈 <<RUNNING CAT {params} _ _ _ _ _ _ _ _ _ ')
     if id == None:
         print("Error: The id is required.")
         return
@@ -727,7 +726,7 @@ def cat(params, mounted_partitions,id, usuario_actual):
             ##########################################################
     
 def remove(params, mounted_partitions,id, usuario_actual):  
-    print(f'remove {params}')
+    print(f'💀 <<RUNNING REMOVE {params} _ _ _ _ _ _ _ _ _ ')
     if id == None:
         print("Error: The id is required.")
         return
@@ -773,16 +772,16 @@ def remove(params, mounted_partitions,id, usuario_actual):
         inodos = []
         bloques = []
         recupera_todos_los_bytes(file,PI,0,inodos,bloques)
-        print(inodos)
-        print(bloques)
+        #print(inodos)
+        #print(bloques)
         index_inodos = []
         for n in inodos:
             index_inodos.append(byte_to_index(n,superblock.s_inode_start,Inode.SIZE))
         index_bloques = []
         for n in bloques:
             index_bloques.append(byte_to_index(n,superblock.s_block_start,block.SIZE))
-        print(index_inodos)
-        print(index_bloques)
+        #print(index_inodos)
+        #print(index_bloques)
         actualizar_bitmap(file,superblock,inodos,bloques)
         #view bitmaps from file
         file.seek(superblock.s_bm_block_start)
@@ -794,11 +793,12 @@ def remove(params, mounted_partitions,id, usuario_actual):
         #print("bloques")
         #print(bitmap_bloques)
         #print("")
+        print(f'archivo {insidepath} eliminado')
         
     
         
 def rename(params, mounted_partitions,id, usuario_actual):  
-    print(f'remove {params}')
+    print(f'🏳️ <<RUNNING RENAME {params} _ _ _ _ _ _ _ _ _ ')
     if id == None:
         print("Error: The id is required.")
         return
@@ -843,7 +843,7 @@ def rename(params, mounted_partitions,id, usuario_actual):
                 print(f'archivo {insidepath} no existe')
                 return
 def copy(params, mounted_partitions,id, usuario_actual):  
-    print(f'COPY {params}')
+    print(f'🏳️ <<RUNNING COPY {params} _ _ _ _ _ _ _ _ _ ')
     if id == None:
         print("Error: The id is required.")
         return
@@ -884,7 +884,7 @@ def copy(params, mounted_partitions,id, usuario_actual):
             else:
                 print(f'archivo {insidepath} no existe')
                 return
-        print(PI)
+        #print(PI)
         
         lista_direcciones_destino = destinypath.split('/')[1:]
         PI_destino = superblock.s_inode_start
@@ -895,7 +895,7 @@ def copy(params, mounted_partitions,id, usuario_actual):
             else:
                 print(f'archivo {destinypath} no existe')
                 return
-        print(PI_destino)
+        #print(PI_destino)
         a,b,c,d = busca_espacio_libre(file,PI_destino,0)
         inodo_copia_byte = recorre(file,PI,0, superblock)
         if c == 0:
@@ -910,18 +910,20 @@ def copy(params, mounted_partitions,id, usuario_actual):
             new_added_folderblock.b_content[0].b_inodo = inodo_copia_byte
             file.seek(byte_bloque)
             file.write(new_added_folderblock.pack())
+            print(f'archivo {insidepath} copiado a {destinypath}')
         if c==1:
             file.seek(b)
-            print("ESTE ES EL PI DESTINO")
-            print(b)
+            #print("ESTE ES EL PI DESTINO")
+            #print(b)
             folder = FolderBlock.unpack(file.read(FolderBlock.SIZE))
             folder.b_content[d].b_name = lista_direcciones[-1]
             folder.b_content[d].b_inodo = inodo_copia_byte
             file.seek(b)
             file.write(folder.pack())
+            print(f'archivo {insidepath} copiado a {destinypath}')
             
 def move(params, mounted_partitions,id, usuario_actual):  
-    print(f'MOVE {params}')
+    print(f'🚀 <<RUNNING MOVE {params} _ _ _ _ _ _ _ _ _ ')
     if id == None:
         print("Error: The id is required.")
         return
@@ -965,7 +967,7 @@ def move(params, mounted_partitions,id, usuario_actual):
             else:
                 print(f'archivo {insidepath} no existe')
                 return
-        print(PI)
+        #print(PI)
         
         lista_direcciones_destino = destinypath.split('/')[1:]
         PI_destino = superblock.s_inode_start
@@ -976,7 +978,7 @@ def move(params, mounted_partitions,id, usuario_actual):
             else:
                 print(f'archivo {destinypath} no existe')
                 return
-        print(PI_destino)
+        #print(PI_destino)
         a,b,c,d = busca_espacio_libre(file,PI_destino,0)
         inodo_copia_byte = PI
         if c == 0:
@@ -991,17 +993,20 @@ def move(params, mounted_partitions,id, usuario_actual):
             new_added_folderblock.b_content[0].b_inodo = inodo_copia_byte
             file.seek(byte_bloque)
             file.write(new_added_folderblock.pack())
+            print(f'archivo {insidepath} movido a {destinypath}')
         if c==1:
             file.seek(b)
-            print("ESTE ES EL PI DESTINO")
-            print(b)
+            #print("ESTE ES EL PI DESTINO")
+            #print(b)
             folder = FolderBlock.unpack(file.read(FolderBlock.SIZE))
             folder.b_content[d].b_name = lista_direcciones[-1]
             folder.b_content[d].b_inodo = inodo_copia_byte
             file.seek(b)
             file.write(folder.pack())
+            print(f'archivo {insidepath} movido a {destinypath}')
 def find(params, mounted_partitions,id, usuario_actual):  
-    print(f'\n\n🔻__________________FIND {params}__________________\n')
+    print(f'🔍 <<RUNNING FIND {params} _ _ _ _ _ _ _ _ _ ')
+    print(f'\n\n🔻____________________________________\n')
     if id == None:
         print("Error: The id is required.")
         return
@@ -1047,7 +1052,7 @@ def find(params, mounted_partitions,id, usuario_actual):
         global texto_de_find
         texto_de_find = ''
         if name != '*' and name != '?':
-            print(f'entrando a find normal')
+            #print(f'entrando a find normal')
             busca_en_todo_el_sistema(file,PI,0,'',name,0)
         else:
             texto_de_find = busca_en_todo_el_sistema_regex(file,PI,0,'',name,0)
