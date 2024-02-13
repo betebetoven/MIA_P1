@@ -28,7 +28,7 @@ To get started with this simulation, follow the steps below to set up the enviro
 1. **Clone the repository**
 
    ```sh
-   git clone https://github.com/yourusername/EXT2-EXT3-Filesystem-Simulation.git
+   git clone https://github.com/betebetoven/MIA_P1.git
    ```
 
 2. **Navigate to the project directory**
@@ -78,3 +78,5 @@ Contributions are welcome to enhance the simulation, fix bugs, or improve the do
 
 - Gratitude to the developers of PLY for providing a powerful tool for lexer and parser generation.
 - Appreciation to all contributors and the academic community for guidance and support.
+
+The next step of this academic Project was to deploy it on the cloud, which was just diviging all the funcionalities of the parser into classes, importing and initializing these objets on the Fastapi server side, and just recieving incomming commands, I focus on this repository because its the main architechture of the simulation of the filseystem, also the second part of the porject is a frontend and a backend, but in this repository is all the essentials aspects you need, hope this helps.
